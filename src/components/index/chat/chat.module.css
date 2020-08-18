@@ -1,0 +1,144 @@
+.main{
+	flex-direction: column;
+	flex: 1 1 auto;
+	position: relative;
+	justify-content: flex-end;
+    max-height: 600px;
+	background-color: #2c343a;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(70, 70, 70, 0.1);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(70, 70, 70, 0.1);
+	box-shadow: 0px 0px 10px 0px rgba(70, 70, 70, 0.1);
+	width: 100%;
+}
+
+.body{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 101px;
+}
+
+.form{
+	margin: 0;
+	position: relative;
+}
+
+.form input{
+	border-left: 0 !important;
+	border-right: 0 !important;
+	border-radius: 0 !important;
+	padding: 0 50px 0 10px !important;
+}
+
+.form button[type="submit"]{
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #626a75;
+	border: 0;
+	color: #fff;
+	cursor: pointer;
+	width: 40px;
+	background: #636b78;
+	color: #ffffff;
+	outline: none;
+	font-size: 14px;
+}
+
+.footer{
+	flex-wrap: wrap;
+	padding: 10px;
+	font-size: 14px;
+	align-items: flex-start;
+}
+
+.footer p{
+	width: 100%;
+	margin: 0 0 5px 0;
+	line-height: 20px;
+}
+
+.link{
+    margin-right: 10px;
+}
+
+.container{
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	overflow: auto;
+}
+
+.msg{
+	display: flex;
+	flex-wrap: wrap;
+	padding: 10px 10px 10px 23px;
+	margin: 0;
+	background-color: #323941;
+	position: relative;
+}
+
+.container .msg:nth-child(even){
+    background-color: #272d34;	
+}
+
+.container .msg:last-child{
+	border: 0;
+}
+
+.msg *{
+	font-size: 13px;
+	line-height: 18px;
+	color: #ffffff;
+	pointer-events: none;
+}
+
+.system{
+	font-style: italic;
+}
+
+.system span{
+	color: #dedede;
+}
+
+.msg i{
+	width: 1px;
+	display: inline-block;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	bottom: 10px;
+}
+
+.msg b{
+	color: #8a9bb1;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 11px;
+}
+
+.msg span{
+	width: 100%;
+}
+
+.form input{
+	padding: 0 10px;
+	font-size: 14px;
+	width: 100%;
+	outline: none;
+	height: 40px;
+	color: #fff;
+	background-color: #373f46;
+	border: 1px solid #4b525c;
+}
+
+.form input::placeholder{
+  color: #8d9299 !important;
+}
+
+.form button[type="submit"]:hover{
+	filter: brightness(0.9);
+}

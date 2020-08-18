@@ -1,0 +1,8 @@
+.msga {
+    position: fixed;
+    right: 5px;
+    bottom: 0;
+    width: 300px;
+    z-index: 999999999;
+    flex-direction: column;
+}

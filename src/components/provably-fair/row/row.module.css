@@ -1,0 +1,21 @@
+.span{
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.black{
+    background-color: #4f5f6b;
+}
+
+.red{
+    background-color: #ff5e56;
+}
+
+.green{
+    background-color: #06c46c;
+}

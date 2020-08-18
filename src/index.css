@@ -1,0 +1,132 @@
+*{
+	box-sizing: border-box;
+	font-family: sans-serif;
+	font-weight: 100;
+}
+
+html {
+	display: flex;
+	min-height: 100%;
+}
+
+body{
+	color: rgba(255, 255, 255, 0.7);
+	flex: 1 1 auto;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	background: #1c232a;
+}
+
+a{
+	text-decoration: none;
+}
+
+div{
+	display: flex;
+}
+
+#body, #wrapper{
+	flex: 1;
+	flex-direction: column;
+}
+
+#main{
+	padding: 10px;
+	flex: 1;
+}
+
+.container{
+	margin: 0 auto;
+	width: 100%;
+}
+
+.left_bar{
+	width: 100%;
+	max-width: 320px;
+	margin: 0 10px 0 0;
+}
+
+.main_bar{
+	flex: 1;
+	flex-direction: column;
+}
+
+.type_link{
+	outline: none;
+	color: cornflowerblue;
+	border: 0;
+	background-color: transparent;
+	padding: 0;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 13px;
+}
+
+.type_link:hover{
+	text-decoration: underline;
+}
+
+.input_type_relative{
+	position: relative;
+}
+
+.input_type_relative input, .input_type_relative textarea, .input_type_relative input, .input_type_relative select{
+	padding: 0 10px;
+	font-size: 14px;
+	width: 100%;
+	outline: none;
+	height: 40px;
+	color: #fff;
+	background-color: #373f46;
+	border-radius: 5px;
+	border: 1px solid #4b525c;
+}
+
+.input_type_relative input::placeholder,
+.input_type_relative textarea::placeholder, 
+.input_type_relative input::placeholder{
+  color: #8d9299 !important;
+}
+
+.input_type_relative textarea{
+	resize: none;
+	height: 250px;
+	padding: 10px;
+}
+
+.default_btn{
+	font-size: 13px;
+    padding: 7px 12px;
+    color: #bdc2c7;
+    border: 0;
+    background: linear-gradient(to bottom, #3f4953, #404851);
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.default_btn:hover{
+	filter: brightness(0.9);
+	cursor: pointer;
+}
+
+.default_btn.primary{
+	padding: 12px;
+	background: linear-gradient(to bottom, #376fa2, #295379);
+	color: #fff;
+}
+
+.default_btn.success{
+	background: linear-gradient(to bottom, rgb(6 196 108 / 0.3), rgb(3 134 74 / 0.3));
+    color: #7fe08e;
+}
+
+.default_btn.danger{
+	background: linear-gradient(to bottom, rgb(255 94 86 / 0.3), rgb(204 77 70 / 0.3));
+    color: #ffa49f;
+}
+
+.default_btn i{
+	margin: 0 8px 0 0;
+}

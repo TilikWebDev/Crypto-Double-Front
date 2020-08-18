@@ -1,0 +1,121 @@
+.modal_window{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 99999999;
+	background-color: rgba(0, 0, 0, 0.8);
+	justify-content: center;
+	overflow: hidden;
+	display: none;
+}
+
+.modal_window_content{
+	position: absolute;
+	width: 100%;
+	max-width: 550px;
+	padding: 20px;
+	background-color: #282e32;
+	flex-direction: column;
+	opacity: 0;
+	pointer-events: none;
+	top: -200%;
+	transition: 0.3s;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+}
+
+.modal_window_content.active{
+	opacity: 1;
+	pointer-events: all;
+	top: 50px;
+}
+
+.links{
+	justify-content: flex-end;
+	margin: 10px 0 0 0;
+}
+
+.links button{
+	margin: 10px 5px 0 10px;
+}
+
+.last_btn{
+	justify-content: flex-end;
+	margin: 20px -5px 0 -5px;
+}
+
+.last_btn button{
+	flex: 1;
+	margin: 0 5px;
+	text-transform: uppercase;
+	letter-spacing: 1.7px;
+}
+
+.modal_window_header{
+    position: relative;
+    margin: -20px -20px 20px -20px;
+    align-items: center;
+    padding: 15px 40px 15px 25px;
+    background-color: #40484e;
+    line-height: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    justify-content: flex-start;
+}
+
+.modal_close{
+	position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 4px 5px 4px 5px;
+    text-align: center;
+    opacity: 0.7;
+    cursor: pointer;
+    font-style: normal;
+    color: #ffffff;
+    font-size: 20px;
+    border-radius: 50%;
+    background-color: #282e32;
+    font-size: 13px;
+}
+
+.modal_close:hover{
+	opacity: 1;
+}
+
+.modal_window_name{
+	font-size: 15px;
+	color: rgb(219, 219, 219);
+}
+
+.modal_window_body .modal_input{
+	flex-wrap: wrap;
+}
+
+.modal_window_body .modal_input:not(.last){
+	margin: 0 0 10px 0;
+}
+
+.modal_window_body{
+	display: flex;
+	flex-direction: column;
+}
+
+.modal_window_body p{
+	margin: 0;
+    line-height: 24px;
+    color: #a9a9a9;
+    font-size: 14px;
+}
+
+.modal_window_body p.text{
+	margin: 10px 0;
+	font-size: 14px;
+	color: #acacac;
+	text-align: center;
+	letter-spacing: 1px;
+}

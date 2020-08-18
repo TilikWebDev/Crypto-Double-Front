@@ -1,0 +1,58 @@
+.main{
+	position: relative;
+    overflow: hidden;
+    margin: 0 auto 5px auto;
+    width: 100%;
+    height: 72px;
+}
+
+.main:after{
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.2));
+}
+
+.main img{
+	opacity: 0;
+	width: auto;
+	max-width: 100%;
+	max-height: 72px;
+}
+
+.route{
+	position: absolute;
+    background-position: center;
+    background-repeat: repeat-x;
+    background-size: contain;
+    width: 1080px;
+    height: 72px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    transition-timing-function: cubic-bezier(0, 0.5, 0, 1) !important;
+}
+
+.stop{
+	position: absolute;
+	top: 0;
+	left: calc(50% - 1px);
+	width: 2px;
+	height: 100%;
+	background-color: #ffd300;
+}
+
+@media (min-width: 2160px) {
+	.route{
+		width: 4320px;
+	}
+}
+
+@media (min-width: 1080px) {
+	.route{
+		width: 2160px;
+	}
+}
