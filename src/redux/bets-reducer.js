@@ -1,6 +1,6 @@
 import {betsAPI} from '../api/api';
 
-//refactor code
+//refactor coded
 
 const SET_BETS_LIST = 'SET_BETS_LIST';
 
