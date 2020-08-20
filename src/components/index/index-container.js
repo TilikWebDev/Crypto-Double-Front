@@ -67,7 +67,7 @@ const IndexContainer = (props) => {
     }, [websocket, props.roulette_data]);
 
     const onCreateBet = (color) => {
-        props.createBet(props.action_data.user_bet_amount, color);
+        props.createBet(props.user_data.user_bet_amount, color);
     }
 
     const calcBetAmount = (action) => {
