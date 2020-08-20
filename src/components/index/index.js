@@ -12,11 +12,13 @@ const Index = (props) => {
 		<div className="container">
 			<div className="left_bar"> 
 				<Chat 
+					chat_on_focus={props.chat_on_focus}
 					chat_message_list={props.chat_message_list}
 					connection_count={props.connection_count}
 					user_chat_text={props.user_chat_text}
 					clearChat={props.clearChat}
 					showModal={props.showModal}
+					changeOnFocus={props.changeOnFocus}
 					onChangeChatText={props.onChangeChatText}
 					sendChatMessage={props.sendChatMessage}
 				/>

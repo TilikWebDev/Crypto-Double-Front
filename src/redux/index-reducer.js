@@ -5,6 +5,7 @@ import {indexAPI} from '../api/api';
 import {createNotification} from './notifications-reducer';
 import {updateUserBalance} from './user-reducer';
 
+const CHANGE_ON_FOCUS = 'CHANGE_ON_FOCUS';
 const SET_USER_CURRENT_BET_STATUS = 'SET_USER_CURRENT_BET_STATUS';
 const CHANGE_BET_AMOUNT = 'CHANGE_BET_AMOUNT';
 const CALC_BET_AMOUNT = 'CALC_BET_AMOUNT';
@@ -24,6 +25,7 @@ let initialState = {
         user_current_bet: false
     },
     chat_data: {
+        on_focus: false,
         connection_count: 0,
         user_chat_text: '',
         chat_message_list: [
@@ -56,6 +58,13 @@ let initialState = {
 
 
 // ACTION_CREATORS
+
+export const changeOnFocus = (value) => {
+    return {
+        type: CHANGE_ON_FOCUS,
+        value: value
+    }
+}
 
 export const rouletteResize = (width, height) => {
     return {
@@ -253,6 +262,15 @@ export const startGame = (seconds) => {
 const indexReducer = (state = initialState, action) => {
 
     switch (action.type) {
+
+        case CHANGE_ON_FOCUS: 
+            return {
+                ...state,
+                chat_data: {
+                    ...state.chat_data,
+                    on_focus: action.value
+                }
+            }
 
         case ON_CHANGE_CHAT_TEXT:
             return {

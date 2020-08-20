@@ -4,7 +4,7 @@ import s from './chat.module.css';
 const chatContainer = React.createRef();
 
 const Chat = (props) => {
-
+	
 	const user_chat_text = React.createRef();
 
 	const onChangeChatText = () => {
@@ -21,7 +21,11 @@ const Chat = (props) => {
 		chatContainer.current.scrollTo(0, scroll);
 	};
 
-	useEffect(scrollToMyRef, [props.chat_message_list]);
+	useEffect(() => {
+		if (!props.chat_on_focus) {
+			scrollToMyRef();
+		}
+	}, [props.chat_message_list]);
 
 	let messages = props.chat_message_list.map((m, index) => { 
 		let style = (m.user) ? s.msg : s.msg + ' ' + s.system;
@@ -38,7 +42,7 @@ const Chat = (props) => {
 	return (
 		<div className={s.main}>
 			<div className={s.body}>
-				<div className={s.container} ref={chatContainer}>
+				<div onMouseEnter={() => {props.changeOnFocus(true)}} onMouseLeave={() => {props.changeOnFocus(false)}} className={s.container} ref={chatContainer}>
 					{messages}
 				</div>
 			</div>

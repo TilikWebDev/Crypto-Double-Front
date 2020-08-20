@@ -5,7 +5,7 @@ import { withRouter, useLocation } from 'react-router-dom';
 
 import Index from './index';
 
-import {onChangeBetAmount, calcBetAmount, socketSetNewMessage, socketSetNewBet, socketSetStartGame, getBalance, rouletteResize, clearChat, startGame, spinRoulette, createBet, sendChatMessage, onChangeChatText} from '../../redux/index-reducer';
+import {onChangeBetAmount, calcBetAmount, changeOnFocus, socketSetNewMessage, socketSetNewBet, socketSetStartGame, getBalance, rouletteResize, clearChat, startGame, spinRoulette, createBet, sendChatMessage, onChangeChatText} from '../../redux/index-reducer';
 import {showModal} from '../../redux/modal-window-reducer';
 
 const websocket = new w3cwebsocket('ws://' + '91.240.84.47' + ':3012');
@@ -103,6 +103,7 @@ const IndexContainer = (props) => {
 
     return 	(
         <Index
+            chat_on_focus={props.chat_data.on_focus}
             user_balance={props.user_balance}
             user_bet_amount={props.user_data.user_bet_amount}
             chat_message_list={props.chat_data.chat_message_list}
@@ -115,6 +116,7 @@ const IndexContainer = (props) => {
             now_hash_round={props.roulette_data.now_hash_round}
             total_bet_data={props.total_bet_data}
 
+            changeOnFocus={props.changeOnFocus}
             onCreateBet={onCreateBet}
             getBalance={props.getBalance}
             clearChat={props.clearChat}
@@ -145,6 +147,7 @@ let mapStateToProps = (state) => {
 let withUrlDataContainerComponent = withRouter(IndexContainer);
 
 export default connect(mapStateToProps, {
+    changeOnFocus,
 	onChangeBetAmount,
 	calcBetAmount,
 	socketSetNewMessage,
