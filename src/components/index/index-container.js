@@ -58,7 +58,7 @@ const IndexContainer = (props) => {
                             props.roulette_data.roulette_styles.backgroundPositionX,
                             props.roulette_data.roulette_size.width,
                             props.roulette_data.roulette_size.height,
-                            props.user_current_bet
+                            props.user_data.user_current_bet
                         );
                     }
                     break;
@@ -70,46 +70,74 @@ const IndexContainer = (props) => {
         props.createBet(props.action_data.user_bet_amount, color);
     }
 
+    const calcBetAmount = (action) => {
+        let value = parseInt(props.user_data.user_bet_amount);
+        if (isNaN(value)) value = 0;
+        
+        switch (action) {
+            case 'clear':
+                return props.calcBetAmount('');
+
+            case '+1':
+                return props.calcBetAmount(value + 1);
+
+            case '+10':
+                return  props.calcBetAmount(value + 10);
+
+            case '+100':
+                return props.calcBetAmount(value + 100);
+
+            case '+1000':
+                return props.calcBetAmount(value + 1000);
+
+            case '1/2':
+                return props.calcBetAmount(value / 2);
+
+            case 'x2':
+                return props.calcBetAmount(value * 2);
+
+            case 'max':
+                return props.calcBetAmount(props.user_balance);
+        }
+    }
+
     return 	(
         <Index
             user_balance={props.user_balance}
-            chat_message_list={props.chat_message_list}
-            user_chat_text={props.user_chat_text}
-            connection_count={props.connection_count}
-            time_text={props.roulette_data.time_text}
-            time_line_width={props.roulette_data.time_line_width}
+            user_bet_amount={props.user_data.user_bet_amount}
+            chat_message_list={props.chat_data.chat_message_list}
+            user_chat_text={props.chat_data.user_chat_text}
+            connection_count={props.chat_data.connection_count}
+            time_text={props.roulette_data.time_left_styles.time_text}
+            time_line_width={props.roulette_data.time_left_styles.time_line_width}
             roulette_styles={props.roulette_data.roulette_styles}
             last_numbers={props.roulette_data.last_numbers}
-            user_bet_amount={props.action_data.user_bet_amount}
+            now_hash_round={props.roulette_data.now_hash_round}
             total_bet_data={props.total_bet_data}
-            now_hash_round={props.now_hash_round}
 
             onCreateBet={onCreateBet}
             getBalance={props.getBalance}
             clearChat={props.clearChat}
             onChangeBetAmount={props.onChangeBetAmount} 
-            calcBetAmount={props.calcBetAmount} 
             rouletteResize={props.rouletteResize}
             showModal={props.showModal}
             onChangeChatText={props.onChangeChatText}
             sendChatMessage={props.sendChatMessage}
+            calcBetAmount={calcBetAmount}
         />
     );
 }
 
 let mapStateToProps = (state) => {
 	return {
-        user_balance: state.index_page.user_balance,
-		user_current_bet: state.index_page.user_current_bet,
-		connection_count: state.index_page.connection_count,
-        chat_message_list: state.index_page.chat.chat_message_list,
-        user_chat_text: state.index_page.chat.user_chat_text,
-		roulette_data: state.index_page.roulette_data,
-		action_data: state.index_page.action_data,
+        //GLOBAL STATE
+        user_data: state.index_page.user_data,
+        chat_data: state.index_page.chat_data,
+        roulette_data: state.index_page.roulette_data,
         total_bet_data: state.index_page.total_bet_data,
-        user_total_bet_data: state.index_page.user_total_bet_data,
-        now_hash_round: state.index_page.now_hash_round,
-
+        user_balance: state.user.user_balance,
+        
+        //HOC
         user_is_auth: state.auth.is_auth
 	};
 }

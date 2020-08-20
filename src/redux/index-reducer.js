@@ -3,6 +3,7 @@ import rollImage from '../img/roulette.jpg';
 import {indexAPI} from '../api/api';
 
 import {createNotification} from './notifications-reducer';
+import {updateUserBalance} from './user-reducer';
 
 const SET_USER_CURRENT_BET_STATUS = 'SET_USER_CURRENT_BET_STATUS';
 const CHANGE_BET_AMOUNT = 'CHANGE_BET_AMOUNT';
@@ -12,26 +13,29 @@ const UPDATE_ROULETTE_STYLES = 'UPDATE_ROULETTE_STYLES';
 const ROULETTE_RESIZE = 'ROULETTE_RESIZE';
 const CLEAR_CHAT = 'CLEAR_CHAT';
 const ON_CHANGE_CHAT_TEXT = 'ON_CHANGE_CHAT_TEXT';
-const UPDATE_USER_BALANCE = 'UPDATE_USER_BALANCE';
 
 const SOCKET_RESPONSE_NEW_BET = 'SOCKET_RESPONSE_NEW_BET';
 const SOCKET_RESPONSE_NEW_MESSAGE= 'SOCKET_RESPONSE_NEW_MESSAGE';
 const SOCKET_RESPONSE_START_GAME = 'SOCKET_RESPONSE_START_GAME';
 
 let initialState = {
-    user_balance: 0,
-    user_current_bet: false,
-    connection_count: 0,
-    chat: {
+    user_data: {
+        user_bet_amount: '',
+        user_current_bet: false
+    },
+    chat_data: {
+        connection_count: 0,
         user_chat_text: '',
         chat_message_list: [
             {text: 'Socket connecting...', color: '#376fa2'}
         ]
     },
-    now_hash_round: 0,
     roulette_data: {
-        time_text: 'Waiting for the start of the game...',
-        time_line_width: 0,
+        now_hash_round: 0,
+        time_left_styles: {
+            time_text: 'Waiting for the start of the game...',
+            time_line_width: 0
+        },
         roulette_styles: {
             backgroundImage: rollImage,
             transition: '5s',
@@ -45,9 +49,6 @@ let initialState = {
             
         ]
     },
-    action_data: {
-        user_bet_amount: ''
-    },
     total_bet_data: [
 
     ]
@@ -55,14 +56,6 @@ let initialState = {
 
 
 // ACTION_CREATORS
-
-export const updateUserBalance = (value, action) => {
-    return {
-        type: UPDATE_USER_BALANCE,
-        value: value,
-        action: action
-    }
-}
 
 export const rouletteResize = (width, height) => {
     return {
@@ -100,10 +93,10 @@ export const onChangeChatText = (value) => {
     }
 }
 
-export const calcBetAmount = (new_action) => {
+export const calcBetAmount = (value) => {
     return {
         type: CALC_BET_AMOUNT,
-        action: new_action
+        value: value
     }
 }
 
@@ -264,28 +257,19 @@ const indexReducer = (state = initialState, action) => {
         case ON_CHANGE_CHAT_TEXT:
             return {
                 ...state,
-                chat: {
-                    ...state.chat,
+                chat_data: {
+                    ...state.chat_data,
                     user_chat_text: action.value
                 }
-            };
-
-        case UPDATE_USER_BALANCE:
-            let new_value = action.value;
-
-            if (action.action) {
-                new_value = (action.action === '+') ? state.user_balance + action.value : state.user_balance - action.value;
-            }
-
-            return {
-                ...state,
-                user_balance: new_value
             };
 
         case SET_USER_CURRENT_BET_STATUS:
             return {
                 ...state,
-                user_current_bet: true
+                user_data: {
+                    ...state.user_data,
+                    user_current_bet: true
+                }
             };
 
         case UPDATE_ROULETTE_STYLES:
@@ -313,53 +297,19 @@ const indexReducer = (state = initialState, action) => {
             };
 
         case CALC_BET_AMOUNT:
-
-            function calcBetAmount(value = action.action, user_bet_amount = parseInt(state.action_data.user_bet_amount)) {
-                if (isNaN(user_bet_amount)) user_bet_amount = 0;
-                
-                switch (value) {
-                    case 'clear':
-                        return user_bet_amount = '';
-    
-                    case '+1':
-                        return user_bet_amount + 1;
-
-                    case '+10':
-                        return  user_bet_amount + 10;
-
-                    case '+100':
-                        return user_bet_amount + 100;
-
-                    case '+1000':
-                        return user_bet_amount + 1000;
-
-                    case '1/2':
-                        return user_bet_amount / 2;
-
-                    case 'x2':
-                        return user_bet_amount * 2;
-
-                    case 'max':
-                        return state.user_balance;
-
-                    default:
-                        return state;
-                }
-            }
-
             return {
                 ...state,
-                action_data: {
-                    ...state.action_data,
-                    user_bet_amount: calcBetAmount()
+                user_data: {
+                    ...state.user_data,
+                    user_bet_amount: action.value
                 }
             };
 
         case CHANGE_BET_AMOUNT:
             return {
                 ...state,
-                action_data: {
-                    ...state.action_data,
+                user_data: {
+                    ...state.user_data,
                     user_bet_amount: action.value
                 }
             };
@@ -369,16 +319,19 @@ const indexReducer = (state = initialState, action) => {
                 ...state,
                 roulette_data: {
                     ...state.roulette_data,
-                    time_text: action.data.time_text,
-                    time_line_width: action.data.time_line_width
+                    time_left_styles: {
+                        ...state.roulette_data.time_left_styles,
+                        time_text: action.data.time_text,
+                        time_line_width: action.data.time_line_width
+                    }
                 }
             };
         
         case CLEAR_CHAT:
             return {
                 ...state,
-                chat: {
-                    ...state.chat,
+                chat_data: {
+                    ...state.chat_data,
                     chat_message_list: [
 
                     ]
@@ -388,10 +341,10 @@ const indexReducer = (state = initialState, action) => {
         case SOCKET_RESPONSE_NEW_MESSAGE:
             return {
                 ...state,
-                chat: {
-                    ...state.chat,
+                chat_data: {
+                    ...state.chat_data,
                     chat_message_list: [
-                        ...state.chat.chat_message_list.slice(state.chat.chat_message_list.length - 102, state.chat.chat_message_list.length),
+                        ...state.chat_data.chat_message_list.slice(state.chat_data.chat_message_list.length - 102, state.chat_data.chat_message_list.length),
                         {user: action.data.user, text: action.data.text, color: action.data.color}
                     ]
                 }
@@ -409,10 +362,13 @@ const indexReducer = (state = initialState, action) => {
         case SOCKET_RESPONSE_START_GAME:
                 return {
                     ...state,
-                    now_hash_round: action.data.hash_round,
-                    connection_count: action.data.connection_count,
+                    chat_data: {
+                        ...state.chat_data,
+                        connection_count: action.data.connection_count
+                    },
                     roulette_data: {
                         ...state.roulette_data, 
+                        now_hash_round: action.data.hash_round,
                         last_numbers: [
                             ...action.data.lastresults.map((c) => {
                                 if (c.win_number === 0) return {color: 'green', value: c.win_number, hash: c.hash_round};

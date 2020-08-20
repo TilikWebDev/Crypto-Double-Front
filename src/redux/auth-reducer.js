@@ -1,5 +1,5 @@
 import {headerAPI} from '../api/api';
-import {updateUserBalance} from './index-reducer';
+import {updateUserBalance} from './user-reducer';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 

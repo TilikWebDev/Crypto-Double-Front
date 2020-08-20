@@ -8,7 +8,6 @@ import BetForm from './bet-form/bet-form';
 import AllBets from './all-bets/all-bets';
 
 const Index = (props) => {
-	
 	return 	(
 		<div className="container">
 			<div className="left_bar"> 

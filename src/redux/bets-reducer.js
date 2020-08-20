@@ -1,7 +1,5 @@
 import {betsAPI} from '../api/api';
 
-//refactor coded
-
 const SET_BETS_LIST = 'SET_BETS_LIST';
 
 let initialState = {
