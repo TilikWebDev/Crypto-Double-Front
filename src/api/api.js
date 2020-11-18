@@ -2,7 +2,7 @@ import * as axios from 'axios';
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: 'http://91.240.84.47:3000/'
+    baseURL: 'http://localhost:3011/'
 })
 
 export const betsAPI = { 
@@ -53,6 +53,12 @@ export const indexAPI = {
 export const modalWindowAPI = {
     login (email, password) {
         return instance.post('login?email=' + email + '&password=' + password).then(response => {
+			return response.data;
+        });
+    },
+
+    register (email, password) {
+        return instance.post('register?email=' + email + '&password=' + password).then(response => {
 			return response.data;
         });
     }

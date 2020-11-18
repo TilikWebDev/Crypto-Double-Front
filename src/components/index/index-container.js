@@ -8,7 +8,7 @@ import Index from './index';
 import {onChangeBetAmount, calcBetAmount, changeOnFocus, socketSetNewMessage, socketSetNewBet, socketSetStartGame, getBalance, rouletteResize, clearChat, startGame, spinRoulette, createBet, sendChatMessage, onChangeChatText} from '../../redux/index-reducer';
 import {showModal} from '../../redux/modal-window-reducer';
 
-const websocket = new w3cwebsocket('ws://' + '91.240.84.47' + ':3012');
+const websocket = new w3cwebsocket('ws://' + 'localhost' + ':3012');
 
 const IndexContainer = (props) => {
 

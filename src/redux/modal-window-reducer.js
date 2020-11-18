@@ -7,6 +7,10 @@ const HIDE_MODAL = 'HIDE_MODAL';
 const ON_CHANGE_LOGIN_EMAIL = 'ON_CHANGE_LOGIN_EMAIL';
 const ON_CHANGE_LOGIN_PASSWORD = 'ON_CHANGE_LOGIN_PASSWORD';
 
+const ON_CHANGE_REGISTER_EMAIL = 'ON_CHANGE_REGISTER_EMAIL';
+const ON_CHANGE_REGISTER_PASSWORD = 'ON_CHANGE_REGISTER_PASSWORD';
+const ON_CHANGE_REGISTER_PASSWORD2 = 'ON_CHANGE_REGISTER_PASSWORD2';
+
 let initialState = {
     is_show: false,
     modal_list: [
@@ -18,11 +22,21 @@ let initialState = {
                 password: ''
             }
         },
-        {name: 'register', active: false},
+        {
+            name: 'register',
+            active: false,
+            inputs: {
+                email: '',
+                password: '',
+                password2: ''
+            }
+        },
         {name: 'chat_rules', active: false},
         {name: 'forgot_password', active: false}
     ]
 };
+
+/* LOGIN MODAL */
 
 export const onChangeLoginEmail = (email) => {
     return {
@@ -49,6 +63,52 @@ export const userLogin = (email, password) => {
         });
     }
 };
+
+/* END LOGIN MODAL */
+
+
+/* REGISTER MODAL */
+
+export const onChangeRegisterEmail = (email) => {
+    return {
+        type: ON_CHANGE_REGISTER_EMAIL,
+        email: email
+    }
+}
+
+export const onChangeRegisterPassword = (password) => {
+    return {
+        type: ON_CHANGE_REGISTER_PASSWORD,
+        password: password
+    }
+}
+
+export const onChangeRegisterPassword2 = (password2) => {
+    return {
+        type: ON_CHANGE_REGISTER_PASSWORD2,
+        password2: password2
+    }
+}
+
+
+export const userRegister = (email, password, password2) => {
+    return (dispatch) => {
+        if (password === password2) {
+            modalWindowAPI.register(email, password).then(data => {
+                if (data.error) {
+                    dispatch(createNotification(data.message, 'error'));
+                } else {
+                    window.location.href = '/';
+                }
+            })
+        } else {
+            dispatch(createNotification('Password incorrect!', 'error'));
+        }
+    }
+}
+
+/* END REGISTER MODAL */
+
 
 export const showModal = (name) => {
     return {
@@ -129,6 +189,86 @@ export const modalWindowReducer = (state = initialState, action) => {
                     })
                 ]
             };
+        
+        case ON_CHANGE_REGISTER_EMAIL:
+            return {
+                ...state,
+                modal_list: [
+                    ...state.modal_list.map((m) => {
+                        if (m.name === 'register') {
+                            return {
+                                ...m,
+                                inputs: {
+                                    ...m.inputs,
+                                    email: action.email
+                                }
+                            };
+                        } else {
+                            return m;
+                        }
+                    })
+                ]
+            }
+
+            case ON_CHANGE_REGISTER_EMAIL:
+                return {
+                    ...state,
+                    modal_list: [
+                        ...state.modal_list.map((m) => {
+                            if (m.name === 'register') {
+                                return {
+                                    ...m,
+                                    inputs: {
+                                        ...m.inputs,
+                                        email: action.email
+                                    }
+                                };
+                            } else {
+                                return m;
+                            }
+                        })
+                    ]
+                }
+
+            case ON_CHANGE_REGISTER_PASSWORD:
+                return {
+                    ...state,
+                    modal_list: [
+                        ...state.modal_list.map((m) => {
+                            if (m.name === 'register') {
+                                return {
+                                    ...m,
+                                    inputs: {
+                                        ...m.inputs,
+                                        password: action.password
+                                    }
+                                };
+                            } else {
+                                return m;
+                            }
+                        })
+                    ]
+                }
+
+            case ON_CHANGE_REGISTER_PASSWORD2:
+                return {
+                    ...state,
+                    modal_list: [
+                        ...state.modal_list.map((m) => {
+                            if (m.name === 'register') {
+                                return {
+                                    ...m,
+                                    inputs: {
+                                        ...m.inputs,
+                                        password2: action.password2
+                                    }
+                                };
+                            } else {
+                                return m;
+                            }
+                        })
+                    ]
+                }
 
         default: 
             return state;
