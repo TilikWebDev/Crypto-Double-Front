@@ -1,6 +1,6 @@
 .main{
 	position: relative;
-	padding: 18px 0;
+	padding: 11px 0;
 	background: #15191c;
 
 }
@@ -12,31 +12,15 @@
 	padding: 0 10px;
 }
 
-.link{
-	font-size: 15px;
-	color: rgba(255, 255, 255, 0.7);
-}
-
-.link:hover{
-	color: #ffffff;
-}
-
 .logotype{
-	font-size: 22px;
-	letter-spacing: 1px;
-	text-transform: capitalize;
-	margin: 0 0 0 15px;
-	color: #fff;
-	width: 150px;
-	text-align: center;
-}
-
-.navbar{	
-    margin: 0 auto 0 30px;
-}
-
-.navbar .link:not(:first-child){
-	margin: 0 0 0 20px;
+	font-size: 26px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    width: 320px;
+    text-align: center;
+    border-right: 1px solid rgb(255 255 255 / 0.2);
+    line-height: 34px;
 }
 
 .group{
@@ -44,39 +28,77 @@
 }
 
 .btn{
-	min-width: 40px;
-	color: #ffffff;
-	background: linear-gradient(to bottom, #34404c, #2f3944);
-	margin: 0 5px 0 0;
-	font-size: 14px;
-	padding: 5px 0;
-}    
+	display: flex;
+    align-items: center;
+    min-width: 40px;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 0 20px;
+    background: transparent;
+    border: 0;
+    position: relative;
+    line-height: 56px;
+    margin: -11px 0;
+    text-transform: uppercase;
+    outline: none;
+} 
+
+.btn:hover{
+	cursor: pointer;
+}
+
+.btn:not(.in):not(.out):after{
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 11px;
+	bottom: 11px;
+	border-left: 1px solid #434749;
+}
+
+.btn:not(.in):not(.out):before{
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	border-bottom: 2px solid #376fa2;
+	transition: 0.3s;
+	width: 0;
+}
+
+.btn:not(.in):not(.out):hover:before{
+	width: 100%;
+}
 
 .btn i{
-	line-height: 21px;
 	margin: 0;
+	font-size: 19px;
+	line-height: 55px;
 }
 
 .account_link{
-	margin: 0 20px 0 0;
-}
-
-.group .btn:last-child{
-	color: #ffffff;
-	background: linear-gradient(45deg, #258be4, #248dea);
-	border-radius: 5px;
-	margin: 0;
-}
-
-.button {
-    padding: 5px 20px 5px;
-    letter-spacing: 1.7px;
-    line-height: 21px;
-    color: #dde6f0;
-    background: linear-gradient(to bottom, #606e79, #4f5964);
-    text-transform: uppercase;
+	
 }
 
 .mobile_btn{
 	display: none;
+}
+
+.in, .out{
+	justify-content: center;
+	padding: 0;
+	background-color: #ed5a53;
+    margin: -11px -10px -11px 0;
+	min-width: 56px;
+	height: 56px;
+}
+
+.in {
+	background-color: #71ca18;
+}
+
+.currency{
+	font-size: 0.8em;
+    margin: 0 0 -2px 3px;
+    opacity: 0.7;
 }

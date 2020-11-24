@@ -18,6 +18,7 @@ class HeaderContainer extends React.Component {
                 balance={this.props.balance}
                 color={this.props.color}
                 is_auth={this.props.is_auth}
+                user_balance={this.props.user_balance}
 
                 showModal={this.props.showModal}
             />
@@ -27,7 +28,8 @@ class HeaderContainer extends React.Component {
 
 let mapStateToProps = (state) => {
 	return {
-        ...state.auth
+        ...state.auth,
+        user_balance: state.user.user_balance
 	};
 }
 

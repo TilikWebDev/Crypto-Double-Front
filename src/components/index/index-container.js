@@ -1,145 +1,35 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { w3cwebsocket } from "websocket";
-import { withRouter, useLocation } from 'react-router-dom';
+
+import { withRouter } from 'react-router-dom';
 
 import Index from './index';
-
-import {onChangeBetAmount, calcBetAmount, changeOnFocus, socketSetNewMessage, socketSetNewBet, socketSetStartGame, getBalance, rouletteResize, clearChat, startGame, spinRoulette, createBet, sendChatMessage, onChangeChatText} from '../../redux/index-reducer';
 import {showModal} from '../../redux/modal-window-reducer';
+import {getCasesData, getLastDropData, updateLastDropData} from '../../redux/cases-reducer';
 
-const websocket = new w3cwebsocket('ws://' + 'localhost' + ':3012');
+//const websocket = new w3cwebsocket('ws://' + 'localhost' + ':3013');
 
-const IndexContainer = (props) => {
-
-    let location = useLocation()
-
-    useEffect(() => {
-        if (props.match.params.name) {
-            props.showModal(props.match.params.name);
-        }
-    }, [location]);
-
-    useEffect(() => {
-        websocket.onopen = () => {
-            props.socketSetNewMessage({
-                text: 'Socket connected!',
-                color: '#5cc46d'
-            });
-        };
-    
-        websocket.onclose = () => {
-            props.socketSetNewMessage({
-                text: 'Socket disconected.',
-                color: '#ee5953'
-            });
-        };
-    
-        websocket.onmessage = (message) => {
-            let data = JSON.parse(message.data);
-    
-            switch (data.type) {
-                case 'new_bet':
-                    props.socketSetNewBet(data)
-                    break;
-    
-                case 'chat_new_msg':
-                    props.socketSetNewMessage(data)
-                    break;
-    
-                case 'game':
-                    if (data.game_status === 'start') {
-                        props.socketSetStartGame(data);
-                        props.startGame(data.timer);
-                    } else {
-                        props.spinRoulette(
-                            data.win_number,
-                            data.win_number_section,
-                            props.roulette_data.roulette_styles.backgroundPositionX,
-                            props.roulette_data.roulette_size.width,
-                            props.roulette_data.roulette_size.height,
-                            props.user_data.user_current_bet
-                        );
-                    }
-                    break;
-            }
-        };
-    }, [websocket, props.roulette_data]);
-
-    const onCreateBet = (color) => {
-        props.createBet(props.user_data.user_bet_amount, color);
+class IndexContainer extends React.Component {
+    componentDidMount(){
+        this.props.getCasesData();
+        this.props.getLastDropData();
     }
 
-    const calcBetAmount = (action) => {
-        let value = parseInt(props.user_data.user_bet_amount);
-        if (isNaN(value)) value = 0;
-        
-        switch (action) {
-            case 'clear':
-                return props.calcBetAmount('');
-
-            case '+1':
-                return props.calcBetAmount(value + 1);
-
-            case '+10':
-                return  props.calcBetAmount(value + 10);
-
-            case '+100':
-                return props.calcBetAmount(value + 100);
-
-            case '+1000':
-                return props.calcBetAmount(value + 1000);
-
-            case '1/2':
-                return props.calcBetAmount(value / 2);
-
-            case 'x2':
-                return props.calcBetAmount(value * 2);
-
-            case 'max':
-                return props.calcBetAmount(props.user_balance);
-        }
+    render () {
+        return (
+            <Index
+                cases={this.props.cases}
+                last_drop={this.props.last_drop}
+            />
+        );
     }
-
-    return 	(
-        <Index
-            chat_on_focus={props.chat_data.on_focus}
-            user_balance={props.user_balance}
-            user_bet_amount={props.user_data.user_bet_amount}
-            chat_message_list={props.chat_data.chat_message_list}
-            user_chat_text={props.chat_data.user_chat_text}
-            connection_count={props.chat_data.connection_count}
-            time_text={props.roulette_data.time_left_styles.time_text}
-            time_line_width={props.roulette_data.time_left_styles.time_line_width}
-            roulette_styles={props.roulette_data.roulette_styles}
-            last_numbers={props.roulette_data.last_numbers}
-            now_hash_round={props.roulette_data.now_hash_round}
-            total_bet_data={props.total_bet_data}
-
-            changeOnFocus={props.changeOnFocus}
-            onCreateBet={onCreateBet}
-            getBalance={props.getBalance}
-            clearChat={props.clearChat}
-            onChangeBetAmount={props.onChangeBetAmount} 
-            rouletteResize={props.rouletteResize}
-            showModal={props.showModal}
-            onChangeChatText={props.onChangeChatText}
-            sendChatMessage={props.sendChatMessage}
-            calcBetAmount={calcBetAmount}
-        />
-    );
 }
 
 let mapStateToProps = (state) => {
 	return {
-        //GLOBAL STATE
-        user_data: state.index_page.user_data,
-        chat_data: state.index_page.chat_data,
-        roulette_data: state.index_page.roulette_data,
-        total_bet_data: state.index_page.total_bet_data,
-        user_balance: state.user.user_balance,
-        
         //HOC
+        ...state.cases,
         user_is_auth: state.auth.is_auth
 	};
 }
@@ -147,19 +37,8 @@ let mapStateToProps = (state) => {
 let withUrlDataContainerComponent = withRouter(IndexContainer);
 
 export default connect(mapStateToProps, {
-    changeOnFocus,
-	onChangeBetAmount,
-	calcBetAmount,
-	socketSetNewMessage,
-	socketSetNewBet,
-	socketSetStartGame,
-	rouletteResize,
-	clearChat,
     showModal,
-    spinRoulette,
-    startGame,
-    getBalance,
-    createBet,
-    sendChatMessage,
-    onChangeChatText
+    getCasesData,
+    getLastDropData,
+    updateLastDropData
 })(withUrlDataContainerComponent);

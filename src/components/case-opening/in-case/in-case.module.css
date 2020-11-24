@@ -1,0 +1,115 @@
+.container{
+    width: 100%;
+    flex-direction: column;
+    margin: 50px 0;
+}
+
+.headline {
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    font-size: 26px;
+    text-align: left;
+    line-height: 26px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin: 3px 0 35px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.headline:after{
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: -15px;
+    height: 3px;
+    width: 100%;
+    max-width: 768px;
+    z-index: -1;
+    background-image: linear-gradient(-90deg, rgba(249, 172, 43, 0), #f9ac2b 36%, #dc6f2b);
+}
+
+.items_columns{
+    flex-wrap: wrap;
+    margin: 0 -10px;
+}
+
+.anc {
+    background-image: linear-gradient(0deg, #c29600, rgba(255, 198, 0, .18));
+    border-bottom-color: #ffc600;
+}
+
+.imm {
+    background-image: linear-gradient(0deg, #c29600, rgba(255, 198, 0, .18));
+    border-bottom-color: #ffc600;
+}
+
+.leg {
+    background-image: linear-gradient(0deg, #c29600, rgba(255, 198, 0, .18));
+    border-bottom-color: #ffc600;
+}
+
+.myt {
+    background-image: linear-gradient(0deg, #c29600, rgba(255, 198, 0, .18));
+    border-bottom-color: #ffc600;
+}
+
+.rar {
+    background-image: linear-gradient(0deg, #c29600, rgba(255, 198, 0, .18));
+    border-bottom-color: #ffc600;
+}
+
+.unc {
+    background-image: linear-gradient(0deg, #c29600, rgba(255, 198, 0, .18));
+    border-bottom-color: #ffc600;
+}
+
+.com {
+    background-image: linear-gradient(0deg, #c29600, rgba(255, 198, 0, .18));
+    border-bottom-color: #ffc600;
+}
+
+.item {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    border-bottom: 4px solid transparent;
+    margin: 10px;
+    width: calc(100% / 7 - 20px);
+}
+
+.img{
+    width: 100%;
+    margin: 0 0 20px 0;
+    padding-bottom: 100%;
+    position: relative;
+}
+
+.img_container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.img_container img{
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.title {
+    font-weight: 700;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 17px;
+    color: #fff;
+    text-align: center;
+}

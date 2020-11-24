@@ -6,53 +6,52 @@ const Header = (props) => {
     return (
         <header className={s.main}>
 			<div className={s.container}>
-				<a href="/" className={s.logotype}>cryptodouble</a>
-				<div className={s.navbar}>
-					<NavLink className={s.link} to={'/'}>Home</NavLink>
-					<NavLink className={s.link} to={'/bets'}>Bets</NavLink>
-					<NavLink className={s.link} to={'/deposit'}>Deposit</NavLink>
-					<NavLink className={s.link} to={'/withdraw'}>Withdraw</NavLink>
-					<NavLink className={s.link} to={'/provably-fair'}>Provably Fair</NavLink>
-					<NavLink className={s.link} to={'/support'}>Support</NavLink>
-				</div>
-				<div>
-					<div className={s.btngroup}>
-						{ 
-							(props.is_auth) 
-							? 	<div className={s.group}>
-									<NavLink className={s.link + ' ' + s.account_link} to={'/account'}>
-										{props.email}
-									</NavLink>
+				<NavLink to={'/'} className={s.logotype}>AppDrop</NavLink>
+				
+				<div className={s.btngroup}>
+					{ 
+						(props.is_auth) 
+						? 	<div className={s.group}>
+								<NavLink className={s.btn} to={'/double'}>Double</NavLink>
 
-									<button className={'default_btn ' + s.btn}>
-										<i className={'fa fa-volume-down'}></i>
-									</button>
+								<NavLink className={s.btn + ' ' + s.account_link} to={'/account'}>
+									{props.email}
+								</NavLink>
 
-									<button className={'default_btn ' + s.btn + ' ' + s.mobile_btn}>
-										<i className={'fa fa-bars'}></i>
-									</button>
+								<button className={s.btn}>
+									{props.user_balance}
+									<span className={s.currency}>грн</span>
+								</button>
 
-									<button className={'default_btn ' + s.button}>
-										<i className={'fa fa-sign-out'}></i>
-										Sign out
-									</button>
-								</div>
-							:	<div className={s.group}>
-									<button className={'default_btn ' + s.btn}>
-										<i className={'fa fa-volume-down'}></i>
-									</button>
+								<button className={s.btn}>
+									<i className={'fa fa-volume-down'}></i>
+								</button>
 
-									<button className={'default_btn ' + s.btn + ' ' + s.mobile_btn}>
-										<i className={'fa fa-bars'}></i>
-									</button>
+								<button className={s.btn + ' ' + s.mobile_btn}>
+									<i className={'fa fa-bars'}></i>
+								</button>
 
-									<button onClick={() => props.showModal('login')} className={'default_btn ' + s.button}>
-										<i className="fa fa-sign-in"></i>
-										Sign in
-									</button>
-								</div>
-						}
-					</div>
+								<button className={s.btn + ' ' + s.out}>
+									<i className={'fa fa-sign-out'}></i>
+								</button>
+							</div>
+						:	<div className={s.group}>
+								<NavLink className={s.btn} to={'/double'}>Double</NavLink>
+								<NavLink className={s.btn} to={'/support'}>Support</NavLink>
+
+								<button className={s.btn}>
+									<i className={'fa fa-volume-down'}></i>
+								</button>
+
+								<button className={s.btn + ' ' + s.mobile_btn}>
+									<i className={'fa fa-bars'}></i>
+								</button>
+
+								<button onClick={() => props.showModal('login')} className={s.btn + ' ' + s.in}>
+									<i className="fa fa-sign-in"></i>
+								</button>
+							</div>
+					}
 				</div>
 			</div>
 		</header>

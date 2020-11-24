@@ -10,6 +10,7 @@
     "nodemon": "^2.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-owl-carousel2": "^0.3.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.3",
@@ -18,10 +19,10 @@
     "websocket": "^1.0.31"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "NODE_PATH=src react-scripts start",
+    "build": "NODE_PATH=src react-scripts build",
+    "test": "NODE_PATH=src react-scripts test",
+    "eject": "NODE_PATH=src react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

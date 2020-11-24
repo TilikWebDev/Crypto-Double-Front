@@ -1,0 +1,88 @@
+.roulette {
+    width: 100%;
+    position: relative;
+    height: 200px;
+    background-image: linear-gradient(to left, #0d0d14, #94a2fe, #0d0d14);
+    margin: 50px 0;
+    overflow: hidden;
+}
+
+.roulette_container{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.stop{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #ffd300;
+    left: calc(50% - 2px);
+    transform: translate(-50%, 0);
+    z-index: 1;
+}
+
+.item {
+    padding: 15px;
+    border-radius: 4px;
+    margin: 10px;
+    height: 180px;
+    width: 180px;
+    background-color: rgb(0 0 0 / 0.3);
+    border-bottom: 4px solid;
+}
+
+.img{
+    width: 100%;
+    margin: 0 0 20px 0;
+    padding-bottom: 100%;
+    position: relative;
+}
+
+.img_container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.img_container img{
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.anc {
+    border-color: #c29600;
+}
+
+.imm {
+    border-color: #c29600;
+}
+
+.leg {
+    border-color: #c29600;
+}
+
+.myt {
+    border-color: #c29600;
+}
+
+.rar {
+    border-color: #c29600;
+}
+
+.unc {
+    border-color: #c29600;
+}
+
+.com {
+    border-color: #c29600;
+}

@@ -5,18 +5,15 @@ const instance = axios.create({
     baseURL: 'http://localhost:3011/'
 })
 
-export const betsAPI = { 
+export const casesAPI = { 
+    getLastDropData () {
+        return instance.get('cases/lastdrop').then(response => {
+            return response.data;
+        });
+    },
 
-    getApiSportsBetting (status) {
-        if (this.ajaxRequest ) {
-            this.ajaxRequest.cancel(); 
-        }
-
-        this.ajaxRequest = axios.CancelToken.source();
-
-        return instance.get('api-sports-betting/' + status, {
-            cancelToken: this.ajaxRequest.token
-        }).then(response => {
+    getCasesData (name = '') {
+        return instance.get('cases/data?name=' + name).then(response => {
             return response.data;
         });
     }
@@ -30,7 +27,7 @@ export const headerAPI = {
     }
 };
 
-export const indexAPI = {
+export const doubleAPI = {
     postChatMessage (text) {
         return instance.post('chat?text=' + text).then(response => {
             return response.data;

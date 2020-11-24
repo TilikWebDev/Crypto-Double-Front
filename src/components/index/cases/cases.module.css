@@ -1,0 +1,11 @@
+.cases_container{
+    display: flex;
+    align-content: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+}
+
+.cases_container *{
+    font-family: 'Montserrat', sans-serif;
+}

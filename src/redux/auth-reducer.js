@@ -16,6 +16,9 @@ export const setUserData = (email, color) => {
     }
 }
 
+
+//thunk
+
 export const getUserData = () => {
     return (dispatch) => {
         headerAPI.authMe().then(data => {
@@ -28,6 +31,8 @@ export const getUserData = () => {
         });
     }
 }
+
+//
 
 export const authReducer = (state = initialState, action) => {
     switch (action.type) {
