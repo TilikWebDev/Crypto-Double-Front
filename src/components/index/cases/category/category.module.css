@@ -1,15 +1,20 @@
 .border {
     width: 100%;
-    justify-content: center;
+    align-items: center;
     margin: 20px auto 0 auto;
+    position: relative;
+}
+
+.border:after{
+    content: "";
+    flex: 1;
+    background: #4b525c;
+    height: 1px;
 }
 
 .headline {
-    color: #de9906;
-    background: linear-gradient(to right, #de9906, #a931e4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 36px;
+    color: #ffffff;
+    font-size: 20px;
     text-transform: uppercase;
-    font-weight: 600;
+    padding: 0 10px 0 5px;
 }

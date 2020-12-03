@@ -15,12 +15,14 @@ class NotificationContainer extends React.Component {
         if (this.props.notifications.length > this.notfiy_count) {
             this.notfiy_count++;
             
-            setTimeout(() => {
-                this.notfiy_count--;
-                if (this.props.notifications[0]) {
-                    this.props.removeNotification(this.props.notifications[0]['id']);
-                }
-            }, 3000);
+            if (this.props.notifications[0]['auto_close']) {
+                setTimeout(() => {
+                    this.notfiy_count--;
+                    if (this.props.notifications[0]) {
+                        this.props.removeNotification(this.props.notifications[0]['id']);
+                    }
+                }, 3000);
+            }
         }
     }
 

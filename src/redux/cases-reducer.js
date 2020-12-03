@@ -1,27 +1,61 @@
-import {casesAPI} from '../api/api';
+import {casesAPI, getOpenCase} from '../api/api';
+import {updateUserBalance} from './user-reducer';
+
+import {createNotification} from './notifications-reducer';
 
 const SET_CASES_DATA = 'SET_CASES_DATA';
-const SET_LAST_DROP_DATA = 'SET_LAST_DROP_DATA';
-const UPDATE_LAST_DROP_DATA = 'UPDATE_LAST_DROP_DATA';
 const SET_CASE_BY_NAME = 'SET_CASE_BY_NAME';
 const CHANGE_AUTO_SELL = 'CHANGE_AUTO_SELL';
+const SET_OPENING_STATUS= 'SET_OPENING_STATUS';
+const SET_ROLL_STYLE = 'SET_ROLL_STYLE';
+const SET_WIN_DROP = 'SET_WIN_DROP';
+const SOCKET_SET_NEW_DROP = 'SOCKET_SET_NEW_DROP';
+const START_LOADING_CASE_DATA = 'START_LOADING_CASE_DATA';
 
 let initialState = {
     cases: [
 
     ],
 
-    last_drop: [
+    last_drop: {
+        default: [
 
-    ],
+        ],
+
+        best_drop: {
+
+        }
+    },
 
     case_name_data: [
 
     ],
+
+    roulette_drop: [
+
+    ],
+
+    win_drop: {
+
+    },
     
     case_data_is_loading: false,
-    auto_sell_drops: false
+    auto_sell_drops: false,
+    opening_status: 'case-zoom',
+
+    style_data: {
+        marginLeft: 0,
+        transition: '0s',
+        width: 'auto'
+    }
 };
+
+export const socketSetNewDrop = (drop) => {
+    return {
+        type: SOCKET_SET_NEW_DROP,
+        drop: drop
+    }
+}
 
 export const changeAutoSell = () => {
     return {
@@ -50,17 +84,106 @@ export const setLastDropData = (cases) => {
     }
 }
 
-export const updateLastDropData = (lastDrop) => {
+export const setOpeningStatus = (name) => {
     return {
-        type: UPDATE_LAST_DROP_DATA,
-        lastDrop: lastDrop
+        type: SET_OPENING_STATUS,
+        name: name
+    }
+}
+
+export const setRollStyle = (style) => {
+    return {
+        type: SET_ROLL_STYLE,
+        style: style
+    }
+}
+
+export const setWinDrop = (drop) => {
+    return {
+        type: SET_WIN_DROP,
+        drop: drop
+    }
+}
+
+export const startLoadingCaseData = () => {
+    return {
+        type: START_LOADING_CASE_DATA
     }
 }
 
 //thunk
 
+export const sellDrop = (id, price) => {
+    return (dispatch) => {
+        casesAPI.sellDrop(id).then(data => {
+            if (!data.error) {
+                dispatch(updateUserBalance(price, '+'));
+                dispatch(setOpeningStatus('case-zoom'));
+            } else {
+                dispatch(createNotification(data.message, 'error'));
+            }
+        });
+    }
+}
+
+export const gotoOpenCase = () => {
+    return (dispatch) => {
+        dispatch(setOpeningStatus('case-zoom'));
+    }
+}
+
+export const openCase = (name, price, drop_list, width, opening_status) => {
+    return (dispatch) => {
+
+        casesAPI.getOpenCase(name).then(data => {
+
+            if (!data.error) {
+                dispatch(setWinDrop(data.data));
+
+                let winning_position = 0;
+                let _drop_list = [...drop_list].reverse().splice(20);
+
+                for (let i in _drop_list) {
+                    if (_drop_list[i]._id == data.data._id) {
+                        winning_position = 130 - i;
+                        break;
+                    }
+                }
+                
+                dispatch(updateUserBalance(price, '-'));
+                dispatch(setOpeningStatus('roulette'));
+
+                dispatch(setRollStyle({
+                    marginLeft: 0,
+                    transition: '0s'
+                }));
+
+                setTimeout(() => {
+                    dispatch(setRollStyle({
+                        marginLeft: (-winning_position * 200) + (width / 2) + 100,
+                        transition: '6s'
+                    }));
+                }, 0);
+
+                setTimeout(() => {
+                    dispatch(setOpeningStatus('open-result'));
+                    dispatch(setRollStyle({
+                        marginLeft: 0,
+                        transition: '0s'
+                    }));
+                }, 6200);
+            } else {
+                dispatch(createNotification(data.message, 'error'));
+            }
+        });
+    }
+}
+
 export const getCaseByName = (name) => {
     return (dispatch) => {
+
+        dispatch(startLoadingCaseData());
+
         casesAPI.getCasesData(name).then(data => {
             dispatch(setCaseByName(data.data));
         });
@@ -85,6 +208,57 @@ export const getLastDropData = () => {
 
 export const casesReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case START_LOADING_CASE_DATA:
+            return {
+                ...state,
+                case_data_is_loading: false
+            }
+
+        case SOCKET_SET_NEW_DROP:
+            return (action.price > 50000) ?
+                {
+                    ...state,
+                    last_drop: {
+                        ...state.last_drop,
+                        best_drop: {
+                            ...action.drop
+                        }
+                    }
+                }
+            : 
+                {
+                    ...state,
+                    last_drop: {
+                        ...state.last_drop,
+                        default: [
+                            ...state.last_drop.default.slice(state.last_drop.default.length - 102, state.last_drop.default.length),
+                            {...action.drop}
+                        ]
+                    }
+                }
+
+        case SET_WIN_DROP:
+            return {
+                ...state,
+                win_drop: {...action.drop}
+            }
+
+        case SET_OPENING_STATUS: 
+            return {
+                ...state,
+                opening_status: action.name
+            }
+
+        case SET_ROLL_STYLE: 
+            return {
+                ...state,
+                style_data: {
+                    ...state.style_data,
+                    ...action.style
+                }
+            }
+
         case CHANGE_AUTO_SELL:
             return {
                 ...state,
@@ -92,9 +266,28 @@ export const casesReducer = (state = initialState, action) => {
             }
 
         case SET_CASE_BY_NAME: 
+            let roulette_drop = [...action.case.drops];
+
+            if  (roulette_drop.length > 0) {
+                for (let i = roulette_drop.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [roulette_drop[i], roulette_drop[j]] = [roulette_drop[j], roulette_drop[i]];
+                }
+
+                while (true) {
+                    if (roulette_drop.length < 150) {
+                        roulette_drop.push(...roulette_drop);
+                    } else {
+                        roulette_drop.splice(150);
+                        break;
+                    }
+                }
+            }
+
             return {
                 ...state,
                 case_name_data: action.case,
+                roulette_drop: roulette_drop,
                 case_data_is_loading: true
             }
 
@@ -106,13 +299,6 @@ export const casesReducer = (state = initialState, action) => {
                 ]
             }
 
-        case SET_LAST_DROP_DATA:
-            return {
-                ...state,
-                lastDrop: [
-                    ...action.lastDrop
-                ]
-            }
         default: 
             return state;
     }

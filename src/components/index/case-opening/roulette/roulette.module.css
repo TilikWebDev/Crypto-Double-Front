@@ -9,9 +9,8 @@
 
 .roulette_container{
     position: absolute;
+    left: 0;
     top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
 }
 
 .stop{
@@ -20,7 +19,7 @@
     bottom: 0;
     width: 4px;
     background-color: #ffd300;
-    left: calc(50% - 2px);
+    left: 50%;
     transform: translate(-50%, 0);
     z-index: 1;
 }

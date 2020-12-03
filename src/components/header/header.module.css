@@ -23,6 +23,11 @@
     line-height: 34px;
 }
 
+.logotype span:not(:first-child){
+	color: #2eb3ff;
+	font-weight: bold;
+}
+
 .group{
 	align-items: center;
 }

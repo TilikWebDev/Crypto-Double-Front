@@ -4,8 +4,7 @@ import s from './roulette.module.css';
 const roll = React.createRef();
 
 const Roulette = (props) => {
-
-
+    
     let style = {
         backgroundImage: 'url(' + props.roulette_styles.backgroundImage + ')',
         transition: props.roulette_styles.transition,

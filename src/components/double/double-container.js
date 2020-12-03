@@ -5,6 +5,7 @@ import { withRouter, useLocation } from 'react-router-dom';
 
 import Double from './double';
 
+import {createNotification} from '../../redux/notifications-reducer';
 import {onChangeBetAmount, calcBetAmount, changeOnFocus, socketSetNewMessage, socketSetNewBet, socketSetStartGame, getBalance, rouletteResize, clearChat, startGame, spinRoulette, createBet, sendChatMessage, onChangeChatText} from '../../redux/double-reducer';
 import {showModal} from '../../redux/modal-window-reducer';
 
@@ -14,17 +15,11 @@ const DoubleContainer = (props) => {
 
     useEffect(() => {
         websocket.onopen = () => {
-            props.socketSetNewMessage({
-                text: 'Socket connected!',
-                color: '#5cc46d'
-            });
+            props.createNotification('Socket connected!', 'success');
         };
     
         websocket.onclose = () => {
-            props.socketSetNewMessage({
-                text: 'Socket disconected.',
-                color: '#ee5953'
-            });
+            props.createNotification('Socket disconected! Pls reload page!', 'danger', false);
         };
     
         websocket.onmessage = (message) => {
@@ -153,5 +148,6 @@ export default connect(mapStateToProps, {
     getBalance,
     createBet,
     sendChatMessage,
-    onChangeChatText
+    onChangeChatText,
+    createNotification
 })(withUrlDataContainerComponent);

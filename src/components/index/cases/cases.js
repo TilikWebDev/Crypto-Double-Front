@@ -21,6 +21,7 @@ const Cases = (props) => {
                                 <Case 
                                     key={index + 1} 
                                     case={p} 
+                                    gotoOpenCase={props.gotoOpenCase}
                                 />
                                 ];
                     }

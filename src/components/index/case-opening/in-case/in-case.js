@@ -13,39 +13,43 @@ const InCase = (props) => {
                     props.drops.map((d) => {
 
                         let rarity = s.com;
+                        let price = parseInt(d.price);
 
-                        switch (d.price) {
-                            case (d.price > 100):
-                                rarity = s.unc;
+                        switch (true) {
+                            case (price > 50000):
+                                rarity = s.anc;
                                 break;
 
-                            case (d.price > 250):
-                                rarity = s.rar;
+                            case (price > 20000):
+                                rarity = s.arc;
                                 break;
 
-                            case (d.price > 500):
+                            case (price > 10000):
+                                rarity = s.leg;
+                                break;
+                            
+                            case (price > 1000):
+                                rarity = s.imm;
+                                break;
+
+                            case (price > 500):
                                 rarity = s.myt;
                                 break;
 
-                            case (d.price > 1000):
-                                rarity = s.imm;
-                                break;
-                            
-                            case (d.price > 10000):
-                                rarity = s.leg;
+                            case (price > 250):
+                                rarity = s.rar;
                                 break;
 
-                            case (d.price > 50000):
-                                rarity = s.anc;
+                            case (price > 100):
+                                rarity = s.unc;
                                 break;
                         }
-
 
                         return (
                             <div className={s.item + ' ' + rarity}>
                                 <div className={s.img}>
                                     <div className={s.img_container}>
-                                        <img src={require(`../../../img/drop/${decodeURI(d.image)}`)}/>
+                                        <img src={require(`../../../../img/drop/${decodeURI(d.image)}`)}/>
                                     </div>
                                 </div>
 

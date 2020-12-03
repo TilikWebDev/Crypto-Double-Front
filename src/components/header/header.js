@@ -6,7 +6,8 @@ const Header = (props) => {
     return (
         <header className={s.main}>
 			<div className={s.container}>
-				<NavLink to={'/'} className={s.logotype}>AppDrop</NavLink>
+				<NavLink to={'/'} className={s.logotype}>
+					<span>App</span><span>Drop</span>.com.ua</NavLink>
 				
 				<div className={s.btngroup}>
 					{ 

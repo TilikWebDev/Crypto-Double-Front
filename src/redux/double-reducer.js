@@ -29,7 +29,7 @@ let initialState = {
         connection_count: 0,
         user_chat_text: '',
         chat_message_list: [
-            {text: 'Socket connecting...', color: '#376fa2'}
+            
         ]
     },
     roulette_data: {

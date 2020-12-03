@@ -5,7 +5,6 @@ import Header from './components/header/entry-point';
 import Footer from './components/footer/entry-point';
 
 import Index from './components/index/entry-point';
-import CaseOpening from './components/case-opening/entry-point';
 import Double from './components/double/entry-point';
 import Deposit from './components/deposit/entry-point';
 import ProvablyFair from './components/provably-fair/entry-point';
@@ -21,7 +20,7 @@ const App = (props) => {
             <div id="main">
                 <Route exact path="/" render={ () => <Index/> } />
                 <Route exact path="/modal/:name?" render={ () => <Index/> } />
-                <Route path="/case/:casename?" render={ () => <CaseOpening/> }/>
+                <Route path="/case/:casename?" render={ () => <Index/> }/>
                 <Route path="/double" render={ () => <Double/> } />
                 <Route path="/deposit" render={ () => <Deposit/> }/>
                 <Route path="/provably-fair" render={ () => <ProvablyFair/> }/>

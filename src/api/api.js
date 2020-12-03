@@ -16,6 +16,18 @@ export const casesAPI = {
         return instance.get('cases/data?name=' + name).then(response => {
             return response.data;
         });
+    },
+
+    getOpenCase (name) {
+        return instance.get('cases/opencase?name=' + name).then(response => {
+            return response.data;
+        });
+    },
+
+    sellDrop (id) {
+        return instance.get('cases/sell?id=' + id).then(response => {
+            return response.data;
+        });
     }
 };
 

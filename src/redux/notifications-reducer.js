@@ -5,11 +5,12 @@ let initialState = [
 
 ];
 
-export const createNotification = (msg, status) => {
+export const createNotification = (msg, status, auto_close = true) => {
     return {
         type: SHOW_NOTIFY,
         text: msg,
-        status: status
+        status: status,
+        auto_close: auto_close
     }
 }
 
@@ -29,7 +30,8 @@ export const notificationsReducer = (state = initialState, action) => {
                 {
                     text: action.text,
                     status: action.status,
-                    id: Math.random(99999999999)
+                    id: Math.random(99999999999),
+                    auto_close: action.auto_close
                 }
             ]
 

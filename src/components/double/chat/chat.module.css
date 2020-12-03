@@ -95,14 +95,6 @@
 	pointer-events: none;
 }
 
-.system{
-	font-style: italic;
-}
-
-.system span{
-	color: #dedede;
-}
-
 .msg i{
 	width: 1px;
 	display: inline-block;

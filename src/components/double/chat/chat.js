@@ -27,11 +27,9 @@ const Chat = (props) => {
 		}
 	}, [props.chat_message_list]);
 
-	let messages = props.chat_message_list.map((m, index) => { 
-		let style = (m.user) ? s.msg : s.msg + ' ' + s.system;
-		
+	let messages = props.chat_message_list.map((m, index) => { 		
 		return (
-			<p key={index} className={style}>
+			<p key={index} className={s.msg}>
 				<b>{m.user}</b>
 				<i style={{backgroundColor: m.color}}></i>
 				<span>{m.text}</span>
