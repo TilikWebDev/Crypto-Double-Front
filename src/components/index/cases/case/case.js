@@ -27,7 +27,7 @@ const Case = (props) => {
         <NavLink onClick={props.gotoOpenCase} className={s.case} to={`/case/${props.case.name}`}>
             <div className={s.image}>
                 <div className={s.image_container}>
-                    <img src={require(`../../../../img/cases/${props.case.image}`)}/>
+                    <img src={require(`../../../../img/cases/${decodeURI(props.case.image)}`)}/>
                 </div>
             </div>
 

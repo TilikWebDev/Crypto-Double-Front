@@ -16,6 +16,7 @@ body{
 	display: flex;
 	flex-direction: column;
 	background: #1c232a;
+	width: 100%;
 }
 
 a{
