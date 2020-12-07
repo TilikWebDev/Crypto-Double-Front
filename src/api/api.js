@@ -7,7 +7,7 @@ const instance = axios.create({
 
 export const casesAPI = { 
     getLastDropData () {
-        return instance.get('cases/lastdrop').then(response => {
+        return instance.get('cases/last-drops').then(response => {
             return response.data;
         });
     },

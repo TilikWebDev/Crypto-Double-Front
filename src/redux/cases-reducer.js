@@ -77,13 +77,6 @@ export const setCasesData = (cases) => {
     }
 }
 
-export const setLastDropData = (cases) => {
-    return {
-        type: SET_CASES_DATA,
-        cases: cases
-    }
-}
-
 export const setOpeningStatus = (name) => {
     return {
         type: SET_OPENING_STATUS,
@@ -171,7 +164,7 @@ export const openCase = (name, price, drop_list, width, opening_status) => {
                         marginLeft: 0,
                         transition: '0s'
                     }));
-                }, 6200);
+                }, 6300);
             } else {
                 dispatch(createNotification(data.message, 'error'));
             }
@@ -201,7 +194,18 @@ export const getCasesData = () => {
 export const getLastDropData = () => {
     return (dispatch) => {
         casesAPI.getLastDropData().then(data => {
-            dispatch(setLastDropData(data.data));
+            data.data.map((d) => {
+                let drop = {
+                    user: d.email,
+                    price: d.drop.price,
+                    image: d.drop.image,
+                    name: d.drop.name,
+                    case_name: d.case.name,
+                    case_image: d.case.image,
+                };
+
+                dispatch(socketSetNewDrop(drop));
+            })
         });
     }
 }
@@ -216,11 +220,14 @@ export const casesReducer = (state = initialState, action) => {
             }
 
         case SOCKET_SET_NEW_DROP:
-            return (action.price > 50000) ?
+            return (action.drop.price > 1000) ?
                 {
                     ...state,
                     last_drop: {
-                        ...state.last_drop,
+                        default: [
+                            ...state.last_drop.default.slice(state.last_drop.default.length - 52, state.last_drop.default.length),
+                            {...action.drop}
+                        ],
                         best_drop: {
                             ...action.drop
                         }
@@ -232,7 +239,7 @@ export const casesReducer = (state = initialState, action) => {
                     last_drop: {
                         ...state.last_drop,
                         default: [
-                            ...state.last_drop.default.slice(state.last_drop.default.length - 102, state.last_drop.default.length),
+                            ...state.last_drop.default.slice(state.last_drop.default.length - 52, state.last_drop.default.length),
                             {...action.drop}
                         ]
                     }

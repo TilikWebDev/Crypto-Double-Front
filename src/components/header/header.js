@@ -13,7 +13,8 @@ const Header = (props) => {
 					{ 
 						(props.is_auth) 
 						? 	<div className={s.group}>
-								<NavLink className={s.btn} to={'/double'}>Double</NavLink>
+								<NavLink className={s.btn} to={'/'}>Кейсы</NavLink>
+								<NavLink className={s.btn} to={'/double'}>Рулетка</NavLink>
 
 								<NavLink className={s.btn + ' ' + s.account_link} to={'/account'}>
 									{props.email}
@@ -37,8 +38,8 @@ const Header = (props) => {
 								</button>
 							</div>
 						:	<div className={s.group}>
-								<NavLink className={s.btn} to={'/double'}>Double</NavLink>
-								<NavLink className={s.btn} to={'/support'}>Support</NavLink>
+								<NavLink className={s.btn} to={'/'}>Кейсы</NavLink>
+								<NavLink className={s.btn} to={'/double'}>Рулетка</NavLink>
 
 								<button className={s.btn}>
 									<i className={'fa fa-volume-down'}></i>

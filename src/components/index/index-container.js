@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Index from './index';
 import {showModal} from '../../redux/modal-window-reducer';
 import {createNotification} from '../../redux/notifications-reducer';
-import {getCasesData, socketSetNewDrop, gotoOpenCase, getCaseByName, changeAutoSell, openCase, setRollStyle, sellDrop} from '../../redux/cases-reducer';
+import {getCasesData, socketSetNewDrop, gotoOpenCase, getCaseByName, changeAutoSell, openCase, setRollStyle, sellDrop, getLastDropData} from '../../redux/cases-reducer';
 
 const websocket = new w3cwebsocket('ws://' + 'localhost' + ':3013');
 
@@ -16,6 +16,10 @@ const IndexContainer = (props) => {
     useEffect(() => {
         if (!props.cases.length) {
             props.getCasesData();
+        }
+
+        if (!props.last_drop.length) {
+            props.getLastDropData();
         }
 
         (props.match.params.casename) && props.getCaseByName(props.match.params.casename);
@@ -85,5 +89,6 @@ export default connect(mapStateToProps, {
     changeAutoSell, 
     openCase, 
     setRollStyle, 
-    sellDrop
+    sellDrop,
+    getLastDropData
 })(withUrlDataContainerComponent);

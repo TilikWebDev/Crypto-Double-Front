@@ -46,7 +46,7 @@ const Chat = (props) => {
 			</div>
 
 			<form className={s.form} action="chat" onSubmit={onSubmitChatForm}>
-				<input onChange={onChangeChatText} placeholder="Type here to chat..." name="text" type="text" value={props.user_chat_text} ref={user_chat_text}/>
+				<input onChange={onChangeChatText} placeholder="Сообщение..." name="text" type="text" value={props.user_chat_text} ref={user_chat_text}/>
 
 				<button type="submit">
 					<i className="fa fa-commenting" aria-hidden="true"></i>
@@ -54,9 +54,9 @@ const Chat = (props) => {
 			</form>
 
 			<div className={s.footer}>
-				<p>Users Online: {props.connection_count}</p>
-				<button className={'type_link ' + s.link} onClick={() => props.showModal('chat_rules')}>Chat rules</button>
-				<button className={'type_link ' + s.link} onClick={props.clearChat}>Clear chat</button>
+				<p>Онлайн: {props.connection_count}</p>
+				<button className={'type_link ' + s.link} onClick={() => props.showModal('chat_rules')}>Правила чата</button>
+				<button className={'type_link ' + s.link} onClick={props.clearChat}>Очистить чат</button>
 			</div>
 		</div>
 	);

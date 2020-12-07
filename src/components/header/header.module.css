@@ -13,7 +13,7 @@
 }
 
 .logotype{
-	font-size: 26px;
+	font-size: 24px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #fff;
@@ -25,7 +25,6 @@
 
 .logotype span:not(:first-child){
 	color: #2eb3ff;
-	font-weight: bold;
 }
 
 .group{

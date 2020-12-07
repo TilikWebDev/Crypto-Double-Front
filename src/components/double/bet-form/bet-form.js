@@ -10,7 +10,7 @@ const BetForm = (props) => {
 
     return (
         <div className={s.main}>
-            <p className={s.balance}>Balance: 
+            <p className={s.balance}>Баланс: 
                 <span className={s.my_balance}>
                     { props.user_balance }
 
@@ -29,18 +29,12 @@ const BetForm = (props) => {
                 <button className={'default_btn'} onClick={ () => props.calcBetAmount('max') }>Max</button>
 
                 <button onClick={ props.getBalance } className={'default_btn success'}>
-                    Refresh balance
+                    Обнов. баланс
                 </button>
             </div>
             
             <div className={"input_type_relative " + s.input_type_relative}>
-                <input onChange={ onChangeBetAmount } value={props.user_bet_amount} placeholder="Bet amount..." type="email" ref={ betAmount }/>
-
-                <div className={s.bet_buttons}>
-                    <button onClick={ () => props.onCreateBet('red') }></button>
-                    <button onClick={ () => props.onCreateBet('green') }></button>
-                    <button onClick={ () => props.onCreateBet('black') }></button>
-                </div>
+                <input onChange={ onChangeBetAmount } value={props.user_bet_amount} placeholder="Ставка..." type="email" ref={ betAmount }/>
             </div>
         </div>
     );

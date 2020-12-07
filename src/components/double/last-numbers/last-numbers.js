@@ -10,7 +10,7 @@ const LastNumbers = (props) => {
         if (m.color === 'red') color = s.red;
         if (m.color === 'black') color = s.black;
 
-        return <span key={index} title={"Hash round: #" + m.hash} className={ color }>{ m.value }</span> 
+        return <span key={index} title={"Хеш раунда: #" + m.hash} className={ color }>{ m.value }</span> 
     });
     
     
@@ -20,8 +20,8 @@ const LastNumbers = (props) => {
             {numbers}
 
             <div className={s.now}>
-                Next round: 
-                { (props.now_hash_round) ? <NavLink to="/provably-fair">#{props.now_hash_round}</NavLink> : ' loading...' }                
+                След. раунд: 
+                { (props.now_hash_round) ? <NavLink to="/provably-fair">#{props.now_hash_round}</NavLink> : ' Загрузка...' }                
             </div>
 		</div>
     )

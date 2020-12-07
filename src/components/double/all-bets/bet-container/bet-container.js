@@ -3,16 +3,16 @@ import s from './bet-container.module.css';
 
 const BetContainer = (props) => {
     
-    let text = 'Bet on 0';
+    let text = 'Ставка на 0';
     let color = s.green;
 
     if (props.color === 'red') {
-        text = 'Bet on 1 to 7';
+        text = 'Ставка на 1 к 7';
         color = s.red;
     }
 
     if (props.color === 'black') {
-        text = 'Bet on 8 to 14';
+        text = 'Ставка на 8 к 14';
         color = s.black;
     }
 
@@ -28,18 +28,18 @@ const BetContainer = (props) => {
                 </div>
                 
                 <p className={s.container}>
-                    My bet
+                    Моя ставка
                     <span className={s.bet}>{props.user_total_amount}</span>
                 </p>
             </div>
             
             <div className={s.child}>
                 <p className={s.total}>
-                    Total bet
+                    Общие ставки
                     <span>{props.total_amount}</span>
                 </p>
 
-                <p className={s.no_bets}>No bets</p>
+                <p className={s.no_bets}>Ставок нет</p>
 
                 <div className={s.body}>
                     {bets}

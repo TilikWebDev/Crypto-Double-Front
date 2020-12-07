@@ -2,7 +2,7 @@
     width: 100%;
     position: relative;
     height: 200px;
-    background-image: linear-gradient(to left, #0d0d14, #94a2fe, #0d0d14);
+    background-image: linear-gradient(to left, #2e363d, #39434c, #2e363d);
     margin: 50px 0;
     overflow: hidden;
 }
@@ -17,11 +17,31 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 4px;
-    background-color: #ffd300;
-    left: 50%;
-    transform: translate(-50%, 0);
+    left: 0;
+    right: 0;
     z-index: 1;
+}
+
+.stop:before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 50%;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(to right, rgb(0 0 0 / 0.7), transparent);
+    border-right: 1px solid #ffd300;
+}
+
+.stop:after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(to left, rgb(0 0 0 / 0.7), transparent);
+    border-left: 1px solid #ffd300;
 }
 
 .item {
@@ -59,29 +79,33 @@
 }
 
 .anc {
-    border-color: #c29600;
+    border-color: #eb4b4b;
+}
+
+.arc {
+    border-color: #ade55c;
 }
 
 .imm {
-    border-color: #c29600;
+    border-color: #b28a33;
 }
 
 .leg {
-    border-color: #c29600;
+    border-color: #d32ce6;
 }
 
 .myt {
-    border-color: #c29600;
+    border-color: #8847ff;
 }
 
 .rar {
-    border-color: #c29600;
+    border-color: #4b69ff;
 }
 
 .unc {
-    border-color: #c29600;
+    border-color: #5e98d9;
 }
 
 .com {
-    border-color: #c29600;
+    border-color: #b0c3d9;
 }

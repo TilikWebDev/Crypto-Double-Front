@@ -3,7 +3,7 @@
 	height: 50px;
 	align-items: center;
 	justify-content: center;
-	margin: 0 0 5px 0;
+	margin: 0 0 10px 0;
 	position: relative;
 	overflow: hidden;
 }
@@ -19,7 +19,7 @@
 }
 
 .time{
-	width: 50px;
+	width: 60px;
 	white-space: nowrap;
 	justify-content: center;
 	color: rgba(255, 255, 255, 0.8);
