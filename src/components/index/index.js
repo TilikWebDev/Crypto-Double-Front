@@ -21,6 +21,7 @@ const Index = (props) => {
 							gotoOpenCase={props.gotoOpenCase} 
 							win_drop={props.win_drop} 
 							opening_status={props.opening_status} 
+							open_button_disabled={props.open_button_disabled}
 							setRollStyle={props.setRollStyle} 
 							roulette_drop={props.roulette_drop} 
 							openCase={props.openCase} 
@@ -31,10 +32,15 @@ const Index = (props) => {
 						:
 						<Preloader/>
 				: 
-				<Cases
-					cases={props.cases}
-					gotoOpenCase={props.gotoOpenCase}
-				/>
+				(props.category_data.length) ?
+					<Cases
+						changeCaseCategory={props.changeCaseCategory}
+						category_data={props.category_data}
+						cases={props.cases}
+						gotoOpenCase={props.gotoOpenCase}
+					/>
+					:
+					<Preloader/>
 			}
             
 			

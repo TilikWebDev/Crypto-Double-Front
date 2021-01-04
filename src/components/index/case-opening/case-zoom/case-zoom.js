@@ -7,6 +7,10 @@ const CaseZoom = (props) => {
         display: (props.opening_status == 'case-zoom') ? 'flex' : 'none'
     } 
 
+    let btnClass = s.button;
+
+    if (props.open_button_disabled) btnClass += ' ' + s.disabled;
+
     return (
         <div style={style} className={s.container}>
             <div className={s.headline}>
@@ -19,7 +23,7 @@ const CaseZoom = (props) => {
                 <img className={s.image} src={require(`../../../../img/cases/${decodeURI(props.image)}`)}/>
             </div>
 
-            <button onClick={() => props.openCase(props.name, props.price, props.drop, props.width, props.opening_status)} className={s.button}>
+            <button onClick={() => props.openCase(props.name, props.price, props.drop, props.width, props.opening_status)} className={btnClass}>
                 Открыть {props.price} грн
             </button>
 

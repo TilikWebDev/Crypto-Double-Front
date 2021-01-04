@@ -138,6 +138,22 @@
     background: linear-gradient(to bottom, #4f5f6b, #37424b);
 }
 
+.bet {
+
+}
+
+.bet.win, .total_amount.win{
+    color: #06a25a !important;
+}
+
+.bet.lose, .total_amount.lose{
+    color: #ff5e56 !important;
+}
+
+.default {
+
+}
+
 @media (max-width: 768px) {    
     .main{
         width:100%;

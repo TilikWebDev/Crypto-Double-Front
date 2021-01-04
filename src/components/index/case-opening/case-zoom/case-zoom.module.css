@@ -65,6 +65,11 @@
     background-color: #4c6dfb;
 }
 
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
 .label {
     width: fit-content;
     width: -moz-fit-content;

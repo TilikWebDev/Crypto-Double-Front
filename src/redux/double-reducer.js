@@ -14,6 +14,7 @@ const UPDATE_ROULETTE_STYLES = 'UPDATE_ROULETTE_STYLES';
 const ROULETTE_RESIZE = 'ROULETTE_RESIZE';
 const CLEAR_CHAT = 'CLEAR_CHAT';
 const ON_CHANGE_CHAT_TEXT = 'ON_CHANGE_CHAT_TEXT';
+const CHANGE_BET_CONTAINER_RESULTS = 'CHANGE_BET_CONTAINER_RESULTS';
 
 const SOCKET_RESPONSE_NEW_BET = 'SOCKET_RESPONSE_NEW_BET';
 const SOCKET_RESPONSE_NEW_MESSAGE= 'SOCKET_RESPONSE_NEW_MESSAGE';
@@ -53,11 +54,23 @@ let initialState = {
     },
     total_bet_data: [
 
-    ]
+    ],
+    bet_container: {
+        red: 'default',
+        black: 'default',
+        green: 'default'
+    }
 };
 
 
 // ACTION_CREATORS
+
+export const changeBetContainerResults = (color) => {
+    return {
+        type: CHANGE_BET_CONTAINER_RESULTS,
+        color: color
+    }
+}
 
 export const changeOnFocus = (value) => {
     return {
@@ -192,6 +205,16 @@ export const spinRoulette = (number, section, bpx, width, height, needRefreshBal
 
         let newPosition = width - currentPosition;
         let newSection = Math.ceil(height / 100 * section);
+
+        let color_win_number = 'green';
+
+        if (number > 0) {
+            color_win_number = 'red';
+        }
+    
+        if (number > 7) {
+            color_win_number = 'black';
+        }
         
         for (const [index, el] of numberArray.entries()) {
             if ( el == number ) {
@@ -206,6 +229,8 @@ export const spinRoulette = (number, section, bpx, width, height, needRefreshBal
         }));
 
         setTimeout(function(){
+            dispatch(changeBetContainerResults(color_win_number));
+
             dispatch(updateLeftTimeStyles({
                 time_text: 'Win number: ' + number,
                 time_line_width: 0
@@ -231,6 +256,8 @@ export const startGame = (seconds) => {
 
         let text = parseFloat(seconds) || 0;
         let width = 0;
+
+        dispatch(changeBetContainerResults('default'));
 
         if (!isNaN(text) && text > 0) {
             let i = setInterval(() => {
@@ -262,6 +289,26 @@ export const startGame = (seconds) => {
 const doubleReducer = (state = initialState, action) => {
 
     switch (action.type) {
+
+        case CHANGE_BET_CONTAINER_RESULTS:
+            return (action.color != 'default') ? 
+            {
+                ...state,
+                bet_container: {
+                    red: (action.color == 'red') ? 'win' : 'lose',
+                    black: (action.color == 'black') ? 'win' : 'lose',
+                    green: (action.color == 'green') ? 'win' : 'lose',
+                }
+            } 
+            : 
+            {
+                ...state,
+                bet_container: {
+                    red: 'default',
+                    black: 'default',
+                    green: 'default'
+                }
+            }
 
         case CHANGE_ON_FOCUS: 
             return {

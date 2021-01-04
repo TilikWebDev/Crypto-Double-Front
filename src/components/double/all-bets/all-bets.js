@@ -58,6 +58,7 @@ const AllBets = (props) => {
     return (
         <div className={s.main}>
             <BetContainer 
+                status={props.bet_container.red}
                 onChangeBetAmount={props.onChangeBetAmount} 
                 onCreateBet={props.onCreateBet} 
                 color="red" 
@@ -67,6 +68,7 @@ const AllBets = (props) => {
             />
 
             <BetContainer 
+                status={props.bet_container.green}
                 onChangeBetAmount={props.onChangeBetAmount} 
                 onCreateBet={props.onCreateBet} 
                 color="green" 
@@ -76,6 +78,7 @@ const AllBets = (props) => {
             />
 
             <BetContainer 
+                status={props.bet_container.black}
                 onChangeBetAmount={props.onChangeBetAmount} 
                 onCreateBet={props.onCreateBet} 
                 color="black" 

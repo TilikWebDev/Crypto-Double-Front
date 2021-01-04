@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Index from './index';
 import {showModal} from '../../redux/modal-window-reducer';
 import {createNotification} from '../../redux/notifications-reducer';
-import {getCasesData, socketSetNewDrop, gotoOpenCase, getCaseByName, changeAutoSell, openCase, setRollStyle, sellDrop, getLastDropData} from '../../redux/cases-reducer';
+import {changeCaseCategory, getCategoryData, getCasesData, socketSetNewDrop, gotoOpenCase, getCaseByName, changeAutoSell, openCase, setRollStyle, sellDrop, getLastDropData} from '../../redux/cases-reducer';
 
 const websocket = new w3cwebsocket('ws://' + 'localhost' + ':3013');
 
@@ -20,6 +20,10 @@ const IndexContainer = (props) => {
 
         if (!props.last_drop.length) {
             props.getLastDropData();
+        }
+
+        if (!props.category_data.length) {
+            props.getCategoryData();
         }
 
         (props.match.params.casename) && props.getCaseByName(props.match.params.casename);
@@ -44,11 +48,13 @@ const IndexContainer = (props) => {
             last_drop={props.last_drop}
             gotoOpenCase={props.gotoOpenCase}
             case_data_is_loading={props.case_data_is_loading}
+            changeCaseCategory={props.changeCaseCategory}
 
             case_name={props.match.params.casename}
             sellDrop={props.sellDrop}
             win_drop={props.win_drop} 
             opening_status={props.opening_status} 
+            open_button_disabled={props.open_button_disabled}
             setRollStyle={props.setRollStyle} 
             roulette_drop={props.roulette_drop} 
             openCase={props.openCase} 
@@ -56,6 +62,7 @@ const IndexContainer = (props) => {
             auto_sell_drops={props.auto_sell_drops} 
             changeAutoSell={props.changeAutoSell} 
             case_data={props.case_data}
+            category_data={props.category_data}
         />
     );
 }
@@ -72,7 +79,9 @@ let mapStateToProps = (state) => {
         style_data: state.cases.style_data,
         roulette_drop: state.cases.roulette_drop,
         opening_status: state.cases.opening_status,
-        win_drop: state.cases.win_drop
+        win_drop: state.cases.win_drop,
+        open_button_disabled: state.cases.open_button_disabled,
+        category_data: state.cases.category_data
 	};
 }
 
@@ -85,10 +94,12 @@ export default connect(mapStateToProps, {
     socketSetNewDrop,
     createNotification,
 
+    getCategoryData,
     getCaseByName, 
     changeAutoSell, 
     openCase, 
     setRollStyle, 
     sellDrop,
-    getLastDropData
+    getLastDropData,
+    changeCaseCategory
 })(withUrlDataContainerComponent);

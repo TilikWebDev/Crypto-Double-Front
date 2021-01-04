@@ -1,35 +1,37 @@
 import React from 'react';
 import s from './cases.module.css';
 import Case from './case/case';
-import Category from './category/category';
+
+import CategoryFilter from './category-filter/category-filter';
 
 const Cases = (props) => {
 
-    let category = -1;
+    var active_category_data = 0;
+
+    props.category_data.map((d, index) => {
+        if (d.active) {
+            active_category_data = index;
+            return;
+        }
+    });
 
     return (
         <div className={s.cases_container}>
+
+            <CategoryFilter changeCaseCategory={props.changeCaseCategory} category_data={props.category_data}/>
+
             {
                 props.cases.map((p, index) => {
-                    if (category !== p.category_id) {
-                        category = p.category_id;
 
-                        return [<Category 
-                                    key={index}
-                                    name={p.category}
-                                />,
-                                <Case 
-                                    key={index + 1} 
-                                    case={p} 
-                                    gotoOpenCase={props.gotoOpenCase}
-                                />
-                                ];
-                    }
-
-                    return <Case 
-                                key={index} 
-                                case={p} 
-                            />;
+                    return (props.category_data[active_category_data].cases.includes(p.name)) ? 
+                        <Case 
+                            key={index} 
+                            case={p} 
+                        /> 
+                        
+                        : 
+                        
+                        false;
                 })
             }
         </div>

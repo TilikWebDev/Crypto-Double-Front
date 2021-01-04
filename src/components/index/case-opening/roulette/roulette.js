@@ -39,11 +39,11 @@ const Roulette = (props) => {
                                 break;
 
                             case (price > 10000):
-                                rarity = s.leg;
+                                rarity = s.imm;
                                 break;
 
                             case (price > 1000):
-                                rarity = s.imm;
+                                rarity = s.leg;
                                 break;
 
                             case (price > 500):

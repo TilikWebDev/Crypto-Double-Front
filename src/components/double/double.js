@@ -40,7 +40,7 @@ const Double = (props) => {
 					updateUserBalance={props.updateUserBalance} 
 				/>
 
-				<AllBets onChangeBetAmount={props.onChangeBetAmount}  onCreateBet={props.onCreateBet} total_bet_data={props.total_bet_data}/>
+				<AllBets bet_container={props.bet_container} onChangeBetAmount={props.onChangeBetAmount}  onCreateBet={props.onCreateBet} total_bet_data={props.total_bet_data}/>
 			</div>
 		</div>
 	);

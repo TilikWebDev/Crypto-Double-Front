@@ -12,7 +12,7 @@ const CaseOpening = (props) => {
     return (
         <div className={s.container}>
             <Roulette opening_status={props.opening_status} setRollStyle={props.setRollStyle} style_data={props.style_data} roulette_drop={props.roulette_drop}/>
-            <CaseZoom opening_status={props.opening_status} openCase={props.openCase} auto_sell_drops={props.auto_sell_drops} price={(props.case_data.discount_price) ? props.case_data.discount_price : props.case_data.price} drop={props.roulette_drop} width={props.style_data.width} name={props.case_data.name} image={props.case_data.image}/>
+            <CaseZoom open_button_disabled={props.open_button_disabled} opening_status={props.opening_status} openCase={props.openCase} auto_sell_drops={props.auto_sell_drops} price={(props.case_data.discount_price) ? props.case_data.discount_price : props.case_data.price} drop={props.roulette_drop} width={props.style_data.width} name={props.case_data.name} image={props.case_data.image}/>
 
             {
                 (props.win_drop._id) && <OpenResult sellDrop={props.sellDrop} gotoOpenCase={props.gotoOpenCase} opening_status={props.opening_status} win_drop={props.win_drop}/>

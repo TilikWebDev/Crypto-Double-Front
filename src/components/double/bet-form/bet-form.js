@@ -14,7 +14,7 @@ const BetForm = (props) => {
                 <span className={s.my_balance}>
                     { props.user_balance }
 
-                    <span className={s.currency}>UAH</span>
+                    <span className={s.currency}>грн</span>
                 </span>
             </p>
 

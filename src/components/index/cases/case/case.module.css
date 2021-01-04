@@ -1,15 +1,20 @@
 .case {
     position: relative;
     width: calc(100% / 5 - 20px);
-    margin: 5px;
+    margin: 0 10px 20px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     transition: 0.3s;
-}
+    background: linear-gradient(to top, #0d1319, rgb(255 255 255 / 4%));
+    border-radius: 5px;
+    -webkit-box-shadow: 4px 4px 6px 2px rgb(0 0 0 / 0.6);
+    -moz-box-shadow: 4px 4px 6px 2px rgb(0 0 0 / 0.6);
+    box-shadow: 4px 4px 6px 2px rgb(0 0 0 / 0.6);
+} 
 
 .case:hover{
-    background-color: rgb(255 255 255 / 0.04);
+    
 }
 
 .image{

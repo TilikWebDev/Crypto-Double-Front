@@ -1,4 +1,4 @@
-import {casesAPI, getOpenCase} from '../api/api';
+import {casesAPI} from '../api/api';
 import {updateUserBalance} from './user-reducer';
 
 import {createNotification} from './notifications-reducer';
@@ -11,8 +11,16 @@ const SET_ROLL_STYLE = 'SET_ROLL_STYLE';
 const SET_WIN_DROP = 'SET_WIN_DROP';
 const SOCKET_SET_NEW_DROP = 'SOCKET_SET_NEW_DROP';
 const START_LOADING_CASE_DATA = 'START_LOADING_CASE_DATA';
+const OPEN_BUTTON_DISABLED_TRUE = 'OPEN_BUTTON_DISABLED_TRUE';
+const OPEN_BUTTON_DISABLED_FALSE = 'OPEN_BUTTON_DISABLED_FALSE';
+const SET_CATEGORY_DATA = 'SET_CATEGORY_DATA';
+const CHANGE_CASE_CATEGORY = 'CHANGE_CASE_CATEGORY';
 
 let initialState = {
+    category_data: [
+
+    ],
+
     cases: [
 
     ],
@@ -42,6 +50,7 @@ let initialState = {
     case_data_is_loading: false,
     auto_sell_drops: false,
     opening_status: 'case-zoom',
+    open_button_disabled: false,
 
     style_data: {
         marginLeft: 0,
@@ -49,6 +58,32 @@ let initialState = {
         width: 'auto'
     }
 };
+
+export const changeCaseCategory = (name) => {
+    return {
+        type: 'CHANGE_CASE_CATEGORY',
+        name: name
+    }
+}
+
+export const setCategoryData = (data) => {
+    return {
+        type: SET_CATEGORY_DATA,
+        data: data
+    }
+}
+
+export const openButtonDisabledTrue = () => {
+    return {
+        type: OPEN_BUTTON_DISABLED_TRUE
+    }
+}
+
+export const openButtonDisabledFalse = () => {
+    return {
+        type: OPEN_BUTTON_DISABLED_FALSE
+    }
+}
 
 export const socketSetNewDrop = (drop) => {
     return {
@@ -106,6 +141,14 @@ export const startLoadingCaseData = () => {
 
 //thunk
 
+export const getCategoryData = () => {
+    return (dispatch) => {
+        casesAPI.getCategoryData().then(data => {
+            dispatch(setCategoryData(data.data));
+        });
+    }
+}
+
 export const sellDrop = (id, price) => {
     return (dispatch) => {
         casesAPI.sellDrop(id).then(data => {
@@ -127,6 +170,8 @@ export const gotoOpenCase = () => {
 
 export const openCase = (name, price, drop_list, width, opening_status) => {
     return (dispatch) => {
+
+        dispatch(openButtonDisabledTrue());
 
         casesAPI.getOpenCase(name).then(data => {
 
@@ -168,6 +213,8 @@ export const openCase = (name, price, drop_list, width, opening_status) => {
             } else {
                 dispatch(createNotification(data.message, 'error'));
             }
+
+            dispatch(openButtonDisabledFalse());
         });
     }
 }
@@ -212,6 +259,36 @@ export const getLastDropData = () => {
 
 export const casesReducer = (state = initialState, action) => {
     switch (action.type) {
+        case CHANGE_CASE_CATEGORY:
+            return {
+                ...state,
+                category_data: [
+                    ...state.category_data.map((c) => {
+                        c.active = (c.name == action.name);
+                        return c;
+                    })
+                ]
+            }
+
+        case SET_CATEGORY_DATA:
+            return {
+                ...state,
+                category_data: [
+                    ...action.data
+                ]
+            }
+
+        case OPEN_BUTTON_DISABLED_TRUE:
+            return {
+                ...state,
+                open_button_disabled: true
+            }
+
+        case OPEN_BUTTON_DISABLED_FALSE:
+            return {
+                ...state,
+                open_button_disabled: false
+            }
 
         case START_LOADING_CASE_DATA:
             return {

@@ -3,6 +3,7 @@
     z-index: 3;
     position: relative;
     justify-content: center;
+    border-right: 2px solid #14181e;
 }
 
 .best_drop .image {
@@ -206,7 +207,7 @@ img {
 }
 
 .anc {
-    background-image: linear-gradient(to left, #eb4b4b, transparent);
+    background-image: linear-gradient(to left, #eb4b4b, #eb4b4b, transparent);
 }
 
 .anc:after{
@@ -214,7 +215,7 @@ img {
 }
 
 .arc {
-    background-image: linear-gradient(to left, #ade55c, transparent);
+    background-image: linear-gradient(to left, #ade55c, #ade55c, transparent);
 }
 
 .arc:after{
@@ -222,7 +223,7 @@ img {
 }
 
 .imm {
-    background-image: linear-gradient(to left, #b28a33, transparent);
+    background-image: linear-gradient(to left, #b28a33, #b28a33, transparent);
 }
 
 .imm:after{
@@ -230,7 +231,7 @@ img {
 }
 
 .leg {
-    background-image: linear-gradient(to left, #d32ce6, transparent);
+    background-image: linear-gradient(to left, #d32ce6, #d32ce6, transparent);
 }
 
 .leg:after{
@@ -238,7 +239,7 @@ img {
 }
 
 .myt {
-    background-image: linear-gradient(to left, #8847ff, transparent);
+    background-image: linear-gradient(to left, #8847ff, #8847ff, transparent);
 }
 
 .myt:after{
@@ -246,7 +247,7 @@ img {
 }
 
 .rar {
-    background-image: linear-gradient(to left, #4b69ff, transparent);
+    background-image: linear-gradient(to left, #4b69ff, #4b69ff, transparent);
 }
 
 .rar:after{
@@ -254,7 +255,7 @@ img {
 }
 
 .unc {
-    background-image: linear-gradient(to left, #5e98d9, transparent);
+    background-image: linear-gradient(to left, #5e98d9, #5e98d9, transparent);
 }
 
 .unc:after{
@@ -262,7 +263,7 @@ img {
 }
 
 .com {
-    background-image: linear-gradient(to left, #b0c3d9, transparent);
+    background-image: linear-gradient(to left, #b0c3d9, #b0c3d9, transparent);
 }
 
 .com:after{

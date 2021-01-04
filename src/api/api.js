@@ -6,6 +6,12 @@ const instance = axios.create({
 })
 
 export const casesAPI = { 
+    getCategoryData () {
+        return instance.get('cases/category').then(response => {
+            return response.data;
+        });
+    },
+    
     getLastDropData () {
         return instance.get('cases/last-drops').then(response => {
             return response.data;

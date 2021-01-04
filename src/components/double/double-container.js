@@ -102,6 +102,7 @@ const DoubleContainer = (props) => {
             last_numbers={props.roulette_data.last_numbers}
             now_hash_round={props.roulette_data.now_hash_round}
             total_bet_data={props.total_bet_data}
+            bet_container={props.bet_container}
 
             changeOnFocus={props.changeOnFocus}
             onCreateBet={onCreateBet}
@@ -125,6 +126,7 @@ let mapStateToProps = (state) => {
         roulette_data: state.double_page.roulette_data,
         total_bet_data: state.double_page.total_bet_data,
         user_balance: state.user.user_balance,
+        bet_container: state.double_page.bet_container,
         
         //HOC
         user_is_auth: state.auth.is_auth
