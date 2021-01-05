@@ -24,7 +24,9 @@
 }
 
 .logotype span:not(:first-child){
-	color: #2eb3ff;
+	margin: 0 3px;
+	font-weight: bold;
+	color: #61636a;
 }
 
 .group{
