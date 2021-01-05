@@ -15,14 +15,14 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	border: 3px solid #284056;
+	border: 3px solid #689cf7;
 }
 
 .time{
 	width: 60px;
 	white-space: nowrap;
 	justify-content: center;
-	color: rgba(255, 255, 255, 0.8);
+	color: rgba(255, 255, 255);
 	z-index: 2;
 	font-size: 17px;
 	letter-spacing: 1px;

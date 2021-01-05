@@ -4,7 +4,7 @@
 	position: relative;
 	justify-content: flex-end;
     max-height: 600px;
-	background-color: #2c343a;
+	background-color: rgb(0 0 0 / 0.6);
 	-webkit-box-shadow: 0px 0px 10px 0px rgba(70, 70, 70, 0.1);
 	-moz-box-shadow: 0px 0px 10px 0px rgba(70, 70, 70, 0.1);
 	box-shadow: 0px 0px 10px 0px rgba(70, 70, 70, 0.1);
@@ -36,12 +36,11 @@
 	right: 0;
 	top: 0;
 	bottom: 0;
-	background-color: #626a75;
 	border: 0;
 	color: #fff;
 	cursor: pointer;
 	width: 40px;
-	background: #636b78;
+	background: #3a414a;
 	color: #ffffff;
 	outline: none;
 	font-size: 14px;
@@ -76,12 +75,12 @@
 	flex-wrap: wrap;
 	padding: 10px 10px 10px 23px;
 	margin: 0;
-	background-color: #323941;
 	position: relative;
+	background-color: rgb(0 0 0 / 0.3);
 }
 
 .container .msg:nth-child(even){
-    background-color: #272d34;	
+    background-color: rgb(255 255 255 / 0.03);	
 }
 
 .container .msg:last-child{
@@ -123,8 +122,8 @@
 	outline: none;
 	height: 40px;
 	color: #fff;
-	background-color: #373f46;
-	border: 1px solid #4b525c;
+	background-color: rgb(0 0 0 / 0.6);
+	border: 1px solid #3a414a;
 }
 
 .form input::placeholder{

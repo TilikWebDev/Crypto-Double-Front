@@ -79,15 +79,15 @@ div{
 	outline: none;
 	height: 40px;
 	color: #fff;
-	background-color: #373f46;
+	background-color: rgb(155 171 197 / 0.3);
 	border-radius: 5px;
-	border: 1px solid #4b525c;
+	border: 1px solid #4f555f;
 }
 
 .input_type_relative input::placeholder,
 .input_type_relative textarea::placeholder, 
 .input_type_relative input::placeholder{
-  color: #8d9299 !important;
+  color: #b3b3b3 !important;
 }
 
 .input_type_relative textarea{
@@ -99,9 +99,9 @@ div{
 .default_btn{
 	font-size: 13px;
     padding: 7px 12px;
-    color: #bdc2c7;
+    color: #fff;
     border: 0;
-    background: linear-gradient(to bottom, #3f4953, #404851);
+    background: rgb(155 171 197 / 0.3);
     outline: none;
     cursor: pointer;
     border-radius: 4px;
@@ -114,17 +114,17 @@ div{
 
 .default_btn.primary{
 	padding: 12px;
-	background: linear-gradient(to bottom, #376fa2, #295379);
+	background: #376fa2;
 	color: #fff;
 }
 
 .default_btn.success{
-	background: linear-gradient(to bottom, rgb(6 196 108 / 0.3), rgb(3 134 74 / 0.3));
+	background: rgb(6 196 108 / 0.3);
     color: #7fe08e;
 }
 
 .default_btn.danger{
-	background: linear-gradient(to bottom, rgb(255 94 86 / 0.3), rgb(204 77 70 / 0.3));
+	background: rgb(255 94 86 / 0.3);
     color: #ffa49f;
 }
 

@@ -50,7 +50,7 @@ const BetContainer = (props) => {
                     <span className={s.total_amount + ' ' + status}>{props.total_amount}</span>
                 </p>
 
-                <p className={s.no_bets}>Ставок нет</p>
+                {(props.total_amount != 0) ? null : <p className={s.no_bets}>Ставок нет</p>}
 
                 <div className={s.body}>
                     {bets}

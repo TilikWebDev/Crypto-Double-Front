@@ -6,7 +6,7 @@
 .child{
     flex-direction: column;
     position: relative;
-    background-color: #2c343a;
+    background-color: rgb(0 0 0 / 0.6);
     box-shadow: 0px 0px 10px 0px rgba(70, 70, 70, 0.1);
     width: 100%;
 }
@@ -17,7 +17,7 @@
 
 .head{
     padding: 15px;
-    background-color: #272d34;
+    background-color: rgb(0 0 0 / 60%);
 }
 
 .total,
@@ -107,7 +107,7 @@
 
 .body div:nth-child(odd), 
 .no_bets{
-    background-color: rgb(59, 66, 72);
+    background-color: rgb(255 255 255 / 3%);
 }
 
 .head button{

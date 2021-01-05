@@ -26,6 +26,10 @@
     flex: 1;
 }
 
+.button:nth-child(even) {
+    background-color: rgba(0,0,0, 0.2);
+}
+
 .button i {
     margin: 0 7px 0 0;
 }
@@ -33,6 +37,6 @@
 .active {
     filter: none;
     border-radius: 5px;
-    background: linear-gradient(45deg, rgb(237 90 83 / 0.2), rgb(237 90 83 / 0.7), rgb(237 90 83 / 0.2));
+    background: linear-gradient(45deg, rgb(102 55 117), rgb(84 105 210 / 70%), rgb(40 83 88));
     color: white;
 }
