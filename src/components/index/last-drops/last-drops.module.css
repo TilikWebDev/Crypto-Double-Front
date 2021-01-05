@@ -4,6 +4,7 @@
     position: relative;
     justify-content: center;
     border-right: 1px solid #1c232a;
+    border-radius: 5px;
 }
 
 .best_drop .image {
@@ -209,11 +210,11 @@ img {
 }
 
 .imm {
-    background-color: #b28a33;
+    background-color: #edaf2f;
 }
 
 .imm:after{
-    border-left-color: #b28a33;
+    border-left-color: #edaf2f;
 }
 
 .leg {
@@ -267,7 +268,7 @@ img {
 }
 
 .b_imm {
-    background-color: #b28a33;
+    background-color: #edaf2f;
 }
 
 .b_leg {

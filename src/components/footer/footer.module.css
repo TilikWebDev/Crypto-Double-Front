@@ -6,7 +6,7 @@
 .copyright{
 	flex: 1 1 auto;
 	padding: 10px 15px;
-	background: #15191c;
+	background: rgb(0 0 0 / 0.3);
 	color: rgba(255, 255, 255, 0.5);
 	font-size: 12px;
 }
