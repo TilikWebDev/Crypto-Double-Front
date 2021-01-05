@@ -45,19 +45,19 @@ const CategoryButton = (props) => {
             icon_class_name = 'fa-desktop';
             break;
 
-        case 'Смартфоны':
+        case 'Смарт':
             icon_class_name = 'fa-mobile';
             break;
 
-        case 'Киберспорт':
+        case 'Кибер':
             icon_class_name = 'fa-headphones';
             break;
 
-        case 'Для девочек':
+        case 'Девочкам':
             icon_class_name = 'fa-female';
             break;
 
-        case 'Для фанатов':
+        case 'Фанатам':
             icon_class_name = 'fa-rocket';
             break;
 

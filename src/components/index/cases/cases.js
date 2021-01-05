@@ -20,20 +20,22 @@ const Cases = (props) => {
 
             <CategoryFilter changeCaseCategory={props.changeCaseCategory} category_data={props.category_data}/>
 
-            {
-                props.cases.map((p, index) => {
+            <div className={s.cases_list}>
+                {
+                    props.cases.map((p, index) => {
 
-                    return (props.category_data[active_category_data].cases.includes(p.name)) ? 
-                        <Case 
-                            key={index} 
-                            case={p} 
-                        /> 
-                        
-                        : 
-                        
-                        false;
-                })
-            }
+                        return (props.category_data[active_category_data].cases.includes(p.name)) ? 
+                            <Case 
+                                key={index} 
+                                case={p} 
+                            /> 
+                            
+                            : 
+                            
+                            false;
+                    })
+                }
+            </div>
         </div>
     );
 }

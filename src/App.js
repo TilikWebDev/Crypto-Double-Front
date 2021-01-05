@@ -12,9 +12,15 @@ import Support from './components/support/entry-point';
 import ModalWindow from './components/modal-window/entry-point';
 import Notification from './components/notification/entry-point';
 
+let style = {
+    backgroundImage: `linear-gradient(to bottom, rgb(28 35 42 / 0.95), rgb(28 35 42 / 0.95)), url(${require('./img/bg.jpg')})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
+}
+
 const App = (props) => {
     return (
-        <div id="wrapper">
+        <div id="wrapper" style={style}>
             <Header user_data=''/>
 
             <div id="main">

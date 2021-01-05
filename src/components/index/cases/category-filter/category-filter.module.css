@@ -2,7 +2,7 @@
     width: 100%;
     justify-content: center;
     margin: 0 0 25px 0;
-    overflow: auto;
+    background: #2c343a;
 }
 
 .button i:before {
@@ -14,17 +14,26 @@
     font-size: 14px;
     padding: 6px 10px;
     outline: none;
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
     filter: brightness(0.6);
     white-space: nowrap;
+    min-width: 120px;
+    background: transparent;
+    color: #fff;
+    flex: 1;
 }
 
 .button i {
-    margin: 0 5px 0 0;
+    margin: 0 7px 0 0;
 }
 
 .active {
     filter: none;
+    border-radius: 5px;
+    background: #54616b;
+    color: white;
+    margin: -4px 0;
 }

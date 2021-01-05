@@ -3,7 +3,7 @@
     z-index: 3;
     position: relative;
     justify-content: center;
-    border-right: 2px solid #14181e;
+    border-right: 1px solid #1c232a;
 }
 
 .best_drop .image {
@@ -11,17 +11,14 @@
     padding: 5px;
 }
 
-.best_drop .image img {
-    -webkit-animation: glowing 1300ms infinite;
-    -moz-animation: glowing 1300ms infinite;
-    -o-animation: glowing 1300ms infinite;
-    animation: glowing 1300ms infinite;
-}
-
 .best_drop_text {
     padding: 10px;
     flex-direction: column;
     align-items: center;
+    -webkit-animation: glowing 1300ms infinite;
+    -moz-animation: glowing 1300ms infinite;
+    -o-animation: glowing 1300ms infinite;
+    animation: glowing 1300ms infinite;
 }
 
 .best_drop_title {
@@ -32,13 +29,12 @@
 }
 
 .best_drop_price {
-    color: rgb(255 255 255 / 0.9);
+    color: rgb(255 255 255);
 }
 
 .best_drop_price .currency {
     font-size: 0.8em;
     margin: 3px 0 0 3px;
-    opacity: 0.7;
 }
 
 @-webkit-keyframes glowing {
@@ -46,7 +42,7 @@
         transform: scale(1);
     }
     50% {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
     100% {
         transform: scale(1);
@@ -57,7 +53,7 @@
         transform: scale(1);
     }
     50% {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
     100% {
         transform: scale(1);
@@ -68,7 +64,6 @@
     display: flex;
     width: 100%;
     height: 70px;
-    background-color: #2c343a;
     position: relative;
 }
 
@@ -90,6 +85,7 @@
     padding: 0 0 0 20px;
     position: relative;
     background-color: #384b5a;
+    margin: 4px 0;
 }
 
 .case {
@@ -106,20 +102,10 @@
     width: 0;
     height: 0;
     right: -20px;
-    border-top: 35px solid transparent;
+    border-top: 31px solid transparent;
     border-left: 20px solid #384b5a;
-    border-bottom: 35px solid transparent;
-}
-
-.drop:before{
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: -22px;
-    border-top: 35px solid transparent;
-    border-left: 20px solid #14181e;
-    border-bottom: 35px solid transparent;
+    border-bottom: 31px solid transparent;
+    filter: drop-shadow(1px 0 0 #1c232a);
 }
 
 .full {
@@ -207,7 +193,7 @@ img {
 }
 
 .anc {
-    background-image: linear-gradient(to left, #eb4b4b, #eb4b4b, transparent);
+    background-color: #eb4b4b;
 }
 
 .anc:after{
@@ -215,7 +201,7 @@ img {
 }
 
 .arc {
-    background-image: linear-gradient(to left, #ade55c, #ade55c, transparent);
+    background-color: #ade55c;
 }
 
 .arc:after{
@@ -223,7 +209,7 @@ img {
 }
 
 .imm {
-    background-image: linear-gradient(to left, #b28a33, #b28a33, transparent);
+    background-color: #b28a33;
 }
 
 .imm:after{
@@ -231,7 +217,7 @@ img {
 }
 
 .leg {
-    background-image: linear-gradient(to left, #d32ce6, #d32ce6, transparent);
+    background-color: #d32ce6;
 }
 
 .leg:after{
@@ -239,7 +225,7 @@ img {
 }
 
 .myt {
-    background-image: linear-gradient(to left, #8847ff, #8847ff, transparent);
+    background-color: #8847ff;
 }
 
 .myt:after{
@@ -247,7 +233,7 @@ img {
 }
 
 .rar {
-    background-image: linear-gradient(to left, #4b69ff, #4b69ff, transparent);
+    background-color: #4b69ff;
 }
 
 .rar:after{
@@ -255,7 +241,7 @@ img {
 }
 
 .unc {
-    background-image: linear-gradient(to left, #5e98d9, #5e98d9, transparent);
+    background-color: #5e98d9;
 }
 
 .unc:after{
@@ -263,7 +249,7 @@ img {
 }
 
 .com {
-    background-image: linear-gradient(to left, #b0c3d9, #b0c3d9, transparent);
+    background-color: #b0c3d9;
 }
 
 .com:after{
@@ -273,33 +259,33 @@ img {
 
 
 .b_anc {
-    background-image: linear-gradient(to left, #eb4b4b, #eb4b4b);
+    background-color: #eb4b4b;
 }
 
 .b_arc {
-    background-image: linear-gradient(to left, #ade55c, #ade55c);
+    background-color: #ade55c;
 }
 
 .b_imm {
-    background-image: linear-gradient(to left, #b28a33, #b28a33);
+    background-color: #b28a33;
 }
 
 .b_leg {
-    background-image: linear-gradient(to left, #d32ce6, #d32ce6);
+    background-color: #d32ce6;
 }
 
 .b_myt {
-    background-image: linear-gradient(to left, #8847ff, #8847ff);
+    background-color: #8847ff;
 }
 
 .b_rar {
-    background-image: linear-gradient(to left, #4b69ff, #4b69ff);
+    background-color: #4b69ff;
 }
 
 .b_unc {
-    background-image: linear-gradient(to left, #5e98d9, #5e98d9);
+    background-color: #5e98d9;
 }
 
 .b_com {
-    background-image: linear-gradient(to left, #b0c3d9, #b0c3d9);
+    background-color: #b0c3d9;
 }
