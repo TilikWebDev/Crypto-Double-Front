@@ -20,7 +20,7 @@
     font-size: 23px;
     text-transform: uppercase;
     padding: 4px 20px;
-    background: #1a555a;
+    background: #2e9975;
     border-radius: 5px;
     letter-spacing: 2px;
 }
@@ -33,7 +33,7 @@
     max-width: 500px;
     height: 300px;
     padding: 40px 0 20px 0;
-    border: 1px solid #1d4b57;
+    border: 1px solid #2e9975;
     border-radius: 5px;
     background: linear-gradient(to top, rgb(7 12 14), transparent);
 }

@@ -268,7 +268,7 @@ img {
 }
 
 .b_imm {
-    background-color: #edaf2f;
+    background: repeating-linear-gradient(45deg, #f5a439, #f5a439 20px, #ec9f39 20px, #ec9f39 40px);
 }
 
 .b_leg {
