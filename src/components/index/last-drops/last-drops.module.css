@@ -91,7 +91,6 @@
     position: relative;
     background-color: #384b5a;
     margin: 0 2px;
-    border-radius: 3px;
 }
 
 .case {
@@ -187,33 +186,33 @@ img {
 }
 
 .anc {
-    background: rgb(237 70 47 / 90%);
+    background: linear-gradient(to top, rgb(237 70 47 / 90%), transparent);
 }
 
 .arc {
-    background: rgb(87 191 138 / 90%);
+    background: linear-gradient(to top, rgb(182 62 103 / 90%), transparent);
 }
 
 .imm {
-    background: rgb(235 196 47 / 90%);
+    background: linear-gradient(to top, rgb(255 140 41 / 90%), transparent);
 }
 
 .leg {
-    background: rgb(182 62 103 / 90%);
+    background: linear-gradient(to top, rgb(235 196 47 / 90%), transparent);
 }
 
 .myt {
-    background: rgb(31 98 213 / 40%);
+    background: linear-gradient(to top, rgb(31 98 213 / 50%), transparent);
 }
 
 .rar {
-    background: rgb(65 173 222 / 40%);
+    background: linear-gradient(to top, rgb(65 173 222 / 50%), transparent);
 }
 
 .unc {
-    background: rgb(139 197 179 / 40%);
+    background: linear-gradient(to top, rgb(139 197 179 / 50%), transparent);
 }
 
 .com {
-    background: rgb(242 244 244 / 40%);
+    background: linear-gradient(to top, rgb(242 244 244 / 50%), transparent);
 }
