@@ -60,6 +60,7 @@ const IndexContainer = (props) => {
             openCase={props.openCase} 
             style_data={props.style_data} 
             auto_sell_drops={props.auto_sell_drops} 
+            sell_drop_button_status={props.sell_drop_button_status}
             changeAutoSell={props.changeAutoSell} 
             case_data={props.case_data}
             category_data={props.category_data}
@@ -76,6 +77,7 @@ let mapStateToProps = (state) => {
         case_data: state.cases.case_name_data,
         case_data_is_loading: state.cases.case_data_is_loading,
         auto_sell_drops: state.cases.auto_sell_drops,
+        sell_drop_button_status: state.cases.sell_drop_button_status,
         style_data: state.cases.style_data,
         roulette_drop: state.cases.roulette_drop,
         opening_status: state.cases.opening_status,

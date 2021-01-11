@@ -26,8 +26,8 @@
     flex: 1;
 }
 
-.button:nth-child(even) {
-    background-color: rgba(0,0,0, 0.2);
+.button:not(:last-child) {
+    border-right: 1px solid rgb(153 153 153 / 35%);
 }
 
 .button i {
@@ -36,7 +36,8 @@
 
 .active {
     filter: none;
-    border-radius: 5px;
     background: linear-gradient(45deg, rgb(102 55 117), rgb(84 105 210 / 70%), rgb(40 83 88));
     color: white;
+    margin: -3px 0;
+    border: 0 !important;
 }

@@ -36,6 +36,33 @@
     border: 1px solid #2e9975;
     border-radius: 5px;
     background: linear-gradient(to top, rgb(7 12 14), transparent);
+    position: relative;
+}
+
+.image_container a {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+    border: 0;
+    padding: 20px;
+    font-size: 90px;
+    color: #fff;
+    text-shadow: #fff 0px 0px 5px, #FFF 0px 0px 10px, #FFF 0px 0px 15px, #4661d8 0px 0px 20px, #4661d8 0px 0px 30px, #4661d8 0px 0px 40px, #4661d8 0px 0px 50px, #4661d8 0px 0px 75px;
+}
+
+.image_container a:hover{
+    filter: opacity(0.8);
+}
+
+.prev_case {
+    right: calc(100% + 10px);
+}
+
+.next_case {
+    left: calc(100% + 10px);
 }
 
 .image_container img {
@@ -63,7 +90,7 @@
 }
 
 .button:hover {
-    background-color: #4c6dfb;
+    filter: brightness(1.1);
 }
 
 .disabled {

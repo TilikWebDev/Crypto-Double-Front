@@ -27,6 +27,7 @@ const Index = (props) => {
 							openCase={props.openCase} 
 							style_data={props.style_data} 
 							auto_sell_drops={props.auto_sell_drops} 
+							sell_drop_button_status={props.sell_drop_button_status}
 							changeAutoSell={props.changeAutoSell} 
 							case_data={props.case_data}/>
 						:

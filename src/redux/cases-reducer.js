@@ -15,6 +15,7 @@ const OPEN_BUTTON_DISABLED_TRUE = 'OPEN_BUTTON_DISABLED_TRUE';
 const OPEN_BUTTON_DISABLED_FALSE = 'OPEN_BUTTON_DISABLED_FALSE';
 const SET_CATEGORY_DATA = 'SET_CATEGORY_DATA';
 const CHANGE_CASE_CATEGORY = 'CHANGE_CASE_CATEGORY';
+const CHANGE_SELL_DROP_BUTTON_STATUS = 'CHANGE_SELL_DROP_BUTTON_STATUS';
 
 let initialState = {
     category_data: [
@@ -49,6 +50,7 @@ let initialState = {
     
     case_data_is_loading: false,
     auto_sell_drops: false,
+    sell_drop_button_status: true,
     opening_status: 'case-zoom',
     open_button_disabled: false,
 
@@ -58,6 +60,13 @@ let initialState = {
         width: 'auto'
     }
 };
+
+export const changeSellDropButtonStatus = (status) => {
+    return {
+        type: 'CHANGE_SELL_DROP_BUTTON_STATUS',
+        status: status
+    }
+}
 
 export const changeCaseCategory = (name) => {
     return {
@@ -149,12 +158,13 @@ export const getCategoryData = () => {
     }
 }
 
-export const sellDrop = (id, price) => {
+export const sellDrop = (id, price, set_opening_status = true) => {
     return (dispatch) => {
         casesAPI.sellDrop(id).then(data => {
             if (!data.error) {
                 dispatch(updateUserBalance(price, '+'));
-                dispatch(setOpeningStatus('case-zoom'));
+                
+                set_opening_status && dispatch(setOpeningStatus('case-zoom'));
             } else {
                 dispatch(createNotification(data.message, 'error'));
             }
@@ -168,7 +178,7 @@ export const gotoOpenCase = () => {
     }
 }
 
-export const openCase = (name, price, drop_list, width, opening_status) => {
+export const openCase = (name, price, drop_list, width, auto_sell_drops) => {
     return (dispatch) => {
 
         dispatch(openButtonDisabledTrue());
@@ -178,8 +188,16 @@ export const openCase = (name, price, drop_list, width, opening_status) => {
             if (!data.error) {
                 dispatch(setWinDrop(data.data));
 
+                if (auto_sell_drops && data.data.price < price) {
+                    dispatch(changeSellDropButtonStatus(false));
+                    dispatch(sellDrop(data.data._id, data.data.price, false));
+                }
+
                 let winning_position = 0;
                 let _drop_list = [...drop_list].reverse().splice(20);
+
+                let audio = new Audio(require('../audio/open_case.mp3'));
+                let audio_end = new Audio(require('../audio/open_case_end.mp3'));
 
                 for (let i in _drop_list) {
                     if (_drop_list[i]._id == data.data._id) {
@@ -197,6 +215,8 @@ export const openCase = (name, price, drop_list, width, opening_status) => {
                 }));
 
                 setTimeout(() => {
+                    audio.play();
+
                     dispatch(setRollStyle({
                         marginLeft: (-winning_position * 200) + (width / 2) + 100,
                         transition: '6s'
@@ -204,6 +224,7 @@ export const openCase = (name, price, drop_list, width, opening_status) => {
                 }, 0);
 
                 setTimeout(() => {
+                    audio_end.play();
                     dispatch(setOpeningStatus('open-result'));
                     dispatch(setRollStyle({
                         marginLeft: 0,
@@ -259,6 +280,12 @@ export const getLastDropData = () => {
 
 export const casesReducer = (state = initialState, action) => {
     switch (action.type) {
+        case CHANGE_SELL_DROP_BUTTON_STATUS:
+            return {
+                ...state,
+                sell_drop_button_status: action.status
+            }
+
         case CHANGE_CASE_CATEGORY:
             return {
                 ...state,

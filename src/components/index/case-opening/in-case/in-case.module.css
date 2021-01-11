@@ -44,50 +44,41 @@
     flex-direction: column;
     align-items: center;
     padding: 10px 10px 15px 10px;
-    border-radius: 6px;
+    border-radius: 3px;
     margin: 10px;
     width: calc(100% / 8 - 20px);
-    border-bottom: 2px solid;
 }
 
 .anc {
-    background-image: linear-gradient(0deg, #eb4b4b, rgb(235 75 75 / 0.2));
-    border-bottom-color: #842727;
+    background-image: linear-gradient(0deg, rgb(237 70 47 / 100%), rgb(237 70 47 / 20%));
 }
 
 .arc {
-    background-image: linear-gradient(0deg, #ade55c, rgb(173 229 92 / 0.2));
-    border-bottom-color: #5f7d32;
+    background-image: linear-gradient(0deg, rgb(182 62 103 / 100%), rgb(182 62 103 / 20%));
 }
 
 .imm {
-    background-image: linear-gradient(0deg, #edaf2f, rgb(178 138 51 / 0.2));
-    border-bottom-color: #564216;
+    background-image: linear-gradient(0deg, rgb(255 140 41), rgb(255 140 41 / 0.2));
 }
 
 .leg {
-    background-image: linear-gradient(0deg, #d32ce6, rgb(211 44 230 / 0.2));
-    border-bottom-color: #71157b;
+    background-image: linear-gradient(0deg, rgb(235 196 47 / 100%), rgb(235 196 47 / 20%));
 }
 
 .myt {
-    background-image: linear-gradient(0deg, #8847ff, rgb(136 71 255 / 0.2));
-    border-bottom-color: #542ba0;
+    background-image: linear-gradient(0deg, rgb(31 98 213 / 100%), rgb(31 98 213 / 20%));
 }
 
 .rar {
-    background-image: linear-gradient(0deg, #4b69ff, rgb(75 105 255 / 0.2));
-    border-bottom-color: #364aaf;
+    background-image: linear-gradient(0deg, rgb(65 173 222 / 80%), rgb(65 173 222 / 10%));
 }
 
 .unc {
-    background-image: linear-gradient(0deg, #5e98d9, rgb(94 152 217 / 0.2));
-    border-bottom-color: #375c86;
+    background-image: linear-gradient(0deg, rgb(139 197 179 / 80%), rgb(139 197 179 / 10%));
 }
 
 .com {
-    background-image: linear-gradient(0deg, #b0c3d9, rgb(176 195 217 / 0.2));
-    border-bottom-color: #6d7d8e;
+    background-image: linear-gradient(0deg, rgb(242 244 244 / 80%), rgb(242 244 244 / 10%));
 }
 
 .img{

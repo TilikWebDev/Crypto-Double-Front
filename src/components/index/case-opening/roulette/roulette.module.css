@@ -2,7 +2,7 @@
     width: 100%;
     position: relative;
     height: 200px;
-    background-image: linear-gradient(to left, #2e363d, #39434c, #2e363d);
+    background-image: linear-gradient(to left, #2e363d, #496dac, #2e363d);
     margin: 50px 0;
     overflow: hidden;
 }
@@ -79,33 +79,33 @@
 }
 
 .anc {
-    border-color: #eb4b4b;
+    border-color: rgb(237 70 47 / 100%);
 }
 
 .arc {
-    border-color: #ade55c;
+    border-color: rgb(182 62 103 / 100%);
 }
 
 .imm {
-    border-color: #edaf2f;
+    border-color: rgb(255 140 41);
 }
 
 .leg {
-    border-color: #d32ce6;
+    border-color: rgb(235 196 47 / 100%);
 }
 
 .myt {
-    border-color: #8847ff;
+    border-color: rgb(31 98 213 / 100%);
 }
 
 .rar {
-    border-color: #4b69ff;
+    border-color: rgb(65 173 222 / 80%);
 }
 
 .unc {
-    border-color: #5e98d9;
+    border-color: rgb(139 197 179 / 80%);
 }
 
 .com {
-    border-color: #b0c3d9;
+    border-color: rgb(242 244 244 / 80%);
 }
