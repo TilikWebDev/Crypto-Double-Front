@@ -1,7 +1,7 @@
 import React from 'react';
 import Cases from './cases/cases';
 import LastDrops from './last-drops/last-drops';
-import Preloader from '../preloader/preloader';
+import Preloader from '../common/preloader/preloader';
 import CaseOpening from './case-opening/case-opening';
 
 import s from './index.module.css';

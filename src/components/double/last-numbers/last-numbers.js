@@ -2,26 +2,23 @@ import React from 'react';
 import s from './last-numbers.module.css';
 import { NavLink } from 'react-router-dom';
 
-const LastNumbers = (props) => {
-
-    let numbers = props.last_numbers.map((m, index) => { 
-        let color;
-
-        if (m.color === 'red') color = s.red;
-        if (m.color === 'black') color = s.black;
-
-        return <span key={index} title={"Хеш раунда: #" + m.hash} className={ color }>{ m.value }</span> 
-    });
-    
+const LastNumbers = ({last_numbers, now_hash_round}) => {   
     
     return (
         <div className={s.main}>
-
-            {numbers}
+            {
+                last_numbers.map(({color, hash, value}, index) => { 
+                    let status = (color !== 'green') ? 
+                                    (color === 'black') ? s.black : s.red
+                                 : s.green;
+            
+                    return <span key={index} title={`Хеш раунда: #${hash}`} className={status}>{value}</span> 
+                })
+            }
 
             <div className={s.now}>
                 След. раунд: 
-                { (props.now_hash_round) ? <NavLink to="/provably-fair">#{props.now_hash_round}</NavLink> : ' Загрузка...' }                
+                {(now_hash_round) ? <NavLink to={'/provably-fair'}>#{now_hash_round}</NavLink> : ' ...'}                
             </div>
 		</div>
     )

@@ -1,7 +1,9 @@
 import React from 'react';
 import s from './in-case.module.css';
 
-const InCase = (props) => {
+import PropTypes from 'prop-types';
+
+const InCase = ({drops}) => {
     return (
         <div className={s.container}>
             <div className={s.headline}>
@@ -10,7 +12,7 @@ const InCase = (props) => {
 
             <div className={s.items_columns}>
                 {
-                    props.drops.map((d) => {
+                    drops.map((d, index) => {
 
                         let rarity = s.com;
                         let price = parseInt(d.price);
@@ -43,13 +45,16 @@ const InCase = (props) => {
                             case (price > 100):
                                 rarity = s.unc;
                                 break;
+                            
+                            default:
+                                break;
                         }
 
                         return (
-                            <div className={s.item + ' ' + rarity}>
+                            <div key={index} className={[s.item, rarity].join(' ')}>
                                 <div className={s.img}>
                                     <div className={s.img_container}>
-                                        <img src={require(`../../../../img/drop/${decodeURI(d.image)}`)}/>
+                                        <img alt={d.name} src={require(`../../../../img/drop/${decodeURI(d.image)}`)}/>
                                     </div>
                                 </div>
 
@@ -63,6 +68,10 @@ const InCase = (props) => {
             </div>
         </div>
     )
+}
+
+InCase.propTypes = {
+    drops: PropTypes.array
 }
 
 export default InCase;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import s from './case-opening.module.css';
 import CaseZoom from './case-zoom/case-zoom';
 

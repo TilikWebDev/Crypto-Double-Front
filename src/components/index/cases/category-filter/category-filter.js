@@ -1,15 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import s from './category-filter.module.css';
 
-const CategoryFilter = (props) => {
+const CategoryFilter = ({category_data, changeCaseCategory}) => {
     return (
         <div className={s.container}>
             {
-                props.category_data.map((c, index) => {
+                category_data.map((c, index) => {
                     return <CategoryButton
-                        changeCaseCategory={props.changeCaseCategory}
+                        changeCaseCategory={changeCaseCategory}
                         name={c.name}
                         active={c.active}
+                        key={index}
                     />
                 })
             }
@@ -17,10 +20,15 @@ const CategoryFilter = (props) => {
     );
 }
 
-const CategoryButton = (props) => {
+CategoryFilter.propTypes = {
+    category_data: PropTypes.array,
+    changeCaseCategory: PropTypes.func
+}
+
+const CategoryButton = ({name, active, changeCaseCategory}) => {
     let icon_class_name = '';
 
-    switch (props.name) {
+    switch (name) {
         case 'Все':
             icon_class_name = 'fa-archive';
             break;
@@ -64,16 +72,23 @@ const CategoryButton = (props) => {
         case 'Одежда':
             icon_class_name = 'fa-street-view';
             break;
+
+        default: 
+            break;
     }
 
-    let active = (props.active) ? s.active : null;
-
     return (
-        <button onClick={() => props.changeCaseCategory(props.name)} className={s.button + ' ' + active}>
-            <i className={'fa ' + icon_class_name}></i>
-            {props.name}
+        <button onClick={() => changeCaseCategory(name)} className={[s.button, (active) && s.active].join(' ')}>
+            <i className={['fa', icon_class_name].join(' ')}></i>
+            {name}
         </button>
     )
+}
+
+CategoryButton.propTypes = {
+    name: PropTypes.string,
+    active: PropTypes.bool,
+    changeCaseCategory: PropTypes.func
 }
 
 export default CategoryFilter;

@@ -14,10 +14,6 @@ const ModalWindow = (props) => {
     return (
         <div className={s.modal_window} style={style}>
             <Login 
-                password={props.modal_list.login.inputs.password} 
-                email={props.modal_list.login.inputs.email} 
-                onChangeLoginPassword={props.onChangeLoginPassword} 
-                onChangeLoginEmail={props.onChangeLoginEmail} 
                 hideModal={props.hideModal} 
                 showModal={props.showModal}
                 userLogin={props.userLogin}
@@ -25,12 +21,6 @@ const ModalWindow = (props) => {
             />
 
             <Register
-                email={props.modal_list.register.inputs.email}
-                password={props.modal_list.register.inputs.password}
-                password2={props.modal_list.register.inputs.password2}
-                onChangeRegisterEmail={props.onChangeRegisterEmail}
-                onChangeRegisterPassword={props.onChangeRegisterPassword}
-                onChangeRegisterPassword2={props.onChangeRegisterPassword2}
                 hideModal={props.hideModal} 
                 showModal={props.showModal}
                 userRegister={props.userRegister}

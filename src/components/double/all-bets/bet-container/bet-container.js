@@ -1,63 +1,75 @@
 import React from 'react';
 import s from './bet-container.module.css';
 
-const BetContainer = (props) => {
+import PropTypes from 'prop-types';
+
+const BetContainer = ({status, color, user_total_amount, total_amount, data, onChangeBetAmount, onCreateBet}) => {
     
-    let text = 'Ставка на 0';
-    let color = s.green;
-    let status = s.default;
+    let _text = 'Ставка на 0';
+    let _color = s.green;
+    let _status = s.default;
 
-    if (props.status === 'win') {
-        status = s.win;
+    _status = (status === 'win') && s.win;
+    _status = (status === 'lose') && s.lose;
+
+    if (color === 'red') {
+        _text = 'Ставка на 1 к 7';
+        _color = s.red;
     }
 
-    if (props.status === 'lose') {
-        status = s.lose;
+    if (color === 'black') {
+        _text = 'Ставка на 8 к 14';
+        _color = s.black;
     }
 
-    if (props.color === 'red') {
-        text = 'Ставка на 1 к 7';
-        color = s.red;
-    }
-
-    if (props.color === 'black') {
-        text = 'Ставка на 8 к 14';
-        color = s.black;
-    }
-
-    let my_bets_classname = (props.user_total_amount) ? status : s.default;
-
-    let bets = props.data.sort((a, b) => a.amount > b.amount ? -1 : 1).map((b, index) => 
-        <div key={index}><span>{b.email}</span><p onClick={() => props.onChangeBetAmount(b.amount)}>{b.amount}</p></div>
-    );
+    let my_bets_classname = (user_total_amount) ? _status : s.default;
 
     return (
-        <div className={ s.main + ' ' + color}>
+        <div className={[s.main, _color].join(' ')}>
             <div className={s.child}>
                 <div className={s.head}>
-                    <button onClick={ () => props.onCreateBet(props.color) }>{text}</button>
+                    <button onClick={() => onCreateBet(color)}>{_text}</button>
                 </div>
                 
                 <p className={s.container}>
                     Моя ставка
-                    <span className={s.bet + ' ' + my_bets_classname}>{props.user_total_amount}</span>
+                    <span className={[s.bet, my_bets_classname].join(' ')}>{user_total_amount}</span>
                 </p>
             </div>
             
             <div className={s.child}>
                 <p className={s.total}>
                     Общие ставки
-                    <span className={s.total_amount + ' ' + status}>{props.total_amount}</span>
+                    <span className={[s.total_amount, _status].join(' ')}>{total_amount}</span>
                 </p>
 
-                {(props.total_amount != 0) ? null : <p className={s.no_bets}>Ставок нет</p>}
+                {(total_amount === 0) && <p className={s.no_bets}>Ставок нет</p>}
 
                 <div className={s.body}>
-                    {bets}
+                    {
+                        data.sort((a, b) => a.amount > b.amount ? -1 : 1).map((b, index) => 
+                            <div key={index}>
+                                <span>{b.email}</span>
+                                <p onClick={() => onChangeBetAmount(b.amount)}>{b.amount}</p>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>
     )
 }
+
+BetContainer.propTypes = {
+    status: PropTypes.string,
+    color: PropTypes.string, 
+    user_total_amount: PropTypes.number, 
+    total_amount: PropTypes.number,
+    data: PropTypes.array, 
+    onChangeBetAmount: PropTypes.func, 
+    onCreateBet: PropTypes.func
+}
+
+
 
 export default BetContainer;

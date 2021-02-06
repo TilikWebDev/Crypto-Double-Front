@@ -37,10 +37,28 @@ export const casesAPI = {
     }
 };
 
-export const headerAPI = {
+export const authAPI = {
     authMe () {
         return instance.get('auth-me').then(response => {
             return response.data;
+        });
+    },
+
+    login (email, password) {
+        return instance.post('login?email=' + email + '&password=' + password).then(response => {
+			return response.data;
+        });
+    },
+
+    logout () {
+        return instance.post('logout').then(response => {
+			return response.data;
+        });
+    },
+
+    register (email, password) {
+        return instance.post('register?email=' + email + '&password=' + password).then(response => {
+			return response.data;
         });
     }
 };
@@ -62,20 +80,6 @@ export const doubleAPI = {
         return instance.post('createbet?bet=' + amount + '&color=' + color).then(response => {
             return response.data;
         })
-    }
-};
-
-export const modalWindowAPI = {
-    login (email, password) {
-        return instance.post('login?email=' + email + '&password=' + password).then(response => {
-			return response.data;
-        });
-    },
-
-    register (email, password) {
-        return instance.post('register?email=' + email + '&password=' + password).then(response => {
-			return response.data;
-        });
     }
 };
 

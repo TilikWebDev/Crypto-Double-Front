@@ -1,27 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import s from './msg.module.css';
 
-const Msg = (props) => {
+const Msg = ({status, text, id, removeNotification}) => {
 
     let style = {};
     let prefix = '';
-    let message = React.createRef();
 
-    if (props.status === 'error') {
+    if (status === 'error') {
         style = s.error;
-        prefix = 'ERROR: ';
+        prefix = 'ERROR:';
     }
 
-    if (props.status === 'success') {
+    if (status === 'success') {
         style = s.success;
-        prefix = 'SUCCESS: ';
+        prefix = 'SUCCESS:';
     }
 
     return (
-        <div onClick={ () => props.removeNotification(props.id) } ref={message} className={ s.msg + ' ' + style + ' ' + s.active}>
-            <p>{ prefix + props.text}</p>
+        <div onClick={() => removeNotification(id)} className={[s.msg, style, s.active].join(' ')}>
+            <p>{`${prefix} ${text}`}</p>
         </div>
     );
+}
+
+Msg.propTypes = {
+    status: PropTypes.string, 
+    text: PropTypes.string, 
+    id: PropTypes.string, 
+    removeNotification: PropTypes.func
 }
 
 export default Msg;

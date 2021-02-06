@@ -1,12 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import s from './last-drops.module.css';
 
-const LastDrops = (props) => {
+const LastDrops = ({last_drop: {best_drop, default: default_drop}}) => {
 
-    if (props.last_drop.best_drop.name) { 
-        var best_rarity = s.b_com;
-        var best_price = parseInt(props.last_drop.best_drop.price);
+    let best_rarity = s.b_com;
+
+    if (best_drop.name) {     
+        let best_price = parseInt(best_drop.price);
 
         switch (true) {
             case (best_price > 50000):
@@ -36,47 +39,50 @@ const LastDrops = (props) => {
             case (best_price > 100):
                 best_rarity = s.b_unc;
                 break;
+
+            default: 
+                break;
         }
     }
 
     return (
         <div className={s.last_drop}>
-            {props.last_drop.best_drop.name &&                
+            {best_drop.name &&                
                 <div className={s.best_drop + ' ' + best_rarity}>
                     <div className={s.image}>
-                        <img src={require(`../../../img/drop/${decodeURI(props.last_drop.best_drop.image)}`)}/>
+                        <img alt={best_drop.name} src={require(`../../../img/drop/${decodeURI(best_drop.image)}`)}/>
                     </div>
 
                     <div className={s.best_drop_text}>
                         <div className={s.best_drop_title}>Шикарный дроп!</div>
 
                         <div className={s.best_drop_price}>
-                            {props.last_drop.best_drop.price} 
+                            {best_drop.price} 
                             <span className={s.currency}>грн.</span>
                         </div>
                     </div>
 
                     <div className={s.full}>
                         <div className={s.full_container}>
-                            <NavLink to={'/case/' + props.last_drop.best_drop.case_name} className={s.case}>
-                                <img src={require(`../../../img/cases/${decodeURI(props.last_drop.best_drop.case_image)}`)}/>
+                            <NavLink to={`/case/${best_drop.case_name}`} className={s.case}>
+                                <img alt={best_drop.case_name} src={require(`../../../img/cases/${decodeURI(best_drop.case_image)}`)}/>
                             </NavLink>
                             
                             <div className={s.drop_name}>
-                                {props.last_drop.best_drop.name}
+                                {best_drop.name}
                             </div>
 
                             <div className={s.user}>
-                                {props.last_drop.best_drop.user}
+                                {best_drop.user}
                             </div>
                         </div>
                     </div>
                 </div>
             }
             
-            <div style={props.last_drop.best_drop.name && {left: 320}} className={s.container}>
+            <div style={best_drop.name && {left: 320}} className={s.container}>
                 {
-                    props.last_drop.default.map((d) => {
+                    default_drop.map((d, index) => {
 
                         let rarity = s.com;
                         let price = parseInt(d.price);
@@ -109,18 +115,21 @@ const LastDrops = (props) => {
                             case (price > 100):
                                 rarity = s.unc;
                                 break;
+                            
+                            default:
+                                break;
                         }
 
                         return (
-                            <div className={s.drop + ' ' + rarity}>
+                            <div key={index} className={[s.drop, rarity].join(' ')}>
                                 <div className={s.image}>
-                                    <img src={require(`../../../img/drop/${decodeURI(d.image)}`)}/>
+                                    <img alt={d.name} src={require(`../../../img/drop/${decodeURI(d.image)}`)}/>
                                 </div>
                                 
                                 <div className={s.full}>
                                     <div className={s.full_container}>
-                                        <NavLink to={'/case/' + d.case_name} className={s.case}>
-                                            <img src={require(`../../../img/cases/${decodeURI(d.case_image)}`)}/>
+                                        <NavLink to={`/case/${d.case_name}`} className={s.case}>
+                                            <img alt={d.case_name} src={require(`../../../img/cases/${decodeURI(d.case_image)}`)}/>
                                         </NavLink>
                                         
                                         <div className={s.drop_name}>
@@ -139,6 +148,10 @@ const LastDrops = (props) => {
             </div>
         </div>
     );
+}
+
+LastDrops.propTypes = {
+    last_drop: PropTypes.object
 }
 
 export default LastDrops;

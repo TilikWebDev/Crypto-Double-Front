@@ -23,7 +23,7 @@ a{
 	text-decoration: none;
 }
 
-div{
+div, section{
 	display: flex;
 }
 

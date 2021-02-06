@@ -1,20 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
+import { Field, Formik } from 'formik';
+import PropTypes from 'prop-types';
+
 import s from './chat.module.css';
 
-const chatContainer = React.createRef();
+const Chat = ({sendChatMessage, chat_message_list, connection_count, showModal, clearChat}) => {
 
-const Chat = (props) => {
-	
-	const user_chat_text = React.createRef();
+	const chatContainer = createRef();
 
-	const onChangeChatText = () => {
-		props.onChangeChatText(user_chat_text.current.value);
+	const onSubmit = (data, {resetForm}) => {
+		sendChatMessage(data.text);
+		resetForm({});
 	}
 
-	const onSubmitChatForm = (e) => {
-		e.preventDefault();
-		props.sendChatMessage(props.user_chat_text);
-	}
+	const [focus, setFocus] = useState(false);
 
 	const scrollToMyRef = () => {
 		let scroll = chatContainer.current.scrollHeight - chatContainer.current.clientHeight;
@@ -22,44 +21,54 @@ const Chat = (props) => {
 	};
 
 	useEffect(() => {
-		if (!props.chat_on_focus) {
-			scrollToMyRef();
-		}
-	}, [props.chat_message_list]);
-
-	let messages = props.chat_message_list.map((m, index) => { 		
-		return (
-			<p key={index} className={s.msg}>
-				<b>{m.user}</b>
-				<i style={{backgroundColor: m.color}}></i>
-				<span>{m.text}</span>
-			</p>
-		)
-	});
+		(!focus) && scrollToMyRef();
+	}, [chat_message_list]);
 
 	return (
-		<div className={s.main}>
+		<section className={s.main}>
 			<div className={s.body}>
-				<div onMouseEnter={() => {props.changeOnFocus(true)}} onMouseLeave={() => {props.changeOnFocus(false)}} className={s.container} ref={chatContainer}>
-					{messages}
+				<div onMouseEnter={() => setFocus(true)} onMouseLeave={() => setFocus(false)} className={s.container} ref={chatContainer}>
+					{
+						chat_message_list.map((m, index) =>
+							<p key={index} className={s.msg}>
+								<b>{m.user}</b>
+								<i style={{backgroundColor: m.color}}></i>
+								<span>{m.text}</span>
+							</p>
+						)
+					}
 				</div>
 			</div>
 
-			<form className={s.form} action="chat" onSubmit={onSubmitChatForm}>
-				<input onChange={onChangeChatText} placeholder="Сообщение..." name="text" type="text" value={props.user_chat_text} ref={user_chat_text}/>
+			<Formik initialValues={{text: ''}} onSubmit={onSubmit}>
+				{
+					({handleSubmit}) => (
+						<form className={s.form} onSubmit={handleSubmit}>
+							<Field name={'text'} placeholder={'Сообщение...'} component={'input'}/>
 
-				<button type="submit">
-					<i className="fa fa-commenting" aria-hidden="true"></i>
-				</button>
-			</form>
-
+							<button className={s.send}>
+								<i className={'fa fa-commenting'} aria-hidden="true"></i>
+							</button>
+						</form>
+					)
+				}		
+			</Formik>
+			
 			<div className={s.footer}>
-				<p>Онлайн: {props.connection_count}</p>
-				<button className={'type_link ' + s.link} onClick={() => props.showModal('chat_rules')}>Правила чата</button>
-				<button className={'type_link ' + s.link} onClick={props.clearChat}>Очистить чат</button>
+				<p>Онлайн: {connection_count}</p>
+				<button className={['type_link', s.link].join(' ')} onClick={() => showModal('chat_rules')}>Правила чата</button>
+				<button className={['type_link', s.link].join(' ')} onClick={clearChat}>Очистить чат</button>
 			</div>
-		</div>
+		</section>
 	);
+}
+
+Chat.propTypes = {
+	sendChatMessage: PropTypes.func, 
+	chat_message_list: PropTypes.array, 
+	connection_count: PropTypes.number, 
+	showModal: PropTypes.func, 
+	clearChat: PropTypes.func
 }
 
 export default Chat;

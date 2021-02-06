@@ -2,28 +2,29 @@ import React from 'react';
 import s from './all-bets.module.css';
 
 import BetContainer from './bet-container/bet-container';
+import PropTypes from 'prop-types';
 
-const AllBets = (props) => {
+const AllBets = ({total_bet_data, bet_container, onChangeBetAmount, onCreateBet}) => {
 
     let red_data = {
         bets: [],
         total_amount: 0,
         user_total_amount: 0
     };
-    
+
     let black_data = {
         bets: [],
         total_amount: 0,
         user_total_amount: 0
     };
-
+    
     let green_data = {
         bets: [],
         total_amount: 0,
         user_total_amount: 0
     };
 
-    props.total_bet_data.map((b) => {
+    total_bet_data.map((b) => {
         b.amount = parseInt(b.amount);
         switch (b.color) {
             case 'red':
@@ -33,7 +34,7 @@ const AllBets = (props) => {
                 } else {
                     red_data.user_total_amount += b.amount;
                 } 
-                return;
+                break;
 
             case 'black':
                 if (b.email) {
@@ -42,7 +43,7 @@ const AllBets = (props) => {
                 } else {
                     black_data.user_total_amount += b.amount;
                 } 
-                return;
+                break;
 
             default: 
                 if (b.email) {
@@ -51,16 +52,18 @@ const AllBets = (props) => {
                 } else {
                     green_data.user_total_amount += b.amount;
                 }
-                return;
+                break;
         }
+
+        return true;
     })
 
     return (
         <div className={s.main}>
             <BetContainer 
-                status={props.bet_container.red}
-                onChangeBetAmount={props.onChangeBetAmount} 
-                onCreateBet={props.onCreateBet} 
+                status={bet_container.red}
+                onChangeBetAmount={onChangeBetAmount} 
+                onCreateBet={onCreateBet} 
                 color="red" 
                 total_amount={red_data.total_amount} 
                 user_total_amount={red_data.user_total_amount} 
@@ -68,9 +71,9 @@ const AllBets = (props) => {
             />
 
             <BetContainer 
-                status={props.bet_container.green}
-                onChangeBetAmount={props.onChangeBetAmount} 
-                onCreateBet={props.onCreateBet} 
+                status={bet_container.green}
+                onChangeBetAmount={onChangeBetAmount} 
+                onCreateBet={onCreateBet} 
                 color="green" 
                 total_amount={green_data.total_amount} 
                 user_total_amount={green_data.user_total_amount} 
@@ -78,9 +81,9 @@ const AllBets = (props) => {
             />
 
             <BetContainer 
-                status={props.bet_container.black}
-                onChangeBetAmount={props.onChangeBetAmount} 
-                onCreateBet={props.onCreateBet} 
+                status={bet_container.black}
+                onChangeBetAmount={onChangeBetAmount} 
+                onCreateBet={onCreateBet} 
                 color="black" 
                 total_amount={black_data.total_amount} 
                 user_total_amount={black_data.user_total_amount} 
@@ -89,5 +92,12 @@ const AllBets = (props) => {
         </div>
     );
 };
+
+AllBets.propTypes = {
+    total_bet_data: PropTypes.array, 
+    bet_container: PropTypes.object, 
+    onChangeBetAmount: PropTypes.func, 
+    onCreateBet: PropTypes.func
+}
 
 export default AllBets;

@@ -1,8 +1,9 @@
 import React from 'react';
 import s from './header.module.css';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const Header = (props) => {
+const Header = ({is_auth = false, email = 'No auth', user_balance = 0, showModal, userLogout}) => {
     return (
         <header className={s.main}>
 			<div className={s.container}>
@@ -11,17 +12,17 @@ const Header = (props) => {
 				
 				<div className={s.btngroup}>
 					{ 
-						(props.is_auth) 
+						(is_auth) 
 						? 	<div className={s.group}>
 								<NavLink className={s.btn} to={'/'}>Кейсы</NavLink>
 								<NavLink className={s.btn} to={'/double'}>Рулетка</NavLink>
 
-								<NavLink className={s.btn + ' ' + s.account_link} to={'/account'}>
-									{props.email}
+								<NavLink className={[s.btn, s.account_link].join(' ')} to={'/account'}>
+									{email}
 								</NavLink>
 
 								<button className={s.btn}>
-									{props.user_balance}
+									{user_balance}
 									<span className={s.currency}>грн</span>
 								</button>
 
@@ -29,11 +30,11 @@ const Header = (props) => {
 									<i className={'fa fa-volume-down'}></i>
 								</button>
 
-								<button className={s.btn + ' ' + s.mobile_btn}>
+								<button className={[s.btn, s.mobile_btn].join(' ')}>
 									<i className={'fa fa-bars'}></i>
 								</button>
 
-								<button className={s.btn + ' ' + s.out}>
+								<button onClick={() => userLogout()} className={[s.btn, s.out].join(' ')}>
 									<i className={'fa fa-sign-out'}></i>
 								</button>
 							</div>
@@ -45,11 +46,11 @@ const Header = (props) => {
 									<i className={'fa fa-volume-down'}></i>
 								</button>
 
-								<button className={s.btn + ' ' + s.mobile_btn}>
+								<button className={[s.btn, s.mobile_btn].join(' ')}>
 									<i className={'fa fa-bars'}></i>
 								</button>
 
-								<button onClick={() => props.showModal('login')} className={s.btn + ' ' + s.in}>
+								<button onClick={() => showModal('login')} className={[s.btn, s.in].join(' ')}>
 									<i className="fa fa-sign-in"></i>
 								</button>
 							</div>
@@ -58,6 +59,14 @@ const Header = (props) => {
 			</div>
 		</header>
     )
+}
+
+Header.propTypes = {
+	is_auth: PropTypes.bool,
+	email: PropTypes.string,
+	user_balance: PropTypes.number,
+	showModal: PropTypes.func,
+	userLogout: PropTypes.func
 }
 
 export default Header;

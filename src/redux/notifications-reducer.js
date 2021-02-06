@@ -1,3 +1,5 @@
+import {v4} from 'uuid';
+
 const SHOW_NOTIFY = 'SHOW_NOTIFY';
 const REMOVE_NOTIFY = 'REMOVE_NOTIFY';
 
@@ -30,15 +32,13 @@ export const notificationsReducer = (state = initialState, action) => {
                 {
                     text: action.text,
                     status: action.status,
-                    id: Math.random(99999999999),
+                    id: v4(),
                     auto_close: action.auto_close
                 }
             ]
 
         case REMOVE_NOTIFY:
-            return  state.filter((n) =>  { 
-                return n.id !== action.id;
-            });
+            return  state.filter(n =>  n.id !== action.id);
 
         default: 
             return state;

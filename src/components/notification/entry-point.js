@@ -1,7 +1,7 @@
 import React  from 'react';
 import NotificationContainer from './notification-container';
 
-const Notification = (props) => {
+const Notification = () => {
     return (
         <NotificationContainer/>
     );

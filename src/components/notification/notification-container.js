@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import Notification from './notification';
@@ -8,16 +8,16 @@ class NotificationContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        this.notfiy_count = this.props.notifications.length;
+        this.notify_count = this.props.notifications.length;
     }
 
     componentDidUpdate(){
-        if (this.props.notifications.length > this.notfiy_count) {
-            this.notfiy_count++;
+        if (this.props.notifications.length > this.notify_count) {
+            this.notify_count++;
             
             if (this.props.notifications[0]['auto_close']) {
                 setTimeout(() => {
-                    this.notfiy_count--;
+                    this.notify_count--;
                     if (this.props.notifications[0]) {
                         this.props.removeNotification(this.props.notifications[0]['id']);
                     }

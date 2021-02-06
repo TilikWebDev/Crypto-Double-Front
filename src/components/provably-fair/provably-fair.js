@@ -2,19 +2,21 @@ import React from 'react';
 import s from './provably-fair.module.css';
 
 import Row from './row/row';
-import Preloader from '../preloader/preloader';
+import Preloader from '../common/preloader/preloader';
 
-const ProvablyFair = (props) => {
-    let pages_count = Math.ceil(props.total_count / props.page_size);
-    let pages = [];
+import PropTypes from 'prop-types';
+
+const ProvablyFair = ({total_count, page_size, is_fetching, last_rolls, current_page, onChangePage}) => {
+    const pages_count = Math.ceil(total_count / page_size);
+    const pages = [];
 
     for (let i = 1; i<= pages_count; i++) {
         pages.push(i);
     }
 
     return (
-        <div className="container">
-            <div class="main_bar">
+        <div className={'container'}>
+            <div className={'main_bar'}>
                 <div className={s.info}>
                     <div className={s.header}>
                         Provably fair
@@ -45,12 +47,12 @@ const ProvablyFair = (props) => {
                             &#125;
                         </div>
                         
-                        <p>For more information about provably fair or feel free to <a href="/contact">contact us.</a></p>
+                        <p>For more information about provably fair or feel free to <a href={'/contact'}>contact us.</a></p>
                     </div>
                 </div>
 
                 { 
-                    (props.is_fetching) ?
+                    (is_fetching) ?
                         <Preloader/>
                         :
                         <table className={s.table} cellSpacing={0} cellPadding={0}>
@@ -65,14 +67,18 @@ const ProvablyFair = (props) => {
                             </thead>
 
                             <tbody>
-                                <Row last_rolls={props.last_rolls} />
+                                <Row last_rolls={last_rolls} />
                             </tbody>
 
                             <tfoot>
                                 <tr>
                                     <td colSpan={5}>
                                         <div className={s.pagintaion}>
-                                            {pages.map((p) => <span key={p} onClick={ () => props.onChangePage(p) } className={(props.current_page === p) ? s.active : undefined}>{p}</span>)}
+                                            {
+                                                pages.map(
+                                                    (p, index) => <span key={index} onClick={() => onChangePage(p)} className={(current_page === p) ? s.active : null}>{p}</span>
+                                                )
+                                            }
                                         </div>
                                     </td>
                                 </tr>
@@ -82,6 +88,15 @@ const ProvablyFair = (props) => {
             </div>
         </div>
     );
+}
+
+ProvablyFair.propTypes = {
+    total_count: PropTypes.number, 
+    page_size: PropTypes.number, 
+    is_fetching: PropTypes.bool, 
+    last_rolls: PropTypes.array, 
+    current_page: PropTypes.number, 
+    onChangePage: PropTypes.func
 }
 
 export default ProvablyFair;

@@ -1,22 +1,28 @@
 import {combineReducers, createStore, applyMiddleware} from 'redux';
 import thunkMiddleWare from 'redux-thunk';
 
-import casesReducer from './cases-reducer';
-import notificationsReducer from './notifications-reducer';
+import appReducer from './app-reducer';
+import authReducer from './auth-reducer';
 import userReducer from './user-reducer';
+
+import casesReducer from './cases-reducer';
 import doubleReducer from './double-reducer';
 import provablyFairReducer from './provably-fair-reducer';
+
+import notificationsReducer from './notifications-reducer';
 import modalWindowReducer from './modal-window-reducer';
-import authReducer from './auth-reducer';
 
 let reducers = combineReducers({
-    cases: casesReducer,
+    app: appReducer,
+    auth: authReducer,
     user: userReducer,
+
+    cases: casesReducer,
     double_page: doubleReducer,
-    notifications: notificationsReducer,
     provably_fair: provablyFairReducer,
-    modal_window: modalWindowReducer,
-    auth: authReducer
+
+    notifications: notificationsReducer,
+    modal_window: modalWindowReducer    
 });
 
 

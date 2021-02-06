@@ -1,53 +1,63 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import s from '../modal-window.module.css';
 
-const Register = (props) => {
+import { Field, Formik } from 'formik';
+import { validateEmail, validatePassword } from '../../../utils/validators/validators';
+import { Input } from '../../common/form-controls/form-controls';
 
-    let active = (props.active) ? s.active : '';
-    let email = React.createRef();
-    let password = React.createRef();
-    let password2 = React.createRef();
-    const onSubmitForm = (e) => {
-        e.preventDefault();
-        props.userRegister();
-    }
+const Register = ({active, userRegister, hideModal, showModal}) => {
+
+    let _active = (active) ? s.active : '';
+
+    const onSubmit = (values, {setStatus}) => userRegister(values.email, values.password, values.passwordVerify, setStatus);
 
     return (
-        <form className={s.modal_window_content + ' ' + active} onSubmit={onSubmitForm}>
-            <div className={s.modal_window_header}>
-                <span className={s.modal_window_name}> 
-                    Register new account
-                </span>
+        <Formik initialValues={{email: '', password: '', passwordVerify: ''}} onSubmit={onSubmit}>
+            {
+                ({handleSubmit, status}) => (
+                    <form className={[s.modal_window_content, _active].join(' ')} onSubmit={handleSubmit}>
+                        <div className={s.modal_window_header}>
+                            <span className={s.modal_window_name}> 
+                                Register new account
+                            </span>
 
-                <i onClick={props.hideModal}  className={'fa fa-times ' + s.modal_close}></i>
-            </div>
-        
-            <div className={s.modal_window_body}>
-                <div className={'input_type_relative ' + s.modal_input}>
-                    <p>Email</p>
-                    <input onChange={ () => props.onChangeRegisterEmail(email.current.value)} value={props.email} ref={email}></input>
-                </div>
-                
-                <div className={'input_type_relative ' + s.modal_input}>
-                    <p>Password</p>
-                    <input type={'password'} onChange={ () => props.onChangeRegisterPassword(password.current.value) } value={props.password} ref={password}></input>
-                </div>
+                            <i onClick={hideModal}  className={['fa fa-times ', s.modal_close].join(' ')}></i>
+                        </div>
+                    
+                        <div className={s.modal_window_body}>
+                            {
+                                (status) &&
+                                    <div className={s.modal_error}>
+                                        {status}
+                                    </div>                                
+                            }
 
-                <div className={'input_type_relative ' + s.modal_input + ' ' + s.last}>
-                    <p>Confirm password</p>
-                    <input type={'password'} onChange={ () => props.onChangeRegisterPassword2(password2.current.value) } value={props.password2} ref={password2}></input>
-                </div>
-        
-                <div className={s.last_btn}>
-                    <button type={'submit'} className={'default_btn primary'}>Register</button>
-                </div>
-                
-                <div className={s.links}>
-                    <button type={'button'} className={'type_link'} onClick={() => props.showModal('login')}>Have an account?</button>
-                </div>
-            </div>
-        </form> 
+                            <Field title={'Email'} name={'email'} component={Input} validate={validateEmail}/>
+                            <Field title={'Password'} name={'password'} component={Input} type={'password'} validate={validatePassword}/>
+                            <Field title={'Password confirm'} name={'passwordVerify'} component={Input} type={'password'} validate={validatePassword}/>
+                    
+                            <div className={s.last_btn}>
+                                <button className={'default_btn primary'}>Register</button>
+                            </div>
+                            
+                            <div className={s.links}>
+                                <button type={'button'} className={'type_link'} onClick={() => showModal('login')}>Have an account?</button>
+                            </div>
+                        </div>
+                    </form> 
+                )
+            }
+        </Formik>
     );
+}
+
+Register.propTypes = {
+    active: PropTypes.bool, 
+    userRegister: PropTypes.func, 
+    hideModal: PropTypes.func, 
+    showModal: PropTypes.func
 }
 
 export default Register;

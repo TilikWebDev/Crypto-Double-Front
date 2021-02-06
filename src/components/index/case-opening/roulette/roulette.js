@@ -1,31 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, createRef } from 'react';
+import PropTypes from 'prop-types';
+
 import s from './roulette.module.css';
 
-const Roulette = (props) => {
+const Roulette = ({style_data, opening_status, setRollStyle, roulette_drop}) => {
 
-    let roulette = React.createRef();
-
-    React.useEffect(() => {
-        props.setRollStyle({
-            width: roulette.current.offsetWidth
-        });    
-    }, [props.opening_status]);
+    let roulette = createRef();
 
     let style = {
-        marginLeft: props.style_data.marginLeft,
-        transition: props.style_data.transition
-    };
+        marginLeft: style_data.marginLeft,
+        transition: style_data.transition
+    }
 
     let container_style = {
-        height: (props.opening_status == 'roulette') ? null : 0,
-        margin: (props.opening_status == 'roulette') ? null : 0
+        height: (opening_status === 'roulette') ? null : 0,
+        margin: (opening_status === 'roulette') ? null : 0
     } 
+
+    useEffect(() => {
+        setRollStyle({
+            width: roulette.current.offsetWidth
+        });    
+    }, [opening_status]);
 
     return (
         <div style={container_style} ref={roulette} className={s.roulette}>
             <div className={s.roulette_container} style={style}>
                 {
-                    props.roulette_drop.map((d) => {
+                    roulette_drop.map((d, index) => {
                         let rarity = s.com;
                         let price = parseInt(d.price);
 
@@ -57,13 +59,15 @@ const Roulette = (props) => {
                             case (price > 100):
                                 rarity = s.unc;
                                 break;
+                            default: 
+                                break;
                         }
 
                         return (
-                            <div className={s.item + ' ' + rarity}>
+                            <div key={index} className={s.item + ' ' + rarity}>
                                 <div className={s.img}>
                                     <div className={s.img_container}>
-                                        <img src={require(`../../../../img/drop/${decodeURI(d.image)}`)}/>
+                                        <img alt={d.name} src={require(`../../../../img/drop/${decodeURI(d.image)}`)}/>
                                     </div>
                                 </div>
                             </div>
@@ -76,6 +80,13 @@ const Roulette = (props) => {
             </div>
         </div>
     );
+}
+
+Roulette.propTypes = {
+    style_data: PropTypes.object, 
+    opening_status: PropTypes.bool, 
+    setRollStyle: PropTypes.func, 
+    roulette_drop: PropTypes.array
 }
 
 export default Roulette;

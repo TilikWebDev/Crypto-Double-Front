@@ -92,14 +92,6 @@
 	color: rgb(219, 219, 219);
 }
 
-.modal_window_body .modal_input{
-	flex-wrap: wrap;
-}
-
-.modal_window_body .modal_input:not(.last){
-	margin: 0 0 10px 0;
-}
-
 .modal_window_body{
 	display: flex;
 	flex-direction: column;
@@ -118,4 +110,14 @@
 	color: #acacac;
 	text-align: center;
 	letter-spacing: 1px;
+}
+
+.modal_error{
+	margin: 5px 0;
+    color: #e34f4d;
+    font-size: 14px;
+    background-color: rgb(227 79 77 / 10%);
+    padding: 10px;
+    justify-content: center;
+    border-radius: 5px;
 }

@@ -1,43 +1,48 @@
 import React from 'react';
 import s from './bet-form.module.css';
 
-const BetForm = (props) => {
-    let betAmount = React.createRef();
+import PropTypes  from 'prop-types';
 
-    const onChangeBetAmount = () => {
-		props.onChangeBetAmount(betAmount.current.value);
+const BetForm = ({user_balance, user_bet_amount, onChangeBetAmount, calcBetAmount, getBalance}) => {
+    let buttons = ['clear', '+1', '+10', '+100', '+1000', '1/2', 'x2', 'max'];
+
+    const onChange = (e) => {
+        onChangeBetAmount(e.currentTarget.value);
     }
 
     return (
         <div className={s.main}>
             <p className={s.balance}>Баланс: 
                 <span className={s.my_balance}>
-                    { props.user_balance }
-
+                    {user_balance}
                     <span className={s.currency}>грн</span>
                 </span>
             </p>
 
             <div className={s.form}>
-                <button className={'default_btn danger'} onClick={ () => props.calcBetAmount('clear') }>Clear</button>
-                <button className={'default_btn'} onClick={ () => props.calcBetAmount('+1') }>+1</button>
-                <button className={'default_btn'} onClick={ () => props.calcBetAmount('+10') }>+10</button>
-                <button className={'default_btn'} onClick={ () => props.calcBetAmount('+100') }>+100</button>
-                <button className={'default_btn'} onClick={ () => props.calcBetAmount('+1000') }>+1000</button>
-                <button className={'default_btn'} onClick={ () => props.calcBetAmount('1/2') }>1/2</button>
-                <button className={'default_btn'} onClick={ () => props.calcBetAmount('x2') }>x2</button>
-                <button className={'default_btn'} onClick={ () => props.calcBetAmount('max') }>Max</button>
-
-                <button onClick={ props.getBalance } className={'default_btn success'}>
+                {
+                    buttons.map((b, index) => 
+                        <button key={index} className={['default_btn', (index === 0) && 'danger'].join(' ')} onClick={() => calcBetAmount(b)}>{b.toUpperCase()}</button>
+                    )
+                }
+                <button onClick={getBalance} className={'default_btn success'}>
                     Обнов. баланс
                 </button>
             </div>
             
-            <div className={"input_type_relative " + s.input_type_relative}>
-                <input onChange={ onChangeBetAmount } value={props.user_bet_amount} placeholder="Ставка..." type="email" ref={ betAmount }/>
+            <div className={['input_type_relative', s.input_type_relative].join(' ')}>
+                <input onChange={onChange} value={user_bet_amount} placeholder={'Ставка...'}/>
             </div>
         </div>
     );
+}
+
+BetForm.propTypes = {
+    user_balance: PropTypes.number, 
+    user_bet_amount: PropTypes.number, 
+    onChangeBetAmount: PropTypes.func, 
+    calcBetAmount: PropTypes.func, 
+    getBalance: PropTypes.func
 }
 
 export default BetForm;

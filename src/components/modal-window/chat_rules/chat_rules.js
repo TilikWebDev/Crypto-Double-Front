@@ -1,18 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import s from '../modal-window.module.css';
 
-const ChatRules = (props) => {
-
-    let active = (props.active) ? s.active : '';
-
+const ChatRules = ({active, hideModal}) => {
     return (
-        <div className={s.modal_window_content + ' ' + active}>
+        <div className={[s.modal_window_content, (active) && active].join(' ')}>
             <div className={s.modal_window_header}>
                 <span className={s.modal_window_name}> 
                     Chat rules
                 </span>
 
-                <i onClick={props.hideModal}  className={'fa fa-times ' + s.modal_close}></i>
+                <i onClick={hideModal}  className={['fa fa-times', s.modal_close].join(' ')}></i>
             </div>
         
             <div className={s.modal_window_body}>
@@ -23,11 +22,16 @@ const ChatRules = (props) => {
                 <p>5. No Promo Codes in Profile Name</p>
 
                 <div className={s.last_btn}>
-                    <button  onClick={props.hideModal} className={'default_btn'}>Got it!</button>
+                    <button onClick={hideModal} className={'default_btn'}>Got it!</button>
                 </div>
             </div>
         </div> 
     );
+}
+
+ChatRules.propTypes = {
+    active: PropTypes.bool,
+    hideModal: PropTypes.func
 }
 
 export default ChatRules;

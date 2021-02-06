@@ -200,7 +200,7 @@ export const openCase = (name, price, drop_list, width, auto_sell_drops) => {
                 let audio_end = new Audio(require('../audio/open_case_end.mp3'));
 
                 for (let i in _drop_list) {
-                    if (_drop_list[i]._id == data.data._id) {
+                    if (_drop_list[i]._id === data.data._id) {
                         winning_position = 130 - i;
                         break;
                     }
@@ -273,6 +273,8 @@ export const getLastDropData = () => {
                 };
 
                 dispatch(socketSetNewDrop(drop));
+
+                return true;
             })
         });
     }
@@ -291,7 +293,7 @@ export const casesReducer = (state = initialState, action) => {
                 ...state,
                 category_data: [
                     ...state.category_data.map((c) => {
-                        c.active = (c.name == action.name);
+                        c.active = (c.name === action.name);
                         return c;
                     })
                 ]

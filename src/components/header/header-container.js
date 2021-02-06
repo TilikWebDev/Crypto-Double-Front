@@ -1,39 +1,44 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Header from './header';
-import {getUserData} from '../../redux/auth-reducer';
+import {userLogout} from '../../redux/auth-reducer';
 import {showModal} from '../../redux/modal-window-reducer';
 
-class HeaderContainer extends React.Component {
-
-    componentDidMount(){
-        this.props.getUserData();
-    }
-
-    render(){
-        return (
-            <Header 
-                email={this.props.email}
-                balance={this.props.balance}
-                color={this.props.color}
-                is_auth={this.props.is_auth}
-                user_balance={this.props.user_balance}
-
-                showModal={this.props.showModal}
-            />
-        )
-    }
+const HeaderContainer = ({email, balance, color, is_auth, user_balance, showModal, userLogout}) => {
+    return (
+        <Header 
+            email={email}
+            balance={balance}
+            color={color}
+            is_auth={is_auth}
+            user_balance={user_balance}
+            showModal={showModal}
+            userLogout={userLogout}
+        />
+    )
 }
+
+HeaderContainer.propTypes = {
+    email: PropTypes.string, 
+    balance: PropTypes.number, 
+    color: PropTypes.string, 
+    is_auth: PropTypes.bool, 
+    user_balance: PropTypes.number, 
+    showModal: PropTypes.func,
+    getUserData: PropTypes.func,
+    userLogout: PropTypes.func
+};
 
 let mapStateToProps = (state) => {
 	return {
-        ...state.auth,
-        user_balance: state.user.user_balance
+        is_auth: state.auth.is_auth,
+        ...state.user
 	};
 }
 
 export default connect(mapStateToProps, {
     showModal,
-    getUserData
+    userLogout
 })(HeaderContainer);

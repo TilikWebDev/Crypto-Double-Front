@@ -5,7 +5,6 @@ import {doubleAPI} from '../api/api';
 import {createNotification} from './notifications-reducer';
 import {updateUserBalance} from './user-reducer';
 
-const CHANGE_ON_FOCUS = 'CHANGE_ON_FOCUS';
 const SET_USER_CURRENT_BET_STATUS = 'SET_USER_CURRENT_BET_STATUS';
 const CHANGE_BET_AMOUNT = 'CHANGE_BET_AMOUNT';
 const CALC_BET_AMOUNT = 'CALC_BET_AMOUNT';
@@ -13,7 +12,6 @@ const UPDATE_LEFT_TIME_STYLES = 'UPDATE_LEFT_TIME_STYLES';
 const UPDATE_ROULETTE_STYLES = 'UPDATE_ROULETTE_STYLES';
 const ROULETTE_RESIZE = 'ROULETTE_RESIZE';
 const CLEAR_CHAT = 'CLEAR_CHAT';
-const ON_CHANGE_CHAT_TEXT = 'ON_CHANGE_CHAT_TEXT';
 const CHANGE_BET_CONTAINER_RESULTS = 'CHANGE_BET_CONTAINER_RESULTS';
 
 const SOCKET_RESPONSE_NEW_BET = 'SOCKET_RESPONSE_NEW_BET';
@@ -22,11 +20,10 @@ const SOCKET_RESPONSE_START_GAME = 'SOCKET_RESPONSE_START_GAME';
 
 let initialState = {
     user_data: {
-        user_bet_amount: '',
+        user_bet_amount: 0,
         user_current_bet: false
     },
     chat_data: {
-        on_focus: false,
         connection_count: 0,
         user_chat_text: '',
         chat_message_list: [
@@ -65,60 +62,46 @@ let initialState = {
 
 // ACTION_CREATORS
 
-export const changeBetContainerResults = (color) => {
+export const changeBetContainerResults = color => {
     return {
         type: CHANGE_BET_CONTAINER_RESULTS,
-        color: color
-    }
-}
-
-export const changeOnFocus = (value) => {
-    return {
-        type: CHANGE_ON_FOCUS,
-        value: value
+        color
     }
 }
 
 export const rouletteResize = (width, height) => {
     return {
         type: ROULETTE_RESIZE,
-        width: width,
-        height: height
+        width,
+        height
     }
 }
 
-export const updateRouletteStyles = (data) => {
+export const updateRouletteStyles = data => {
     return {
         type: UPDATE_ROULETTE_STYLES,
-        data: data
+        data
     }
 }
 
-export const updateLeftTimeStyles = (data) => {
+export const updateLeftTimeStyles = data => {
     return {
         type: UPDATE_LEFT_TIME_STYLES,
-        data: data
+        data
     }
 }
 
-export const onChangeBetAmount = (value) => {
+export const onChangeBetAmount = value => {
     return {
         type: CHANGE_BET_AMOUNT,
-        value: value
+        value
     }
 }
 
-export const onChangeChatText = (value) => {
-    return {
-        type: ON_CHANGE_CHAT_TEXT,
-        value: value
-    }
-}
-
-export const calcBetAmount = (value) => {
+export const calcBetAmount = value => {
     return {
         type: CALC_BET_AMOUNT,
-        value: value
+        value
     }
 }
 
@@ -128,31 +111,31 @@ export const clearChat = () => {
     }
 }
 
-export const setUserCurrentBetStatus = (status) => {
+export const setUserCurrentBetStatus = status => {
     return {
         type: SET_USER_CURRENT_BET_STATUS,
-        status: status
+        status
     }
 }
 
-export const socketSetNewMessage = (data) => {
+export const socketSetNewMessage = data => {
     return {
         type: SOCKET_RESPONSE_NEW_MESSAGE,
-        data: data
+        data
     }
 }
 
-export const socketSetNewBet = (data) => {
+export const socketSetNewBet = data => {
     return {
         type: SOCKET_RESPONSE_NEW_BET,
-        data: data
+        data
     }
 }
 
-export const socketSetStartGame = (data) => {
+export const socketSetStartGame = data => {
     return {
         type: SOCKET_RESPONSE_START_GAME,
-        data: data
+        data
     }
 }
 
@@ -160,46 +143,50 @@ export const socketSetStartGame = (data) => {
 
 export const sendChatMessage = (text) => {
     return (dispatch) => {
-        doubleAPI.postChatMessage(text).then(data => {
-            if (data.error) {
-                dispatch(createNotification(data.message, 'error'));
-            } else {
-                dispatch(onChangeChatText(''));
+        doubleAPI.postChatMessage(text).then(
+            ({error, message}) => {
+                if (error) {
+                    dispatch(createNotification(message, 'error'));
+                }
             }
-        })
+        )
     }
 }
 
 export const createBet = (amount, color) => {
     return (dispatch) => {
-        doubleAPI.postMyBet(amount, color).then(data => {
-            if (data.error) {
-                dispatch(createNotification(data.message, 'error'));
-            } else {
-                dispatch(socketSetNewBet({amount: amount, color: color}));
-                dispatch(createNotification('Bet confirm! (' + data.user_count_bets_on_this_round + ' / 3)', 'success'));
-                dispatch(setUserCurrentBetStatus(true));
-                dispatch(updateUserBalance(amount, '-'));
+        doubleAPI.postMyBet(amount, color).then(
+            ({error, message, user_count_bets_on_this_round}) => {
+                if (error) {
+                    dispatch(createNotification(message, 'error'));
+                } else {
+                    dispatch(socketSetNewBet({amount, color}));
+                    dispatch(createNotification(`Bet confirm! (${user_count_bets_on_this_round} / 3)`, 'success'));
+                    dispatch(setUserCurrentBetStatus(true));
+                    dispatch(updateUserBalance(amount, '-'));
+                }
             }
-        })
+        )
     }
 }
 
 export const getBalance = () => {
     return  (dispatch) => {
-        doubleAPI.getBalance().then(data => {
-            if (data.error) {
-                dispatch(createNotification(data.message, 'error'));
-            } else {
-                dispatch(updateUserBalance(data.balance));
+        doubleAPI.getBalance().then(
+            ({error, message, balance}) => {
+                if (error) {
+                    dispatch(createNotification(message, 'error'));
+                } else {
+                    dispatch(updateUserBalance(balance));
+                }
             }
-        })
+        )
     }
 }
 
 export const spinRoulette = (number, section, bpx, width, height, needRefreshBalance) => {
     return (dispatch) => {
-        let numberArray = [1,14,2,13,3,12,4,0,11,5,10,6,9,7,8];
+        const numberArray = [1,14,2,13,3,12,4,0,11,5,10,6,9,7,8];
 
         let currentPosition = parseFloat(bpx);
 
@@ -208,27 +195,22 @@ export const spinRoulette = (number, section, bpx, width, height, needRefreshBal
 
         let color_win_number = 'green';
 
-        if (number > 0) {
-            color_win_number = 'red';
-        }
-    
-        if (number > 7) {
-            color_win_number = 'black';
-        }
-        
-        for (const [index, el] of numberArray.entries()) {
-            if ( el == number ) {
-                newPosition = index * height + newSection + Math.ceil(width / 2) + (width * Math.ceil(Math.random() * (10 - 3) + 3));
-                break;
-            };
-        }
+        if (number > 0) color_win_number = 'red';
+        if (number > 7) color_win_number = 'black';
+
+        numberArray.map((e, index) => {
+            return (e === number) ?
+                newPosition = index * height + newSection + Math.ceil(width / 2) + (width * Math.ceil(Math.random() * (10 - 3) + 3))
+                :
+                true;
+        });
 
         dispatch(updateRouletteStyles({
             backgroundPositionX: -newPosition,
             transition: '7s'
         }));
 
-        setTimeout(function(){
+        setTimeout(() => {
             dispatch(changeBetContainerResults(color_win_number));
 
             dispatch(updateLeftTimeStyles({
@@ -243,9 +225,7 @@ export const spinRoulette = (number, section, bpx, width, height, needRefreshBal
                 transition: ''
             }));
 
-            if (needRefreshBalance) {
-                dispatch(getBalance());
-            }
+            needRefreshBalance && dispatch(getBalance());
         }, 7000);
     }
 }
@@ -291,13 +271,13 @@ const doubleReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case CHANGE_BET_CONTAINER_RESULTS:
-            return (action.color != 'default') ? 
+            return (action.color !== 'default') ? 
             {
                 ...state,
                 bet_container: {
-                    red: (action.color == 'red') ? 'win' : 'lose',
-                    black: (action.color == 'black') ? 'win' : 'lose',
-                    green: (action.color == 'green') ? 'win' : 'lose',
+                    red: (action.color === 'red') ? 'win' : 'lose',
+                    black: (action.color === 'black') ? 'win' : 'lose',
+                    green: (action.color === 'green') ? 'win' : 'lose',
                 }
             } 
             : 
@@ -309,24 +289,6 @@ const doubleReducer = (state = initialState, action) => {
                     green: 'default'
                 }
             }
-
-        case CHANGE_ON_FOCUS: 
-            return {
-                ...state,
-                chat_data: {
-                    ...state.chat_data,
-                    on_focus: action.value
-                }
-            }
-
-        case ON_CHANGE_CHAT_TEXT:
-            return {
-                ...state,
-                chat_data: {
-                    ...state.chat_data,
-                    user_chat_text: action.value
-                }
-            };
 
         case SET_USER_CURRENT_BET_STATUS:
             return {
@@ -453,3 +415,5 @@ const doubleReducer = (state = initialState, action) => {
 }
 
 export default doubleReducer;
+
+//ES6

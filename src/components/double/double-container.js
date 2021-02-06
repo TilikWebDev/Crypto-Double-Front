@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { w3cwebsocket } from "websocket";
-import { withRouter, useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import Double from './double';
 
 import {createNotification} from '../../redux/notifications-reducer';
-import {onChangeBetAmount, calcBetAmount, changeOnFocus, socketSetNewMessage, socketSetNewBet, socketSetStartGame, getBalance, rouletteResize, clearChat, startGame, spinRoulette, createBet, sendChatMessage, onChangeChatText} from '../../redux/double-reducer';
+import {onChangeBetAmount, calcBetAmount, socketSetNewMessage, socketSetNewBet, socketSetStartGame, getBalance, rouletteResize, clearChat, startGame, spinRoulette, createBet, sendChatMessage} from '../../redux/double-reducer';
 import {showModal} from '../../redux/modal-window-reducer';
 
-const websocket = new w3cwebsocket('ws://' + 'localhost' + ':3012');
+const websocket = new w3cwebsocket('ws://localhost:3012');
 
 const DoubleContainer = (props) => {
 
@@ -49,17 +49,17 @@ const DoubleContainer = (props) => {
                         );
                     }
                     break;
+
+                default:
+                    break;
             }
         };
     }, [websocket, props.roulette_data]);
 
-    const onCreateBet = (color) => {
-        props.createBet(props.user_data.user_bet_amount, color);
-    }
+    const onCreateBet = (color) => props.createBet(props.user_data.user_bet_amount, color);
 
     const calcBetAmount = (action) => {
-        let value = parseInt(props.user_data.user_bet_amount);
-        if (isNaN(value)) value = 0;
+        const value = parseInt(props.user_data.user_bet_amount) || 0;
         
         switch (action) {
             case 'clear':
@@ -85,12 +85,14 @@ const DoubleContainer = (props) => {
 
             case 'max':
                 return props.calcBetAmount(props.user_balance);
+
+            default:
+                break;
         }
     }
 
     return 	(
         <Double
-            chat_on_focus={props.chat_data.on_focus}
             user_balance={props.user_balance}
             user_bet_amount={props.user_data.user_bet_amount}
             chat_message_list={props.chat_data.chat_message_list}
@@ -104,7 +106,6 @@ const DoubleContainer = (props) => {
             total_bet_data={props.total_bet_data}
             bet_container={props.bet_container}
 
-            changeOnFocus={props.changeOnFocus}
             onCreateBet={onCreateBet}
             getBalance={props.getBalance}
             clearChat={props.clearChat}
@@ -120,15 +121,8 @@ const DoubleContainer = (props) => {
 
 let mapStateToProps = (state) => {
 	return {
-        //GLOBAL STATE
-        user_data: state.double_page.user_data,
-        chat_data: state.double_page.chat_data,
-        roulette_data: state.double_page.roulette_data,
-        total_bet_data: state.double_page.total_bet_data,
+        ...state.double_page,
         user_balance: state.user.user_balance,
-        bet_container: state.double_page.bet_container,
-        
-        //HOC
         user_is_auth: state.auth.is_auth
 	};
 }
@@ -136,7 +130,6 @@ let mapStateToProps = (state) => {
 let withUrlDataContainerComponent = withRouter(DoubleContainer);
 
 export default connect(mapStateToProps, {
-    changeOnFocus,
 	onChangeBetAmount,
 	calcBetAmount,
 	socketSetNewMessage,
@@ -150,6 +143,5 @@ export default connect(mapStateToProps, {
     getBalance,
     createBet,
     sendChatMessage,
-    onChangeChatText,
     createNotification
 })(withUrlDataContainerComponent);
