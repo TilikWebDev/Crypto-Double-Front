@@ -3,11 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Header from './header';
+
+import {getAuthSelector} from '../../redux/auth-selectors';
+
 import {userLogout} from '../../redux/auth-reducer';
 import {showModal} from '../../redux/modal-window-reducer';
 
 const HeaderContainer = ({email, balance, color, is_auth, user_balance, showModal, userLogout}) => {
+    const date = new Date();
+
     return (
+        
         <Header 
             email={email}
             balance={balance}
@@ -33,7 +39,7 @@ HeaderContainer.propTypes = {
 
 let mapStateToProps = (state) => {
 	return {
-        is_auth: state.auth.is_auth,
+        is_auth: getAuthSelector(state),
         ...state.user
 	};
 }

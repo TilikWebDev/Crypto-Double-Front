@@ -1,7 +1,7 @@
 import {v4} from 'uuid';
 
-const SHOW_NOTIFY = 'SHOW_NOTIFY';
-const REMOVE_NOTIFY = 'REMOVE_NOTIFY';
+const SHOW_NOTIFY = 'NOTIFICATIONS/SHOW_NOTIFY';
+const REMOVE_NOTIFY = 'NOTIFICATIONS/REMOVE_NOTIFY';
 
 let initialState = [
 

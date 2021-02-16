@@ -18,7 +18,11 @@ const LastNumbers = ({last_numbers, now_hash_round}) => {
 
             <div className={s.now}>
                 След. раунд: 
-                {(now_hash_round) ? <NavLink to={'/provably-fair'}>#{now_hash_round}</NavLink> : ' ...'}                
+                <NavLink to={'/provably-fair'}>
+                    {
+                        (now_hash_round) ? `#${now_hash_round}` : 'Loading'
+                    }
+                </NavLink>                
             </div>
 		</div>
     )

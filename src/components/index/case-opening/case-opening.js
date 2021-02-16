@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Preloader from '../../common/preloader/preloader';
 import s from './case-opening.module.css';
 import CaseZoom from './case-zoom/case-zoom';
 
@@ -8,18 +9,34 @@ import Roulette from './roulette/roulette';
 
 const CaseOpening = (props) => {
 
+    useEffect(() => {
+        props.loadCaseByName(props.route_case_name)
+    }, [props.route_case_name])
+
     return (
-        <div className={s.container}>
-            <Roulette opening_status={props.opening_status} setRollStyle={props.setRollStyle} style_data={props.style_data} roulette_drop={props.roulette_drop}/>
-            <CaseZoom color_case={props.case_data.color} changeAutoSell={props.changeAutoSell} next_case={props.case_data.next_case} prev_case={props.case_data.prev_case} open_button_disabled={props.open_button_disabled} opening_status={props.opening_status} openCase={props.openCase} auto_sell_drops={props.auto_sell_drops} price={(props.case_data.discount_price) ? props.case_data.discount_price : props.case_data.price} drop={props.roulette_drop} width={props.style_data.width} name={props.case_data.name} image={props.case_data.image}/>
+        (props.case_data_by_name.case_data_is_loading) ?
+            <div className={s.container}>
 
-            {
-                (props.win_drop._id) && <OpenResult next_case={props.case_data.next_case} prev_case={props.case_data.prev_case} color_case={props.case_data.color} sell_drop_button_status={props.sell_drop_button_status} sellDrop={props.sellDrop} gotoOpenCase={props.gotoOpenCase} opening_status={props.opening_status} win_drop={props.win_drop}/>
-            }
+                {
+                    (props.opening_status === 'roulette') && 
+                        <Roulette roulette_drop={props.roulette_drop} win_drop_data={props.win_drop_data} changeOpeningStatus={props.changeOpeningStatus}/>
+                }
+                
+                {
+                    (props.opening_status === 'case-zoom') && 
+                        <CaseZoom color_case={props.case_data_by_name.color} next_case={props.case_data_by_name.next_case} prev_case={props.case_data_by_name.prev_case} open_button_status={props.open_button_status} opening_status={props.opening_status} openCase={props.openCase} price={(props.case_data_by_name.discount_price) ? props.case_data_by_name.discount_price : props.case_data_by_name.price} name={props.case_data_by_name.name} image={props.case_data_by_name.image}/>
+                }
 
-            <InCase drops={props.case_data.drops}/>
-        </div>
+                {
+                    (props.opening_status === 'open-result') && 
+                        <OpenResult next_case={props.case_data_by_name.next_case} prev_case={props.case_data_by_name.prev_case} color_case={props.case_data_by_name.color} sell_drop_button_status={props.sell_drop_button_status} sellDrop={props.sellDrop} changeOpeningStatus={props.changeOpeningStatus} opening_status={props.opening_status} win_drop_data={props.win_drop_data}/>
+                }
+
+                <InCase drops={props.case_data_by_name.drops}/>
+            </div> 
+            : 
+            <Preloader/>
     );
-}
+};
 
-export default CaseOpening;
+export default React.memo(CaseOpening);

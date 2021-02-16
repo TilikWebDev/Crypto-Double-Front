@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import s from './case-zoom.module.css';
 
-const CaseZoom = ({prev_case, color_case, next_case, auto_sell_drops, drop, image, name, openCase, changeAutoSell, open_button_disabled, opening_status, price, width}) => {
+const CaseZoom = ({loadCaseByName, prev_case, color_case, next_case, image, name, openCase, open_button_status, opening_status, price}) => {
+
+    let [auto_sell_drop_status, changeSellDropStatus] = useState(false);
+
     return (
         <div style={{display: (opening_status === 'case-zoom') ? 'flex' : 'none'}} className={s.container}>
             <div className={s.headline}>
@@ -12,7 +15,7 @@ const CaseZoom = ({prev_case, color_case, next_case, auto_sell_drops, drop, imag
             </div>
 
             <div className={s.image_container} style={{borderColor: color_case}}>
-                <NavLink to={'/case/' + prev_case} className={s.prev_case}>
+                <NavLink to={'/case/' + prev_case} onClick={() => {loadCaseByName(prev_case)}} className={s.prev_case}>
                     <i className={'fa fa-angle-double-left'} aria-hidden={'true'}></i>
                 </NavLink>
 
@@ -23,12 +26,12 @@ const CaseZoom = ({prev_case, color_case, next_case, auto_sell_drops, drop, imag
                 </NavLink>
             </div>
 
-            <button onClick={() => openCase(name, price, drop, width, auto_sell_drops)} className={[s.button, open_button_disabled && s.disabled].join(' ')}>
+            <button onClick={() => openCase(name, price, auto_sell_drop_status)} className={[s.button, open_button_status && s.disabled].join(' ')}>
                 Открыть {price} грн
             </button>
 
-            <label className={auto_sell_drops ? s.label + ' ' + s.active : s.label}>
-                <input type={'checkbox'} onChange={changeAutoSell}/>
+            <label className={auto_sell_drop_status ? s.label + ' ' + s.active : s.label}>
+                <input type={'checkbox'} onChange={() => changeSellDropStatus(!auto_sell_drop_status)}/>
                 Продавать предметы дешевле стоимости кейса
             </label>
         </div>

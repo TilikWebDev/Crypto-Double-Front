@@ -1,8 +1,9 @@
 import {provablyFairAPI} from '../api/api';
+import {createNotification} from './notifications-reducer';
 
-const SET_LAST_ROLLS = 'SET_LAST_ROLLS';
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const SET_LAST_ROLLS = 'PROVABLY_FAIR/SET_LAST_ROLLS';
+const SET_CURRENT_PAGE = 'PROVABLY_FAIR/SET_CURRENT_PAGE';
+const TOGGLE_IS_FETCHING = 'PROVABLY_FAIR/TOGGLE_IS_FETCHING';
 
 let initialState = {
     last_rolls: [],
@@ -34,23 +35,31 @@ export const setCurrentPage = (id) => {
 }
 
 export const changePage = (page_size, id) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(toggleIsFetching(true)); 
         dispatch(setCurrentPage(id));
 
-        provablyFairAPI.getResults(page_size, id).then(data => {
+        let {data, message, error} = await provablyFairAPI.getResults(page_size, id);
+
+        if (!error) {
             dispatch(setLastRolls(data));
             dispatch(toggleIsFetching(false));
-        });
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 
 export const getLastRolls = (page_size, current_page) => {
-    return (dispatch) => {
-        provablyFairAPI.getResults(page_size, current_page).then(data => {
+    return async (dispatch) => {
+        let {data, message, error} = await provablyFairAPI.getResults(page_size, current_page);
+
+        if (!error) {
             dispatch(setLastRolls(data));
             dispatch(toggleIsFetching(false));
-        });
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 

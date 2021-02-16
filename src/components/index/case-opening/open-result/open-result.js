@@ -15,7 +15,7 @@ const OpenResult = (props) => {
         }
     } 
 
-    let price = parseInt(props.win_drop.price);
+    let price = parseInt(props.win_drop_data.price);
 
     switch (true) {
         case (price > 50000):
@@ -83,7 +83,7 @@ const OpenResult = (props) => {
                     </div>
                 </div>
 
-                <img alt={props.win_drop.name} src={require(`../../../../img/drop/${decodeURI(props.win_drop.image)}`)}/>
+                <img alt={props.win_drop_data.name} src={require(`../../../../img/drop/${decodeURI(props.win_drop_data.image)}`)}/>
 
                 <NavLink to={`/case/${props.next_case}`} className={[s.next_case, s.disabled].join(' ')}>
                     <i className={'fa fa-angle-double-right'} aria-hidden={'true'}></i>
@@ -91,15 +91,15 @@ const OpenResult = (props) => {
             </div>
 
             <div className={s.name} style={{background: props.color_case}}>
-                {props.win_drop.name}
+                {props.win_drop_data.name}
             </div>
 
             <div className={s.footer}>
-                <button className={s.button} onClick={props.gotoOpenCase}>Продолжить</button>
+                <button className={s.button} onClick={() => props.changeOpeningStatus('case-zoom')}>Продолжить</button>
 
                 {
                     props.sell_drop_button_status && 
-                    <button className={[s.button, s.sell].join(' ')} onClick={() => props.sellDrop(props.win_drop._id, props.win_drop.price)}>Продать за {props.win_drop.price} грн</button>
+                    <button className={[s.button, s.sell].join(' ')} onClick={() => props.sellDrop(props.win_drop_data._id, props.win_drop_data.price)}>Продать за {props.win_drop_data.price} грн</button>
                 }
             </div>
         </div>

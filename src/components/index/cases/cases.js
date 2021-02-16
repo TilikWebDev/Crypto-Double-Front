@@ -5,7 +5,7 @@ import s from './cases.module.css';
 import Case from './case/case';
 import CategoryFilter from './category-filter/category-filter';
 
-const Cases = ({category_data, changeCaseCategory, cases}) => {
+const Cases = React.memo(({category_data, changeCaseCategory, cases_data}) => {
 
     let active_category_data = 0;
 
@@ -20,7 +20,7 @@ const Cases = ({category_data, changeCaseCategory, cases}) => {
 
             <div className={s.cases_list}>
                 {
-                    cases.map((p, index) => {
+                    cases_data.map((p, index) => {
 
                         return (category_data[active_category_data].cases.includes(p.name)) ? 
                             <Case 
@@ -34,7 +34,7 @@ const Cases = ({category_data, changeCaseCategory, cases}) => {
             </div>
         </div>
     );
-}
+});
 
 Cases.propTypes = {
     category_data: PropTypes.array, 

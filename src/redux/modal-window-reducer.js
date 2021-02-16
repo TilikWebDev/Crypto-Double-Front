@@ -1,5 +1,5 @@
-const SHOW_MODAL = 'SHOW_MODAL';
-const HIDE_MODAL = 'HIDE_MODAL';
+const SHOW_MODAL = 'MODAL/SHOW_MODAL';
+const HIDE_MODAL = 'MODAL/HIDE_MODAL';
 
 let initialState = {
     is_show: false,

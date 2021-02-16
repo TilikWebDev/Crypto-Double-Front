@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import ProvablyFair from './components/provably-fair/entry-point';
 import ModalWindow from './components/modal-window/entry-point';
 import Notification from './components/notification/entry-point';
 import Account from './components/account/entry-point';
+import Preloader from './components/common/preloader/preloader';
 
 
 let style = {
@@ -29,36 +30,34 @@ let style = {
     zIndex: -1
 }
 
-class App extends React.Component {
+const App = (props) => {
 
-    componentDidMount(){
-        this.props.initializeApp();
-    }
+    useEffect(() => {
+        !props.initialized && props.initializeApp();
+    }, [props.initialized]);
 
-    render() {
-        return (this.props.initialized) ?
-            <div id="wrapper">
-                <div style={style}>
-                </div>
 
-                <Header user_data=''/>
-
-                <div id="main">
-                    <Route exact path={'/'} render={ () => <Index/> } />
-                    <Route exact path={'/modal/:name?'} render={ () => <Index/> } />
-                    <Route path={'/case/:casename?'} render={ () => <Index/> }/>
-                    <Route path={'/double'} render={ () => <Double/> } />
-                    <Route path={'/provably-fair'} render={ () => <ProvablyFair/> }/>
-                    <Route path={'/account'} render={ () => <Account/> }/>
-                </div>
-
-                <ModalWindow/>
-                <Notification/>
-                <Footer/>
+    return (props.initialized) ?
+        <div id="wrapper">
+            <div style={style}>
             </div>
-            :
-            'Loading'
-    }
+
+            <Header user_data=''/>
+
+            <div id="main">
+                <Route exact path={'/'} render={ () => <Index/> } />
+                <Route path={'/case/:route_case_name?'} render={ () => <Index/> }/>
+                <Route path={'/double'} render={ () => <Double/> } />
+                <Route path={'/provably-fair'} render={ () => <ProvablyFair/> }/>
+                <Route path={'/account'} render={ () => <Account/> }/>
+            </div>
+
+            <ModalWindow/>
+            <Notification/>
+            <Footer/>
+        </div>
+        :
+        <Preloader/>
 }
 
 const mapStateToProps = (state) => {

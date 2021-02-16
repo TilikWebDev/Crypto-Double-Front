@@ -17,13 +17,8 @@ const CategoryFilter = ({category_data, changeCaseCategory}) => {
                 })
             }
         </div>
-    );
-}
-
-CategoryFilter.propTypes = {
-    category_data: PropTypes.array,
-    changeCaseCategory: PropTypes.func
-}
+    )
+};
 
 const CategoryButton = ({name, active, changeCaseCategory}) => {
     let icon_class_name = '';
@@ -78,7 +73,7 @@ const CategoryButton = ({name, active, changeCaseCategory}) => {
     }
 
     return (
-        <button onClick={() => changeCaseCategory(name)} className={[s.button, (active) && s.active].join(' ')}>
+        <button onClick={() => changeCaseCategory(name)} disabled={active} className={[s.button, (active) && s.active].join(' ')}>
             <i className={['fa', icon_class_name].join(' ')}></i>
             {name}
         </button>

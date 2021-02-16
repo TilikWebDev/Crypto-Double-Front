@@ -1,8 +1,7 @@
 import {authAPI} from '../api/api';
-import {setUserData} from './user-reducer';
 import {createNotification} from './notifications-reducer';
 
-const CHANGE_IS_AUTH = 'CHANGE_IS_AUTH';
+const CHANGE_IS_AUTH = 'AUTH/CHANGE_IS_AUTH';
 
 let initialState = {
     is_auth: false
@@ -17,15 +16,13 @@ export const changeIsAuth = (status) => {
 
 //thunk
 
-export const userLogin = (email, password, setStatus) => {
-    return (dispatch) => {
-        authAPI.login(email, password).then(({error, message}) => {
-			if (error) {
-                setStatus(message);
-			} else {
-				window.location.href = '/';
-			}
-        });
+export const userLogin = async (email, password, setStatus) => {
+    let {data, message, error} = await authAPI.login(email, password);
+
+    if (error) {
+        setStatus(message);
+    } else {
+        window.location.href = '/';
     }
 };
 
@@ -54,19 +51,6 @@ export const userRegister = (email, password, passwordVerify, setStatus) => {
         } else {
             setStatus('Password and Password confirm are not the same!');
         }
-    }
-}
-
-export const getUserData = () => {
-    return (dispatch) => {
-        // return promise
-        return authAPI.authMe().then(data => {
-            if (!data.error) {
-                let {balance, email, color} = data.data;
-                dispatch(setUserData(balance, email, color));
-                dispatch(changeIsAuth(true));
-            }
-        });
     }
 }
 

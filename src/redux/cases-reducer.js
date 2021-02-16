@@ -1,76 +1,65 @@
+import { w3cwebsocket } from "websocket";
+
 import {casesAPI} from '../api/api';
 import {updateUserBalance} from './user-reducer';
 
 import {createNotification} from './notifications-reducer';
 
-const SET_CASES_DATA = 'SET_CASES_DATA';
-const SET_CASE_BY_NAME = 'SET_CASE_BY_NAME';
-const CHANGE_AUTO_SELL = 'CHANGE_AUTO_SELL';
-const SET_OPENING_STATUS= 'SET_OPENING_STATUS';
-const SET_ROLL_STYLE = 'SET_ROLL_STYLE';
-const SET_WIN_DROP = 'SET_WIN_DROP';
-const SOCKET_SET_NEW_DROP = 'SOCKET_SET_NEW_DROP';
-const START_LOADING_CASE_DATA = 'START_LOADING_CASE_DATA';
-const OPEN_BUTTON_DISABLED_TRUE = 'OPEN_BUTTON_DISABLED_TRUE';
-const OPEN_BUTTON_DISABLED_FALSE = 'OPEN_BUTTON_DISABLED_FALSE';
-const SET_CATEGORY_DATA = 'SET_CATEGORY_DATA';
-const CHANGE_CASE_CATEGORY = 'CHANGE_CASE_CATEGORY';
-const CHANGE_SELL_DROP_BUTTON_STATUS = 'CHANGE_SELL_DROP_BUTTON_STATUS';
+const SET_CASES_DATA = 'CASES/SET_CASES_DATA';
+const SET_CASE_BY_NAME = 'CASES/SET_CASE_BY_NAME';
+const SET_OPENING_STATUS = 'CASES/SET_OPENING_STATUS';
+const SET_WIN_DROP = 'CASES/SET_WIN_DROP';
+const SOCKET_SET_NEW_DROP = 'CASES/SOCKET_SET_NEW_DROP';
+const START_LOADING_CASE_DATA = 'CASES/START_LOADING_CASE_DATA';
+const OPEN_BUTTON_DISABLED_TRUE = 'CASES/OPEN_BUTTON_DISABLED_TRUE';
+const OPEN_BUTTON_DISABLED_FALSE = 'CASES/OPEN_BUTTON_DISABLED_FALSE';
+const SET_CATEGORY_DATA = 'CASES/SET_CATEGORY_DATA';
+const CHANGE_CASE_CATEGORY = 'CASES/CHANGE_CASE_CATEGORY';
+const CHANGE_SELL_DROP_BUTTON_STATUS = 'CASES/CHANGE_SELL_DROP_BUTTON_STATUS';
+const SET_CASES_INITIALIZED = 'CASES/SET_CASES_INITIALIZED';
 
 let initialState = {
-    category_data: [
+    initialized: false,
 
-    ],
+    category_data: [],
 
-    cases: [
+    cases_data: [],
 
-    ],
-
-    last_drop: {
-        default: [
-
-        ],
-
-        best_drop: {
-
-        }
+    case_name_data: {
+        case_data_is_loading: false
     },
 
-    case_name_data: [
-
-    ],
-
-    roulette_drop: [
-
-    ],
-
-    win_drop: {
-
+    last_drop_data: {
+        default_drop: [],
+        best_drop: {}
     },
-    
-    case_data_is_loading: false,
-    auto_sell_drops: false,
+
+    win_drop_data: {},
+
+    roulette_drop: [],
+
     sell_drop_button_status: true,
-    opening_status: 'case-zoom',
-    open_button_disabled: false,
 
-    style_data: {
-        marginLeft: 0,
-        transition: '0s',
-        width: 'auto'
-    }
+    opening_status: 'case-zoom',
+    open_button_status: false
 };
+
+export const changeInitialized = () => {
+    return {
+        type: SET_CASES_INITIALIZED
+    }
+}
 
 export const changeSellDropButtonStatus = (status) => {
     return {
-        type: 'CHANGE_SELL_DROP_BUTTON_STATUS',
+        type: CHANGE_SELL_DROP_BUTTON_STATUS,
         status: status
     }
 }
 
 export const changeCaseCategory = (name) => {
     return {
-        type: 'CHANGE_CASE_CATEGORY',
+        type: CHANGE_CASE_CATEGORY,
         name: name
     }
 }
@@ -101,12 +90,6 @@ export const socketSetNewDrop = (drop) => {
     }
 }
 
-export const changeAutoSell = () => {
-    return {
-        type: CHANGE_AUTO_SELL
-    }
-}
-
 export const setCaseByName = (case_data) => {
     return {
         type: SET_CASE_BY_NAME,
@@ -128,13 +111,6 @@ export const setOpeningStatus = (name) => {
     }
 }
 
-export const setRollStyle = (style) => {
-    return {
-        type: SET_ROLL_STYLE,
-        style: style
-    }
-}
-
 export const setWinDrop = (drop) => {
     return {
         type: SET_WIN_DROP,
@@ -150,119 +126,123 @@ export const startLoadingCaseData = () => {
 
 //thunk
 
-export const getCategoryData = () => {
+export const initializeCases = () => {
+
+    const websocket = new w3cwebsocket('ws://localhost:3013');
+    
     return (dispatch) => {
-        casesAPI.getCategoryData().then(data => {
-            dispatch(setCategoryData(data.data));
-        });
+
+        websocket.onopen = () => {
+            dispatch(createNotification('Socket connected!', 'success'));
+        };
+    
+        websocket.onclose = () => {
+            dispatch(createNotification('Socket disconected! Pls reload page!', 'error', false));
+        };
+    
+        websocket.onmessage = (message) => {
+            dispatch(socketSetNewDrop(
+                JSON.parse(message.data)
+            ));
+        }
+
+        let get_cases_data = dispatch(loadCasesData());
+        let get_last_drop_data = dispatch(loadLastDropData());
+        let get_category_data = dispatch(loadCategoryData());
+
+        Promise.all([get_cases_data, get_last_drop_data, get_category_data]).then(() => {
+            dispatch(changeInitialized());
+        });        
+    }
+}
+
+export const changeOpeningStatus = (name) => {
+    return (dispatch) => {
+        dispatch(setOpeningStatus(name));
+    }
+}
+
+export const loadCategoryData = () => {
+    return async (dispatch) => {
+        let {data, message, error} = await casesAPI.getCategoryData();
+
+        if (!error) {
+            dispatch(setCategoryData(data));
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 
 export const sellDrop = (id, price, set_opening_status = true) => {
-    return (dispatch) => {
-        casesAPI.sellDrop(id).then(data => {
-            if (!data.error) {
-                dispatch(updateUserBalance(price, '+'));
-                
-                set_opening_status && dispatch(setOpeningStatus('case-zoom'));
-            } else {
-                dispatch(createNotification(data.message, 'error'));
-            }
-        });
+    return async (dispatch) => {
+        let {data, message, error} = await casesAPI.sellDrop(id);
+
+        if (!error) {
+            dispatch(updateUserBalance(price, '+'));  
+            set_opening_status && dispatch(setOpeningStatus('case-zoom'));
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 
-export const gotoOpenCase = () => {
-    return (dispatch) => {
-        dispatch(setOpeningStatus('case-zoom'));
-    }
-}
-
-export const openCase = (name, price, drop_list, width, auto_sell_drops) => {
-    return (dispatch) => {
+export const openCase = (name, price, auto_sell_drops_status) => {
+    return async (dispatch) => {
 
         dispatch(openButtonDisabledTrue());
 
-        casesAPI.getOpenCase(name).then(data => {
+        let {data, message, error} = await casesAPI.getOpenCase(name);
 
-            if (!data.error) {
-                dispatch(setWinDrop(data.data));
+        if (!error) {
+            dispatch(setWinDrop(data));  
+            dispatch(setOpeningStatus('roulette')); 
+            dispatch(changeSellDropButtonStatus(!auto_sell_drops_status));
+            dispatch(updateUserBalance(price, '-'));
 
-                if (auto_sell_drops && data.data.price < price) {
-                    dispatch(changeSellDropButtonStatus(false));
-                    dispatch(sellDrop(data.data._id, data.data.price, false));
-                }
-
-                let winning_position = 0;
-                let _drop_list = [...drop_list].reverse().splice(20);
-
-                let audio = new Audio(require('../audio/open_case.mp3'));
-                let audio_end = new Audio(require('../audio/open_case_end.mp3'));
-
-                for (let i in _drop_list) {
-                    if (_drop_list[i]._id === data.data._id) {
-                        winning_position = 130 - i;
-                        break;
-                    }
-                }
-                
-                dispatch(updateUserBalance(price, '-'));
-                dispatch(setOpeningStatus('roulette'));
-
-                dispatch(setRollStyle({
-                    marginLeft: 0,
-                    transition: '0s'
-                }));
-
-                setTimeout(() => {
-                    audio.play();
-
-                    dispatch(setRollStyle({
-                        marginLeft: (-winning_position * 200) + (width / 2) + 100,
-                        transition: '6s'
-                    }));
-                }, 0);
-
-                setTimeout(() => {
-                    audio_end.play();
-                    dispatch(setOpeningStatus('open-result'));
-                    dispatch(setRollStyle({
-                        marginLeft: 0,
-                        transition: '0s'
-                    }));
-                }, 6300);
-            } else {
-                dispatch(createNotification(data.message, 'error'));
+            if (auto_sell_drops_status && data.price < price) { 
+                dispatch(sellDrop(data._id, data.price, false));
             }
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
 
-            dispatch(openButtonDisabledFalse());
-        });
+        dispatch(openButtonDisabledFalse());
     }
 }
 
-export const getCaseByName = (name) => {
-    return (dispatch) => {
-
+export const loadCaseByName = (name) => {
+    return async (dispatch) => {
         dispatch(startLoadingCaseData());
 
-        casesAPI.getCasesData(name).then(data => {
-            dispatch(setCaseByName(data.data));
-        });
+        let {data, message, error} = await casesAPI.getCasesData(name);
+
+        if (!error) {
+            dispatch(setCaseByName(data));
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 
-export const getCasesData = () => {
-    return (dispatch) => {
-        casesAPI.getCasesData().then(data => {
-            dispatch(setCasesData(data.data));
-        });
+export const loadCasesData = () => {
+    return async (dispatch) => {
+        let {data, message, error} = await casesAPI.getCasesData();
+            
+        if (!error) {
+            dispatch(setCasesData(data));
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 
-export const getLastDropData = () => {
-    return (dispatch) => {
-        casesAPI.getLastDropData().then(data => {
-            data.data.map((d) => {
+export const loadLastDropData = () => {
+    return async (dispatch) => {
+        let {data, message, error} = await casesAPI.getLastDropData();
+
+        if (!error) {
+            data.map((d) => {
                 let drop = {
                     user: d.email,
                     price: d.drop.price,
@@ -273,15 +253,21 @@ export const getLastDropData = () => {
                 };
 
                 dispatch(socketSetNewDrop(drop));
-
-                return true;
             })
-        });
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 
 export const casesReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_CASES_INITIALIZED:
+            return {
+                ...state,
+                initialized: true
+            }
+
         case CHANGE_SELL_DROP_BUTTON_STATUS:
             return {
                 ...state,
@@ -310,28 +296,30 @@ export const casesReducer = (state = initialState, action) => {
         case OPEN_BUTTON_DISABLED_TRUE:
             return {
                 ...state,
-                open_button_disabled: true
+                open_button_status: true
             }
 
         case OPEN_BUTTON_DISABLED_FALSE:
             return {
                 ...state,
-                open_button_disabled: false
+                open_button_status: false
             }
 
         case START_LOADING_CASE_DATA:
             return {
                 ...state,
-                case_data_is_loading: false
+                case_name_data: {
+                    case_data_is_loading: false
+                }
             }
 
         case SOCKET_SET_NEW_DROP:
             return (action.drop.price > 1000) ?
                 {
                     ...state,
-                    last_drop: {
-                        default: [
-                            ...state.last_drop.default.slice(state.last_drop.default.length - 52, state.last_drop.default.length),
+                    last_drop_data: {
+                        default_drop: [
+                            ...state.last_drop_data.default_drop.slice(state.last_drop_data.default_drop.length - 52, state.last_drop_data.default_drop.length),
                             {...action.drop}
                         ],
                         best_drop: {
@@ -342,10 +330,10 @@ export const casesReducer = (state = initialState, action) => {
             : 
                 {
                     ...state,
-                    last_drop: {
-                        ...state.last_drop,
-                        default: [
-                            ...state.last_drop.default.slice(state.last_drop.default.length - 52, state.last_drop.default.length),
+                    last_drop_data: {
+                        ...state.last_drop_data,
+                        default_drop: [
+                            ...state.last_drop_data.default_drop.slice(state.last_drop_data.default_drop.length - 52, state.last_drop_data.default_drop.length),
                             {...action.drop}
                         ]
                     }
@@ -354,28 +342,13 @@ export const casesReducer = (state = initialState, action) => {
         case SET_WIN_DROP:
             return {
                 ...state,
-                win_drop: {...action.drop}
+                win_drop_data: {...action.drop}
             }
 
         case SET_OPENING_STATUS: 
             return {
                 ...state,
                 opening_status: action.name
-            }
-
-        case SET_ROLL_STYLE: 
-            return {
-                ...state,
-                style_data: {
-                    ...state.style_data,
-                    ...action.style
-                }
-            }
-
-        case CHANGE_AUTO_SELL:
-            return {
-                ...state,
-                auto_sell_drops: !state.auto_sell_drops
             }
 
         case SET_CASE_BY_NAME: 
@@ -399,15 +372,17 @@ export const casesReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                case_name_data: action.case,
-                roulette_drop: roulette_drop,
-                case_data_is_loading: true
+                case_name_data: {
+                    case_data_is_loading: true,
+                    ...action.case
+                },
+                roulette_drop: roulette_drop
             }
 
         case SET_CASES_DATA:
             return {
                 ...state,
-                cases: [
+                cases_data: [
                     ...action.cases
                 ]
             }

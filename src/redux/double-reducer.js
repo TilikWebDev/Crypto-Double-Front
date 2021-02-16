@@ -5,18 +5,18 @@ import {doubleAPI} from '../api/api';
 import {createNotification} from './notifications-reducer';
 import {updateUserBalance} from './user-reducer';
 
-const SET_USER_CURRENT_BET_STATUS = 'SET_USER_CURRENT_BET_STATUS';
-const CHANGE_BET_AMOUNT = 'CHANGE_BET_AMOUNT';
-const CALC_BET_AMOUNT = 'CALC_BET_AMOUNT';
-const UPDATE_LEFT_TIME_STYLES = 'UPDATE_LEFT_TIME_STYLES';
-const UPDATE_ROULETTE_STYLES = 'UPDATE_ROULETTE_STYLES';
-const ROULETTE_RESIZE = 'ROULETTE_RESIZE';
-const CLEAR_CHAT = 'CLEAR_CHAT';
-const CHANGE_BET_CONTAINER_RESULTS = 'CHANGE_BET_CONTAINER_RESULTS';
+const SET_USER_CURRENT_BET_STATUS = 'DOUBLE/SET_USER_CURRENT_BET_STATUS';
+const CHANGE_BET_AMOUNT = 'DOUBLE/CHANGE_BET_AMOUNT';
+const CALC_BET_AMOUNT = 'DOUBLE/CALC_BET_AMOUNT';
+const UPDATE_LEFT_TIME_STYLES = 'DOUBLE/UPDATE_LEFT_TIME_STYLES';
+const UPDATE_ROULETTE_STYLES = 'DOUBLE/UPDATE_ROULETTE_STYLES';
+const ROULETTE_RESIZE = 'DOUBLE/ROULETTE_RESIZE';
+const CLEAR_CHAT = 'DOUBLE/CLEAR_CHAT';
+const CHANGE_BET_CONTAINER_RESULTS = 'DOUBLE/CHANGE_BET_CONTAINER_RESULTS';
 
-const SOCKET_RESPONSE_NEW_BET = 'SOCKET_RESPONSE_NEW_BET';
-const SOCKET_RESPONSE_NEW_MESSAGE= 'SOCKET_RESPONSE_NEW_MESSAGE';
-const SOCKET_RESPONSE_START_GAME = 'SOCKET_RESPONSE_START_GAME';
+const SOCKET_RESPONSE_NEW_BET = 'DOUBLE/SOCKET_RESPONSE_NEW_BET';
+const SOCKET_RESPONSE_NEW_MESSAGE= 'DOUBLE/SOCKET_RESPONSE_NEW_MESSAGE';
+const SOCKET_RESPONSE_START_GAME = 'DOUBLE/SOCKET_RESPONSE_START_GAME';
 
 let initialState = {
     user_data: {
@@ -142,45 +142,39 @@ export const socketSetStartGame = data => {
 //THUNK_ACTION_CREATORS
 
 export const sendChatMessage = (text) => {
-    return (dispatch) => {
-        doubleAPI.postChatMessage(text).then(
-            ({error, message}) => {
-                if (error) {
-                    dispatch(createNotification(message, 'error'));
-                }
-            }
-        )
+    return async (dispatch) => {
+        let {data, message, error} = await doubleAPI.postChatMessage(text);
+
+        if (error) {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 
 export const createBet = (amount, color) => {
-    return (dispatch) => {
-        doubleAPI.postMyBet(amount, color).then(
-            ({error, message, user_count_bets_on_this_round}) => {
-                if (error) {
-                    dispatch(createNotification(message, 'error'));
-                } else {
-                    dispatch(socketSetNewBet({amount, color}));
-                    dispatch(createNotification(`Bet confirm! (${user_count_bets_on_this_round} / 3)`, 'success'));
-                    dispatch(setUserCurrentBetStatus(true));
-                    dispatch(updateUserBalance(amount, '-'));
-                }
-            }
-        )
+    return async (dispatch) => {
+        let {error, message, user_count_bets_on_this_round} = await doubleAPI.postMyBet(amount, color);
+
+        if (!error) {
+            dispatch(socketSetNewBet({amount, color}));
+            dispatch(createNotification(`Bet confirm! (${user_count_bets_on_this_round} / 3)`, 'success'));
+            dispatch(setUserCurrentBetStatus(true));
+            dispatch(updateUserBalance(amount, '-'));
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 
 export const getBalance = () => {
-    return  (dispatch) => {
-        doubleAPI.getBalance().then(
-            ({error, message, balance}) => {
-                if (error) {
-                    dispatch(createNotification(message, 'error'));
-                } else {
-                    dispatch(updateUserBalance(balance));
-                }
-            }
-        )
+    return  async (dispatch) => {
+        let {data, message, error, balance} = await doubleAPI.getBalance();
+
+        if (!error) {
+           dispatch(updateUserBalance(balance));
+        } else {
+            dispatch(createNotification(message, 'error'));
+        }
     }
 }
 

@@ -5,46 +5,44 @@ import Preloader from '../common/preloader/preloader';
 import CaseOpening from './case-opening/case-opening';
 
 import s from './index.module.css';
+import { useParams } from 'react-router-dom';
 
 const Index = (props) => {
+	
+	const route_case_name = useParams().route_case_name;
+	
 	return 	(
 		<div className={s.container}>
 			<LastDrops
-				last_drop={props.last_drop}
+				best_drop={props.last_drop_data.best_drop}
+				default_drop={props.last_drop_data.default_drop}
 			/>
-
 			{
-				(props.case_name) ?
-					(props.case_data_is_loading) ?
-						<CaseOpening 
-							sellDrop={props.sellDrop} 
-							gotoOpenCase={props.gotoOpenCase} 
-							win_drop={props.win_drop} 
-							opening_status={props.opening_status} 
-							open_button_disabled={props.open_button_disabled}
-							setRollStyle={props.setRollStyle} 
-							roulette_drop={props.roulette_drop} 
-							openCase={props.openCase} 
-							style_data={props.style_data} 
-							auto_sell_drops={props.auto_sell_drops} 
-							sell_drop_button_status={props.sell_drop_button_status}
-							changeAutoSell={props.changeAutoSell} 
-							case_data={props.case_data}/>
-						:
-						<Preloader/>
+				(route_case_name) ?
+					<CaseOpening 
+						changeOpeningStatus={props.changeOpeningStatus}
+						route_case_name={route_case_name}
+						loadCaseByName={props.loadCaseByName}
+						sellDrop={props.sellDrop} 
+						win_drop_data={props.win_drop_data} 
+						opening_status={props.opening_status} 
+						open_button_status={props.open_button_status}
+						roulette_drop={props.roulette_drop} 
+						openCase={props.openCase} 
+						sell_drop_button_status={props.sell_drop_button_status}
+						case_data_by_name={props.case_data_by_name}
+					/>
 				: 
 				(props.category_data.length) ?
 					<Cases
 						changeCaseCategory={props.changeCaseCategory}
 						category_data={props.category_data}
-						cases={props.cases}
-						gotoOpenCase={props.gotoOpenCase}
+						cases_data={props.cases_data}
+						changeOpeningStatus={props.changeOpeningStatus}
 					/>
 					:
 					<Preloader/>
 			}
-            
-			
 		</div>
 	);
 }

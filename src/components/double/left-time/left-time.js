@@ -2,6 +2,7 @@ import React from 'react';
 import s from './left-time.module.css';
 
 const LeftTime = ({time_text, time_line_width}) => {
+    console.log('render');
     return (
         <div className={s.main}>	
             <div className={s.time}>
